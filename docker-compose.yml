@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: ./frontend
+    restart: always
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: npm run dev
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: admin1234
+      POSTGRES_USER: admin
+      POSTGRES_DB: cakes-by-naty
+    volumes:
+      - ./database/db-definition.sql:/docker-entrypoint-initdb.d/db-definition.sql
+      - ./database/db-definition.sql:/database/db-definition.sql
+      - ./database/db-definition:/database/db-definition/
+      - ./database/postgresql.conf:/etc/postgresql.conf
+
+  server:
+    build:
+      context: ./server
+    ports:
+      - 4000:4000
+    volumes:
+      - ./server:/app
+    command: npm run dev
+
+volumes:
+  appvolume:
