@@ -9,6 +9,7 @@ module.exports = {
     extend: {
       colors: {
         customPink: '#FEE4E5',
+        hoverPink:'#E57373', 
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
@@ -17,6 +18,7 @@ module.exports = {
       },
       fontFamily: {
 				navheader: ['Poppins','sans-serif'],
+        subtitles: ['Merriweather Sans', 'sans-serif'],
 			},
     },
   },
