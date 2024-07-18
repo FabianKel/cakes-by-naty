@@ -1,5 +1,6 @@
-import React from 'react';
-import Link from 'next/link';
+import React from 'react'
+import Link from 'next/link'
+import Icon from '@/components/Icon'
 
 function Footer() {
     return (
@@ -23,8 +24,8 @@ function Footer() {
                 <div>
                     <h2 className="text-2xl font-bold mb-4 ml-48 font-subtitles">Síguenos</h2>
                     <div className="flex justify-center space-x-4">
-                        <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
-                            <img src="/instagram.svg" alt="Instagram" className="h-6 w-6 transition-transform transform hover:scale-125" />
+                        <a href="https://www.instagram.com/cakes.bynaty/" target="_blank" rel="noopener noreferrer">
+                        <Icon src="/instagram.svg" alt="Instagram" height="6" width="6" className="transition-transform transform hover:scale-125" />
                         </a>
                     </div>
                 </div>
