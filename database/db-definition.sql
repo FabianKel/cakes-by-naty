@@ -124,7 +124,7 @@ CREATE TABLE Pedidos (
 
 
 -- BLOGS TABLE
- \i ../database/db-definition/data/testingData.sql
+-- \i ../database/db-definition/tables/users.sql
 
 
 -------------------------------------------------------------------------------
