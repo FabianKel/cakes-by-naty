@@ -21,7 +21,7 @@ const pool = new Pool({
   // password: process.env.DB_PASSWORD,
   // port: process.env.DB_PORT,
   user: 'admin',
-  host: 'localhost',
+  host: 'db',
   database: 'cakes-by-naty',
   password: 'admin1234',
   port: 5432,
@@ -39,7 +39,7 @@ app.post('/register', async (req, res) => {
   try {
     const client = await pool.connect();
 
-    const newUser = await client.query(
+    const result = await client.query(
       'INSERT INTO users (first_name, last_name, email, password) VALUES ($1 ,$2, $3, $4) RETURNING *',
       [first_name, last_name, email, hashedPassword]
     );

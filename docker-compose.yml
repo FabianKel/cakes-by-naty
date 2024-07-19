@@ -35,6 +35,8 @@ services:
     volumes:
       - ./server:/app
     command: npm run dev
+    depends_on:
+      - db
 
   adminer:
     image: adminer
