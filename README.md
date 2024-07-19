@@ -8,5 +8,5 @@ Para correr el proyecto en tu computadora de forma local únicamente necesitas l
 docker-compose up
 ```
 
-Esto te levantará la base de datos de PostgreSQL, el fontend de NextJS y el servidor usando express.js.
-Ahora para provar que todo funciona bien, puedes navegar a http://localhost:3000
+Esto te levantará la base de datos de PostgreSQL, el frontend de NextJS y el servidor usando express.js.
+Ahora para probar que todo funciona bien, puedes navegar a http://localhost:3000
