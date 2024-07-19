@@ -21,10 +21,10 @@ const pool = new Pool({
   // password: process.env.DB_PASSWORD,
   // port: process.env.DB_PORT,
   user: 'admin',
-  host: '127.0.0.1',
+  host: 'localhost',
   database: 'cakes-by-naty',
   password: 'admin1234',
-  port: 5433,
+  port: 5432,
 });
 
 app.use(bodyParser.json());
