@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { Pool } = require('pg');
 const dotenv = require('dotenv');
+const config = require('./config');
 
 dotenv.config();
 
@@ -33,9 +34,6 @@ app.post('/register', async (req, res) => {
   const { email, password, first_name, last_name } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  console.log('email: ', email);
-  console.log('hashedPassword: ', hashedPassword);
-
   try {
     const client = await pool.connect();
 
@@ -48,6 +46,37 @@ app.post('/register', async (req, res) => {
     res.status(201).json(result.rows[0]);
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+});
+
+app.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const client = await pool.connect();
+    const result = await client.query('SELECT * FROM users WHERE email = $1', [email]);
+
+    client.release();
+
+    if (result.rows.length === 0) {
+      return res.status(401).json({ error: 'Usuario no encontrado' });
+    }
+
+    const user = result.rows[0];
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      return res.status(401).json({ error: 'Contraseña incorrecta' });
+    }
+
+    const token = jwt.sign(
+      { id: user.id, first_name: user.first_name, last_name: user.last_name },
+      config.jwtsecret,
+      { expiresIn: config.jwtExpiry }
+    );
+    res.json({ token });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
 });
 
