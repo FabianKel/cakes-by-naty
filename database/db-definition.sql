@@ -1,6 +1,7 @@
 -------------------------------------------------------------------------------
 --------------------------- DATABASE CONFIGURATIONS ---------------------------
 -------------------------------------------------------------------------------
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 -------------------------------------------------------------------------------
 ---------------------------     TABLES CREATION     ---------------------------
@@ -68,6 +69,7 @@ CREATE TABLE Usuarios (
   Nombre_Usuario VARCHAR(255) NOT NULL,
   Correo VARCHAR(255) NOT NULL,
   Telefono VARCHAR(20),
+  Rol VARCHAR(20) NULL,
   Contraseña VARCHAR(255) NOT NULL,
   Direccion1 VARCHAR(255) NULL,
   Direccion2 VARCHAR(255) NULL,

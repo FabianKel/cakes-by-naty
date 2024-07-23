@@ -31,19 +31,26 @@ const pool = new Pool({
 app.use(bodyParser.json());
 
 app.post('/register', async (req, res) => {
-  const { email, password, first_name, last_name } = req.body;
-  const hashedPassword = await bcrypt.hash(password, 10);
+  const { nombre_usuario, rol, correo, password } = req.body;
+  console.log(nombre_usuario, rol, correo, password);
 
   try {
     const client = await pool.connect();
 
-    const result = await client.query(
-      'INSERT INTO users (first_name, last_name, email, password) VALUES ($1 ,$2, $3, $4) RETURNING *',
-      [first_name, last_name, email, hashedPassword]
-    );
+    const result = await client.query('SELECT * FROM register($1, $2, $3, $4)', [
+      nombre_usuario,
+      rol,
+      correo,
+      password,
+    ]);
 
     client.release();
-    res.status(201).json(result.rows[0]);
+
+    if (result.rows.length > 0) {
+      res.status(201).json(result.rows[0]);
+    } else {
+      res.status(500).json({ error: 'Error registering user' });
+    }
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
