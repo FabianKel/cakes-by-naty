@@ -14,14 +14,14 @@ CREATE OR REPLACE FUNCTION
     BEGIN
 
         SELECT 
-                usuarios.UsuarioID as id,
-                usuarios.rol as rol,
+                usuarios.UsuarioID AS id,
+                usuarios.rol AS rol,
                 usuarios.correo AS correo,
-                usuarios.telefono as telefono
+                usuarios.telefono AS telefono
         INTO usuario
         FROM usuarios
         WHERE usuarios.correo = login.username
-            AND usuarios.password = crypt(login.password, usuarios.contraseña);
+            AND usuarios.contraseña = crypt(login.password, usuarios.contraseña);
 
         RETURN usuario;
 

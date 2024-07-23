@@ -57,12 +57,12 @@ app.post('/register', async (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
-  const { correo, password } = req.body;
+  const { username, password } = req.body;
 
   try {
     const client = await pool.connect();
 
-    const result = await client.query('SELECT * FROM login($1, $2)', [correo, password]);
+    const result = await client.query('SELECT * FROM login($1, $2)', [username, password]);
 
     client.release();
 
