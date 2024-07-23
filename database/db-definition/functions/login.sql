@@ -21,9 +21,9 @@ CREATE OR REPLACE FUNCTION
         INTO usuario
         FROM usuarios
         WHERE usuarios.correo = login.username
-            AND usuarios.password = crypt(login.password, usuarios.contraseña)
+            AND usuarios.password = crypt(login.password, usuarios.contraseña);
 
-        RETURN usuario
+        RETURN usuario;
 
     END;
 
