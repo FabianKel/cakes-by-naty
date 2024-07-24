@@ -23,7 +23,7 @@ const pool = new Pool({
   // port: process.env.DB_PORT,
   user: 'admin',
   host: 'db',
-  database: 'cakes-by-naty',
+  database: 'cakes_by_naty',
   password: 'admin1234',
   port: 5432,
 });
