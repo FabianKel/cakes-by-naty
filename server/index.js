@@ -23,7 +23,7 @@ const pool = new Pool({
   // port: process.env.DB_PORT,
   user: 'admin',
   host: 'db',
-  database: 'cakes-by-naty',
+  database: 'cakes_by_naty',
   password: 'admin1234',
   port: 5432,
 });
@@ -31,50 +31,46 @@ const pool = new Pool({
 app.use(bodyParser.json());
 
 app.post('/register', async (req, res) => {
-  const { email, password, first_name, last_name } = req.body;
-  const hashedPassword = await bcrypt.hash(password, 10);
+  const { nombre_usuario, rol, correo, password } = req.body;
+  console.log(nombre_usuario, rol, correo, password);
 
   try {
     const client = await pool.connect();
 
-    const result = await client.query(
-      'INSERT INTO users (first_name, last_name, email, password) VALUES ($1 ,$2, $3, $4) RETURNING *',
-      [first_name, last_name, email, hashedPassword]
-    );
+    const result = await client.query('SELECT * FROM register($1, $2, $3, $4)', [
+      nombre_usuario,
+      rol,
+      correo,
+      password,
+    ]);
 
     client.release();
-    res.status(201).json(result.rows[0]);
+
+    if (result.rows.length > 0) {
+      res.status(201).json(result.rows[0]);
+    } else {
+      res.status(500).json({ error: 'Error registering user' });
+    }
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
 app.post('/login', async (req, res) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
 
   try {
     const client = await pool.connect();
-    const result = await client.query('SELECT * FROM users WHERE email = $1', [email]);
+
+    const result = await client.query('SELECT * FROM login($1, $2)', [username, password]);
 
     client.release();
 
-    if (result.rows.length === 0) {
-      return res.status(401).json({ error: 'Usuario no encontrado' });
+    if (result.rows.length > 0) {
+      res.status(201).json(result.rows[0]);
+    } else {
+      res.status(500).json({ error: 'Error login user' });
     }
-
-    const user = result.rows[0];
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-
-    if (!isPasswordValid) {
-      return res.status(401).json({ error: 'Contraseña incorrecta' });
-    }
-
-    const token = jwt.sign(
-      { id: user.id, first_name: user.first_name, last_name: user.last_name },
-      config.jwtsecret,
-      { expiresIn: config.jwtExpiry }
-    );
-    res.json({ token });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
