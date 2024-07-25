@@ -13,14 +13,15 @@ services:
     command: npm run dev
 
   db:
-    image: postgres
-    hostname: db
+    build:
+      context: ./database
     ports:
       - 5432:5432
+    command: postgres -c config_file=/etc/postgresql.conf
     environment:
       POSTGRES_PASSWORD: admin1234
       POSTGRES_USER: admin
-      POSTGRES_DB: cakes-by-naty
+      POSTGRES_DB: cakes_by_naty
     volumes:
       - ./database/db-definition.sql:/docker-entrypoint-initdb.d/db-definition.sql
       - ./database/db-definition.sql:/database/db-definition.sql
