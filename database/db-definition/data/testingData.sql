@@ -22,10 +22,11 @@ INSERT INTO Detalles_Producto VALUES
 
 --USUARIOS Y PEDIDOS
 
-INSERT INTO Usuarios(UsuarioID, Nombre_Usuario, Correo, Telefono, Contraseña, Direccion1) VALUES
-(1, 'Aleee26', 'aleee26@gmail.com', 26022004, 'miab2024', '3ra calle, sector 11, casa 24-36, Condominio los Faroles, San Lucas Sacatepeques, Sacatepequez'),
-(2, 'FabianKel', 'fabiankel@gmail.com', 1103004, 'pasteles123', '6ta calle, casa 3-14, Plaza Sésamo, Villa Nueva, Guatemala'),
-(3, 'Gio', 'gio1998@gmail.com', 42004200, 'qwerty', 'sector 2, casa 36, Villas de Miraflores, Zona 11 Guatemala');
+INSERT INTO Usuarios VALUES
+(1, 'cliente', 'Aleee26', 'Mónica', 'Salvatierra', 'aleee26@gmail.com', 26022004, 'miab2024', '3ra calle, sector 11, casa 24-36, Condominio los Faroles, San Lucas Sacatepeques, Sacatepequez', NULL, NULL),
+(2, 'cliente', 'Fabiankel', 'Fabian','Kelson', 'fabiankel@gmail.com', 1103004, 'pasteles123', '6ta calle, casa 3-14, Plaza Sésamo, Villa Nueva, Guatemala', NULL, NULL),
+(3, 'cliente', 'Gio', 'Giovanni','Santos', 'gio1998@gmail.com', 42004200, 'qwerty', 'sector 2, casa 36, Villas de Miraflores, Zona 11 Guatemala', NULL, NULL),
+(4, 'admin', 'Admin', NULL, NULL, NULL, NULL, 'admin1234', NULL, NULL, NULL);
 
 INSERT INTO Carritos(CarritoID, UsuarioID, Total) VALUES
 (1, 1, 50), (2, 2, 95), (3, 3, 0);
