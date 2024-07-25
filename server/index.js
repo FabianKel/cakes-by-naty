@@ -76,6 +76,47 @@ app.post('/login', async (req, res) => {
   }
 });
 
+//POST
+
+app.post('/productos', async (req, res) => {
+  const { nombre, categoriaId, ocasion, precio, imagen1, imagen2, imagen3, detalles } = req.body;
+
+  try {
+    const client = await pool.connect();
+
+    // Ejecutar la función SQL para agregar el producto
+    const result = await client.query('SELECT * FROM agregar_producto($1, $2, $3, $4, $5, $6, $7)', [
+      nombre,
+      categoriaId,
+      ocasion,
+      precio,
+      imagen1,
+      imagen2,
+      imagen3
+    ]);
+
+    const productoId = result.rows[0].productoId;
+
+    // Insertar detalles del producto
+    if (detalles) {
+      await client.query('SELECT * FROM agregar_detalles_producto($1, $2, $3, $4, $5, $6)', [
+        productoId,
+        detalles.rellenoId,
+        detalles.masaId,
+        detalles.saborGalletaId,
+        detalles.coberturaId,
+        detalles.tipoChocolateId
+      ]);
+    }
+
+    client.release();
+
+    res.status(201).json({ productoId });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`);
 });
