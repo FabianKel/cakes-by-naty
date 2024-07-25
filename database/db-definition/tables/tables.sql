@@ -57,7 +57,7 @@ CREATE TABLE Detalles_Producto (
 );
 
 CREATE TABLE Usuarios (
-  UsuarioID INT PRIMARY KEY,
+  UsuarioID SERIAL PRIMARY KEY,
   Rol VARCHAR(255) NOT NULL,
   Nickname VARCHAR (255) NOT NULL,
   Primer_Nombre VARCHAR(255) NULL,
