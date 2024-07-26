@@ -9,6 +9,7 @@ module.exports = {
     extend: {
       colors: {
         customPink: '#FEE4E5',
+        midPink: '#EA8F8F',
         hoverPink:'#E57373', 
       },
       backgroundImage: {
