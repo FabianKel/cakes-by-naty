@@ -8,7 +8,7 @@ CREATE TABLE Productos (
   ProductoID SERIAL PRIMARY KEY,
   Nombre VARCHAR(255) NOT NULL,
   CategoriaID INT,  
-  Ocasion VARCHAR(255),  -- Cumpleaños, San Valentín, Navidad, etc.
+  OcasionID INT,  -- Cumpleaños, San Valentín, Navidad, etc.
   Precio DECIMAL(10, 2) NOT NULL,
   Imagen1 VARCHAR(255) NULL,
   Imagen2 VARCHAR(255) NULL,
@@ -24,6 +24,13 @@ CREATE TABLE Rellenos (
 CREATE TABLE Masas (
   MasaID SERIAL PRIMARY KEY,
   Nombre VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Ocasiones (
+  OcasionID SERIAL PRIMARY KEY,
+  Nombre VARCHAR(255) NOT NULL,
+  FechaInicio DATE,
+  FechaFinal DATE
 );
 
 CREATE TABLE Coberturas (

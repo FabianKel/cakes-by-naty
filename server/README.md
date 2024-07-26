@@ -1,0 +1,54 @@
+# Documentación de la API
+
+## Endpoints
+
+### 1. Crear un Producto
+
+**URL:** `localhost:4000/productos`
+
+**Método:** `POST`
+
+**Descripción:** Endpoint para crear un nuevo producto.
+
+**Parámetros de solicitud:**
+
+```json
+{
+    "nombre": "Pastel del día del Niño",
+    "categoriaId": 3,
+    "ocasion": "Dia del Niño",
+    "precio": "35",
+    "imagen1": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaMWE2PHElNz94NDwzwIywmsDbv2_VKp82xA&s",
+    "imagen2": null,
+    "imagen3": null,
+    "detalles": "Pastel delicioso de chocolate",
+    "relleno_id": 2,
+    "masa_id": 1,
+    "sabor_galleta_id": null,
+    "cobertura_id": 1,
+    "tipo_chocolate_id": null
+}
+
+```
+**Respuestas:**
+
+- 200 OK: Producto creado con éxito.
+- 400 Bad Request: Error en los datos proporcionados.
+
+### 2. Leer Productos
+**Método:** `GET`
+- **Todos los Productos**
+
+    **URL:** `localhost:4000/productos`
+
+- **Todos los Productos de Cierta Categoría**
+
+    **URL:** `localhost:4000/productos/categoria/{categoria_id}`
+
+- **Todos los Productos de Cierta Ocasión**
+
+    **URL:** `localhost:4000/productos/ocasion/{ocasion_id}`
+
+- **Producto por ID**
+
+    **URL:** `localhost:4000/productos/{id}`
