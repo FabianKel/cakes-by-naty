@@ -176,6 +176,28 @@ app.get('/productos/:id', async (req, res) => {
   }
 });
 
+app.get('/productos/categoria/:categoria_id', async (req, res) => {
+  const { categoria_id } = req.params;
+  try {
+    const client = await pool.connect();
+    
+    const getProductByIdQuery = 'SELECT * FROM obtener_producto_por_categoria($1);';
+    const result = await client.query(getProductByIdQuery, [categoria_id]);
+    const productos = result.rows;
+
+    client.release();
+
+    if (productos) {
+      res.status(200).json({ message: 'Productos obtenidos con éxito', productos: productos });
+    } else {
+      res.status(404).json({ error: 'Productos no encontrados, intente otra categoría' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al obtener el productos' });
+  }
+});
+
 
 
 app.listen(port, () => {
