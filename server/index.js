@@ -92,14 +92,14 @@ app.post('/productos', async (req, res) => {
 
         // Insertar el producto
         const insertProductQuery = `
-          INSERT INTO Productos (Nombre, CategoriaID, Ocasion, Precio, Imagen1, Imagen2, Imagen3)
-          VALUES ($1, $2, $3, $4, $5, $6, $7)
+          INSERT INTO Productos (Nombre, CategoriaID, OcasionID, Precio, Imagen1, Imagen2, Imagen3)
+          VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
           RETURNING ProductoID;
         `;
         const result = await pool.query(insertProductQuery, [
           nombre,
           categoria_id,
-          ocasion || null,
+          ocasion_id,
           precio,
           imagen1 || null,
           imagen2 || null,
@@ -181,8 +181,8 @@ app.get('/productos/categoria/:categoria_id', async (req, res) => {
   try {
     const client = await pool.connect();
     
-    const getProductByIdQuery = 'SELECT * FROM obtener_producto_por_categoria($1);';
-    const result = await client.query(getProductByIdQuery, [categoria_id]);
+    const getProductByCatQuery = 'SELECT * FROM obtener_producto_por_categoria($1);';
+    const result = await client.query(getProductByCatQuery, [categoria_id]);
     const productos = result.rows;
 
     client.release();
@@ -198,6 +198,27 @@ app.get('/productos/categoria/:categoria_id', async (req, res) => {
   }
 });
 
+app.get('/productos/ocasion/:ocasion_id', async (req, res) => {
+  const { ocasion_id } = req.params;
+  try {
+    const client = await pool.connect();
+    
+    const getProductByOccQuery = 'SELECT * FROM obtener_producto_por_ocasion($1);';
+    const result = await client.query(getProductByOccQuery, [ocasion_id]);
+    const productos = result.rows;
+
+    client.release();
+
+    if (productos) {
+      res.status(200).json({ message: 'Productos obtenidos con éxito', productos: productos });
+    } else {
+      res.status(404).json({ error: 'Productos no encontrados, intente con otra ocasion' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al obtener el productos' });
+  }
+});
 
 
 app.listen(port, () => {
