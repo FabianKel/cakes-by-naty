@@ -24,7 +24,7 @@ CREATE OR REPLACE FUNCTION
                 usuarios.Telefono AS telefono
         INTO usuario
         FROM usuarios
-        WHERE usuarios.Nickname = login.username
+        WHERE usuarios.usuario = login.username
             AND usuarios.Password = crypt(login.password, usuarios.Password);
 
         -- Create session fingerprints
