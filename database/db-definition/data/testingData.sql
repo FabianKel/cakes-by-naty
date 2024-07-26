@@ -10,10 +10,22 @@ INSERT INTO Sabores_Galletas(tipo) VALUES('Mantequilla'),('Jengibre');
 
 INSERT INTO Categorias(nombre) VALUES('cupcake'), ('cakepop'), ('pastel'), ('galleta'), ('chocolate'), ('espumilla');
 
-INSERT INTO Productos(nombre, CategoriaID, Ocasion, Precio, Imagen1) VALUES
-('Pastel del día del Niño', 3, 'Dia del Niño', '35', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaMWE2PHElNz94NDwzwIywmsDbv2_VKp82xA&s' ),
-('Paquete de 6 Cakepops con Anicillos', 2, 'Otro', '60','https://www.livewellbakeoften.com/wp-content/uploads/2021/09/Homemade-Chocolate-Cake-Pops-13.jpg'),
-('Paquete de 5 Galletas Navideñas 🎅', 4, 'Navidad', '25','https://cdn7.kiwilimon.com/recetaimagen/90/640x640/27962.jpg.webp');
+INSERT INTO Ocasiones (Nombre, FechaInicio, FechaFinal) VALUES
+('Indefinida', NULL, NULL),
+('Verano', '2024-06-21', '2024-09-23'),
+('Otoño', '2024-09-24', '2024-12-20'),
+('Invierno', '2024-12-21', '2024-03-20'),
+('Primavera', '2024-03-21', '2024-09-23'),
+('Día del Niño', '2024-09-24', '2024-06-20'),
+('Cumpleaños', NULL, NULL),
+('Navidad', '2024-12-15', '2024-12-25'),
+('San Valentín', '2024-02-01', '2024-02-14'),
+('Aniversario', '2024-01-01', '2024-01-01');
+
+INSERT INTO Productos(nombre, CategoriaID, OcasionID, Precio, Imagen1) VALUES
+('Pastel del día del Niño', 3, 6, '35', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaMWE2PHElNz94NDwzwIywmsDbv2_VKp82xA&s' ),
+('Paquete de 6 Cakepops con Anicillos', 2, 1, '60','https://www.livewellbakeoften.com/wp-content/uploads/2021/09/Homemade-Chocolate-Cake-Pops-13.jpg'),
+('Paquete de 5 Galletas Navideñas 🎅', 4, 8, '25','https://cdn7.kiwilimon.com/recetaimagen/90/640x640/27962.jpg.webp');
 
 INSERT INTO Detalles_Producto(ProductoID, RellenoID, MasaID, Sabor_GalletaID, CoberturaID, Tipo_ChocolateID) VALUES
 (1, 1, 2, null, 1, null),
