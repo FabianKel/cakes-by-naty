@@ -29,7 +29,7 @@ export const login = async (email, password) => {
       window.sessionStorage.setItem('auth_token', user.token);
     }
 
-    console.log('user: ', user);
+    return user;
   } catch (error) {
     console.log('error: ', error);
   }

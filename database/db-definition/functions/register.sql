@@ -1,36 +1,40 @@
-CREATE OR REPLACE FUNCTION
-    register(
-        nombre_usuario TEXT,
-        rol TEXT,
-        correo TEXT,
-        password TEXT
+CREATE OR REPLACE FUNCTION register(
+    usuario TEXT,
+    rol TEXT,
+    correo TEXT,
+    password TEXT
+)
+
+RETURNS INTEGER
+LANGUAGE plpgsql
+AS $$
+
+DECLARE
+    new_user_id INTEGER;
+
+BEGIN
+
+    INSERT INTO Usuarios (
+        Rol,
+        Nickname,
+        Primer_Nombre,
+        Segundo_Nombre,
+        Correo,
+        Telefono,
+        Password
     )
-    RETURNS INTEGER
-    LANGUAGE plpgsql
-    AS $$
+    VALUES (
+        rol,
+        usuario,
+        NULL,
+        NULL,
+        correo,
+        NULL,
+        crypt(password, gen_salt('bf'))
+    )
+    RETURNING UsuarioID INTO new_user_id;
 
-    DECLARE
-        new_user_id INTEGER;
+    RETURN new_user_id;      
+END;
 
-    BEGIN
-
-        INSERT INTO Usuarios(
-                            usuarioid,
-                            nombre_usuario,
-                            rol,
-                            correo,
-                            contraseña
-                            )
-                VALUES (
-                    4,
-                    register.nombre_usuario,
-                    register.rol,
-                    register.correo,
-                    crypt(register.password, gen_salt('bf'))
-                )
-                RETURNING usuarioid INTO new_user_id;
-
-        RETURN new_user_id;      
-    END;
-
-    $$;
+$$;
