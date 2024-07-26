@@ -18,10 +18,10 @@ const post = async (link, body) => {
   return data;
 };
 
-export const login = async (email, password) => {
+export const login = async (username, password) => {
   try {
     const user = await post(links.login, {
-      email,
+      username,
       password,
     });
 
