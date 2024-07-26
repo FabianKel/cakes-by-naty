@@ -224,3 +224,54 @@ app.get('/productos/ocasion/:ocasion_id', async (req, res) => {
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`);
 });
+
+
+//UPDATES
+//Productos
+app.put('/productos/:producto_id', async (req, res) => {
+  try {
+    const producto_id = parseInt(req.params.producto_id);
+    const {
+      nombre,
+      categoriaid,
+      ocasionid,
+      precio,
+      imagen1,
+      imagen2,
+      imagen3,
+      rellenoid,
+      masaid,
+      saborgalletaid,
+      coberturatipo,
+      tipochocolate
+    } = req.body;
+
+    if (Object.keys(req.body).length === 0) {
+      return res.status(400).json({ error: 'No hay datos para actualizar o formato incorrecto' });
+    }
+
+    const client = await pool.connect();
+    await client.query('SELECT * FROM updateProducto($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)', [
+      producto_id,
+      nombre,
+      categoriaid,
+      ocasionid,
+      precio,
+      imagen1,
+      imagen2,
+      imagen3,
+      rellenoid,
+      masaid,
+      saborgalletaid,
+      coberturatipo,
+      tipochocolate
+    ]);
+
+    client.release();
+
+    res.status(200).json({ message: 'Producto actualizado con éxito' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al actualizar producto', details: error.message });
+  }
+});

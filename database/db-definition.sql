@@ -40,6 +40,9 @@ ALTER DATABASE cakes_by_naty SET "app.jwt_double_auth"
 
 \i ../database/db-definition/functions/read_functions.sql
 
+\i ../database/db-definition/functions/update_functions.sql
+
+
 
 
 

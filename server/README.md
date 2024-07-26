@@ -52,3 +52,33 @@
 - **Producto por ID**
 
     **URL:** `localhost:4000/productos/{id}`
+
+------------------
+### Editar Productos
+
+**URL:** `localhost:4000/productos/{id}`
+
+**Método:** `PUt`
+
+**Descripción:** Endpoint para modificar un producto.
+
+**Parámetros de solicitud:**
+
+```json
+
+{
+    "nombre": "Pastel del día del Niño",
+    "CategoriaID": 1,
+    "OcasionID": 2,
+    "precio": 40.00,
+    "imagen1": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaMWE2PHElNz94NDwzwIywmsDbv2_VKp82xA&s",
+    "imagen2": null,
+    "imagen3": null,
+    "RellenoID": 2,
+    "MasaID": 2,
+    "Sabor_GalletaID": null,
+    "coberturaID": 1,
+    "Tipo_ChocolateID": null
+}
+
+```
