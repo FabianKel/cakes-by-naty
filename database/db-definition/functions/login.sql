@@ -19,13 +19,13 @@ CREATE OR REPLACE FUNCTION
 
         SELECT 
                 usuarios.UsuarioID AS id,
-                usuarios.rol AS rol,
-                usuarios.correo AS correo,
-                usuarios.telefono AS telefono
+                usuarios.Rol AS rol,
+                usuarios.Correo AS correo,
+                usuarios.Telefono AS telefono
         INTO usuario
         FROM usuarios
-        WHERE usuarios.correo = login.username
-            AND usuarios.contraseña = crypt(login.password, usuarios.contraseña);
+        WHERE usuarios.Nickname = login.username
+            AND usuarios.Password = crypt(login.password, usuarios.Password);
 
         -- Create session fingerprints
         tmp_fingerprint = substr(md5(random()::text), 0, 64);
