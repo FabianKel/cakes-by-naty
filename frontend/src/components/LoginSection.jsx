@@ -69,9 +69,9 @@ function LoginSection() {
           <div className="mb-8">
             <button
               type="submit"
-              className="w-full p-4 bg-white-600 text-black border-2 border-hoverPink rounded-md font-poppins hover:bg-hoverPink transition duration-300"
+              className="w-full p-4 bg-white-600 text-black border-2 border-custom1Pink rounded-md font-poppins hover:bg-custom1Pink transition duration-300"
             >
-              Login
+              Inicia Sesión
             </button>
           </div>
         </form>
