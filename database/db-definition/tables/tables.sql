@@ -1,14 +1,14 @@
 
 CREATE TABLE Categorias (
-    CategoriaID INT PRIMARY KEY,
+    CategoriaID SERIAL PRIMARY KEY,
     Nombre VARCHAR -- cupcake, cakepop, pastel, galleta, chocolate, espumilla
 );
 
 CREATE TABLE Productos (
-  ProductoID INT PRIMARY KEY,
+  ProductoID SERIAL PRIMARY KEY,
   Nombre VARCHAR(255) NOT NULL,
   CategoriaID INT,  
-  Ocasion VARCHAR(255),  -- Cumpleaños, San Valentín, Navidad, etc.
+  OcasionID INT,  -- Cumpleaños, San Valentín, Navidad, etc.
   Precio DECIMAL(10, 2) NOT NULL,
   Imagen1 VARCHAR(255) NULL,
   Imagen2 VARCHAR(255) NULL,
@@ -17,27 +17,34 @@ CREATE TABLE Productos (
 );
 
 CREATE TABLE Rellenos (
-  RellenoID INT PRIMARY KEY,
+  RellenoID SERIAL PRIMARY KEY,
   Nombre VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE Masas (
-  MasaID INT PRIMARY KEY,
+  MasaID SERIAL PRIMARY KEY,
   Nombre VARCHAR(255) NOT NULL
 );
 
+CREATE TABLE Ocasiones (
+  OcasionID SERIAL PRIMARY KEY,
+  Nombre VARCHAR(255) NOT NULL,
+  FechaInicio DATE,
+  FechaFinal DATE
+);
+
 CREATE TABLE Coberturas (
-  CoberturaID INT PRIMARY KEY,
+  CoberturaID SERIAL PRIMARY KEY,
   Tipo VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE Sabores_Galletas (
-  Sabor_GalletaID INT PRIMARY KEY,
+  Sabor_GalletaID SERIAL PRIMARY KEY,
   Tipo VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE Tipo_Chocolate (
-  Tipo_ChocolateID INT PRIMARY KEY,
+  Tipo_ChocolateID SERIAL PRIMARY KEY,
   Tipo VARCHAR(255) NOT NULL  -- blanco, oscuro, leche
 );
 
@@ -59,7 +66,7 @@ CREATE TABLE Detalles_Producto (
 CREATE TABLE Usuarios (
   UsuarioID SERIAL PRIMARY KEY,
   Rol VARCHAR(255) NOT NULL,
-  Nickname VARCHAR (255) NOT NULL,
+  Usuario VARCHAR (255) NOT NULL,
   Primer_Nombre VARCHAR(255) NULL,
   Segundo_Nombre VARCHAR (255) NULL,
   Correo VARCHAR(255) NULL,
@@ -71,18 +78,18 @@ CREATE TABLE Usuarios (
   Created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   Modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT unique_email UNIQUE (Correo),
-  CONSTRAINT unique_nickname UNIQUE (Nickname)
+  CONSTRAINT unique_usuario UNIQUE (Usuario)
 );
 
 CREATE TABLE Carritos (
-  CarritoID INT PRIMARY KEY,
+  CarritoID SERIAL PRIMARY KEY,
   UsuarioID INT,
   Total DECIMAL(10, 2) NOT NULL,
   FOREIGN KEY (UsuarioID) REFERENCES Usuarios(UsuarioID)
 );
 
 CREATE TABLE Personalizaciones (
-  PersonalizacionID INT PRIMARY KEY,
+  PersonalizacionID SERIAL PRIMARY KEY,
   CategoriaID int NOT NULL,
   RellenoID INT NULL,
   MasaID INT NULL,
@@ -110,7 +117,7 @@ CREATE TABLE Carrito_Producto (
 );
 
 CREATE TABLE Pedidos (
-  PedidoID INT PRIMARY KEY,
+  PedidoID SERIAL PRIMARY KEY,
   CarritoID INT,
   Metodo_Pago VARCHAR(255) NOT NULL,
   Pago_Anticipado BOOLEAN NOT NULL,
