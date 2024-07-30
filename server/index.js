@@ -6,6 +6,7 @@ const bcrypt = require('bcryptjs');
 const { Pool } = require('pg');
 const dotenv = require('dotenv');
 const config = require('./config');
+const ErrorHandler = require('./utils/ErrorHandler');
 
 dotenv.config();
 
@@ -48,10 +49,10 @@ app.post('/register', async (req, res) => {
     if (result.rows.length > 0) {
       res.status(201).json(result.rows[0]);
     } else {
-      res.status(500).json({ error: 'Error registering user' });
+      throw { type: 'database', message: 'Error registering user' };
     }
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    ErrorHandler.handleError(err, res);
   }
 });
 
@@ -68,10 +69,10 @@ app.post('/login', async (req, res) => {
     if (result.rows.length > 0) {
       res.status(201).json(result.rows[0]);
     } else {
-      res.status(500).json({ error: 'Error login user' });
+      throw { type: 'database', message: 'Error logging in user' };
     }
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    ErrorHandler.handleError(error, res);
   }
 });
 
@@ -125,9 +126,8 @@ app.post('/productos', async (req, res) => {
 
         res.status(201).json({ message: 'Producto creado con éxito', ProductoID: productoId });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Error al crear el producto', details: error.message });
-    }
+    ErrorHandler.handleError(error, res);
+  }
   // } else {
   //   res.status(401).json({ error: 'Token de acceso inválido' });
   // }
@@ -149,8 +149,7 @@ app.get('/productos', async (req, res) => {
 
     res.status(200).json({ message: 'Productos obtenidos con éxito', productos: productos });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error al obtener productos' });
+    ErrorHandler.handleError(error, res);
   }
 });
 
@@ -168,11 +167,10 @@ app.get('/productos/:id', async (req, res) => {
     if (producto) {
       res.status(200).json({ message: 'Producto obtenido con éxito', producto: producto });
     } else {
-      res.status(404).json({ error: 'Producto no encontrado' });
+      throw { type: 'not_found', message: 'Producto no encontrado' };
     }
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error al obtener el producto' });
+    ErrorHandler.handleError(error, res);
   }
 });
 
@@ -190,11 +188,10 @@ app.get('/productos/categoria/:categoria_id', async (req, res) => {
     if (productos) {
       res.status(200).json({ message: 'Productos obtenidos con éxito', productos: productos });
     } else {
-      res.status(404).json({ error: 'Productos no encontrados, intente otra categoría' });
+      throw { type: 'not_found', message: 'Productos no encontrados, intente otra categoría' };
     }
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error al obtener el productos' });
+    ErrorHandler.handleError(error, res);
   }
 });
 
@@ -212,19 +209,12 @@ app.get('/productos/ocasion/:ocasion_id', async (req, res) => {
     if (productos) {
       res.status(200).json({ message: 'Productos obtenidos con éxito', productos: productos });
     } else {
-      res.status(404).json({ error: 'Productos no encontrados, intente con otra ocasion' });
+      throw { type: 'not_found', message: 'Productos no encontrados, intente con otra ocasión' };
     }
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error al obtener el productos' });
+    ErrorHandler.handleError(error, res);
   }
 });
-
-
-app.listen(port, () => {
-  console.log(`App listening at http://localhost:${port}`);
-});
-
 
 //UPDATES
 //Productos
@@ -271,7 +261,11 @@ app.put('/productos/:producto_id', async (req, res) => {
 
     res.status(200).json({ message: 'Producto actualizado con éxito' });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error al actualizar producto', details: error.message });
+    ErrorHandler.handleError(error, res);
   }
+});
+
+
+app.listen(port, () => {
+  console.log(`App listening at http://localhost:${port}`);
 });
