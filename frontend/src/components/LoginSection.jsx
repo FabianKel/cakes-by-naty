@@ -28,6 +28,8 @@ function LoginSection() {
 
     if (user?.token) {
       router.push('/');
+    } else {
+      console.log('Usuario o contraseña no existen.');
     }
   };
 
@@ -49,7 +51,7 @@ function LoginSection() {
               className='w-full p-3 border border-gray-300 rounded-md font-poppins'
             />
             {formik.errors.username && (
-              <div className='text-red-500 text-sm block text-center mt-2'>{formik.errors.username}</div>
+              <span className='text-red-500 text-sm block text-center mt-2'>{formik.errors.username}</span>
             )}
           </div>
           <div className='mb-4'>
