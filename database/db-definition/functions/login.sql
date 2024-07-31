@@ -23,7 +23,7 @@ BEGIN
             usuarios.Telefono AS Telefono
     INTO usuario
     FROM usuarios
-    WHERE usuarios.Nickname::TEXT = username
+    WHERE usuarios.Usuario::TEXT = username
         AND usuarios.Password = crypt(login.password , usuarios.Password);
 
     
