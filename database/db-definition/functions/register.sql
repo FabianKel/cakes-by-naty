@@ -16,7 +16,7 @@ BEGIN
 
     INSERT INTO Usuarios (
         Rol,
-        Nickname,
+        Usuario,
         Primer_Nombre,
         Segundo_Nombre,
         Correo,
