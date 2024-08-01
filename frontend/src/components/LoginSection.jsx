@@ -28,6 +28,8 @@ function LoginSection() {
 
     if (user?.token) {
       router.push('/');
+    } else {
+      console.log('Usuario o contraseña no existen.');
     }
   };
 
