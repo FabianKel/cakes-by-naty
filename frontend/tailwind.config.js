@@ -9,6 +9,8 @@ module.exports = {
     extend: {
       colors: {
         customPink: '#FEE4E5',
+        custom1Pink: '#EA7E7E',
+        otherPink: '#EAC2C4',
         midPink: '#EA8F8F',
         hoverPink:'#E57373', 
       },
