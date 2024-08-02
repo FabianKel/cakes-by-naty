@@ -3,6 +3,7 @@ CREATE OR REPLACE FUNCTION obtener_productos()
 RETURNS TABLE (
     ProductoID INT,
     ProductoNombre VARCHAR,
+    Descripcion TEXT,
     CategoriaNombre VARCHAR,
     Ocasion VARCHAR,
     Precio DECIMAL,
@@ -22,6 +23,7 @@ BEGIN
     SELECT 
         p.ProductoID, 
         p.Nombre AS ProductoNombre, 
+        p.Descripcion,
         c.Nombre AS CategoriaNombre, 
         o.Nombre, 
         p.Precio, 
@@ -59,6 +61,7 @@ CREATE OR REPLACE FUNCTION obtener_producto_por_id(p_id INT)
 RETURNS TABLE (
     ProductoID INT,
     ProductoNombre VARCHAR,
+    Descripcion TEXT,
     CategoriaNombre VARCHAR,
     Ocasion VARCHAR,
     Precio DECIMAL,
@@ -78,6 +81,7 @@ BEGIN
     SELECT 
         p.ProductoID, 
         p.Nombre AS ProductoNombre, 
+        p.Descripcion,
         c.Nombre AS CategoriaNombre, 
         o.Nombre AS Ocasion, 
         p.Precio, 
@@ -116,6 +120,7 @@ CREATE OR REPLACE FUNCTION obtener_producto_por_categoria(c_id INT)
 RETURNS TABLE (
     ProductoID INT,
     ProductoNombre VARCHAR,
+    Descripcion TEXT,
     Ocasion VARCHAR,
     Precio DECIMAL,
     Imagen1 VARCHAR,
@@ -134,6 +139,7 @@ BEGIN
     SELECT 
         p.ProductoID, 
         p.Nombre AS ProductoNombre, 
+        p.Descripcion,
         o.Nombre AS Ocasion, 
         p.Precio, 
         p.Imagen1, 
@@ -169,6 +175,7 @@ CREATE OR REPLACE FUNCTION obtener_producto_por_ocasion(ocasion_id INT)
 RETURNS TABLE (
     ProductoID INT,
     ProductoNombre VARCHAR,
+    Descripcion TEXT,
     Categoria VARCHAR,
     Precio DECIMAL,
     Imagen1 VARCHAR,
@@ -187,6 +194,7 @@ BEGIN
     SELECT 
         p.ProductoID, 
         p.Nombre AS ProductoNombre, 
+        p.Descripcion,
         c.Nombre AS CategoriaNombre, 
         p.Precio, 
         p.Imagen1, 
@@ -214,5 +222,91 @@ BEGIN
     LEFT JOIN 
         Tipo_Chocolate tc ON dp.Tipo_ChocolateID = tc.Tipo_ChocolateID
     WHERE p.OcasionID = ocasion_id;
+END;
+$$;
+
+------------------ ORDERS ------------------
+
+--ALL ORDERS (Info para el menú de pedidos)
+CREATE OR REPLACE FUNCTION obtener_pedidos()
+RETURNS TABLE (
+    PedidoID INT,
+    Usuario VARCHAR,
+    Pago_Anticipado TEXT,
+    Pago_Completo TEXT,
+    Estado_Orden VARCHAR,
+    Created_at TIMESTAMP,
+    Modified_at TIMESTAMP
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY
+    SELECT 
+    p.PedidoID,
+    u.Usuario,
+    CASE 
+        WHEN p.Pago_Anticipado THEN 'Pago Anticipado Realizado'
+        ELSE 'Pago Anticipado No Realizado'
+    END AS Pago_Anticipado,
+    CASE 
+        WHEN p.Pago_Completo THEN 'Pago Completo Realizado'
+        ELSE 'Pago Completo No Realizado'
+    END AS Pago_Completo,
+    p.Estado_Orden,
+    p.created_at,
+    p.modified_at
+FROM 
+    Usuarios u
+JOIN 
+    Carritos c ON u.UsuarioID = c.UsuarioID
+JOIN 
+    Pedidos p ON c.CarritoID = p.CarritoID
+ORDER BY 
+    p.Created_at DESC;
+END;
+$$;
+
+
+-----BY STATE-----
+--ENTREGADO O SIN ENTREGAR
+CREATE OR REPLACE FUNCTION obtener_pedidos_por_estado(estado VARCHAR)
+RETURNS TABLE (
+    PedidoID INT,
+    Usuario VARCHAR,
+    Pago_Anticipado TEXT,
+    Pago_Completo TEXT,
+    Estado_Orden VARCHAR,
+    Created_at TIMESTAMP,
+    Modified_at TIMESTAMP
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY
+    SELECT 
+        p.PedidoID,
+        u.Usuario,
+        CASE 
+            WHEN p.Pago_Anticipado THEN 'Pago Anticipado Realizado'
+            ELSE 'Pago Anticipado No Realizado'
+        END AS Pago_Anticipado,
+        CASE 
+            WHEN p.Pago_Completo THEN 'Pago Completo Realizado'
+            ELSE 'Pago Completo No Realizado'
+        END AS Pago_Completo,
+        p.Estado_Orden,
+        p.Created_at,
+        p.Modified_at
+    FROM 
+        Usuarios u
+    JOIN 
+        Carritos c ON u.UsuarioID = c.UsuarioID
+    JOIN 
+        Pedidos p ON c.CarritoID = p.CarritoID
+    WHERE 
+        p.Estado_Orden = estado
+    ORDER BY 
+        p.Created_at DESC;
 END;
 $$;

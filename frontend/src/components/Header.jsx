@@ -20,6 +20,7 @@ function Header() {
                     </li>
                     <li li className="flex items-center">
                         <Link href="/about" className="text-lg text-gray-800 hover:text-blue-600 hover:text-hoverPink font-navheader mr-6">Sobre Nosotros</Link>
+                        <Link href="/login" className="text-lg text-gray-800 hover:text-blue-600 hover:text-hoverPink font-navheader ml-6 mr-6 ">Iniciar Sesión</Link>
                         <Icon src="/shopping-cart.svg" alt="Carrito" height="8" width="8" className=" ml-10 mr-10 transition-transform transform hover:scale-125" />
                     </li>
                 </ul>

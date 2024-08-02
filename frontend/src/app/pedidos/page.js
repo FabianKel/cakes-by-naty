@@ -1,12 +1,12 @@
 import Header from '@/components/Header'
-import LoginSection from '@/components/LoginSection'
+import PedidosMenu from '@/components/PedidosMenu'
 import Footer from '@/components/Footer'
 
-export default function Login() {
+export default function Home() {
   return (
     <>
     <Header/>
-    <LoginSection/>
+    <PedidosMenu/>
     <Footer/>
     </>
   )
