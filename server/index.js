@@ -127,6 +127,9 @@ app.post('/productos', async (req, res) => {
 
 //GET
 
+/*
+PRODUCTOS
+*/
 app.get('/productos', async (req, res) => {
   try {
     const client = await pool.connect();
@@ -202,6 +205,36 @@ app.get('/productos/ocasion/:ocasion_id', async (req, res) => {
     } else {
       throw { type: 'not_found', message: 'Productos no encontrados, intente con otra ocasión' };
     }
+  } catch (error) {
+    ErrorHandler.handleError(error, res);
+  }
+});
+
+/*
+PEDIDOS
+*/
+app.get('/pedidos', async (req, res) => {
+  try {
+    const client = await pool.connect();
+    const getPedidosQuery = 'SELECT * FROM obtener_pedidos();';
+    const result = await client.query(getPedidosQuery);
+    const Pedidos = result.rows;
+    client.release();
+    res.status(200).json({ message: 'Pedidos obtenidos con éxito', Pedidos: Pedidos });
+  } catch (error) {
+    ErrorHandler.handleError(error, res);
+  }
+});
+
+app.get('/pedidos/estado=:estado', async (req, res) => {
+  const { estado } = req.params;
+  try {
+    const client = await pool.connect();
+    const getPedidosQuery = 'SELECT * FROM obtener_pedidos_por_estado($1);';
+    const result = await client.query(getPedidosQuery, [estado]);
+    const Pedidos = result.rows;
+    client.release();
+    res.status(200).json({ message: 'Pedidos obtenidos con éxito', Pedidos: Pedidos });
   } catch (error) {
     ErrorHandler.handleError(error, res);
   }

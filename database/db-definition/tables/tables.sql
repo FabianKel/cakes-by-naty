@@ -123,5 +123,7 @@ CREATE TABLE Pedidos (
   Pago_Anticipado BOOLEAN NOT NULL,
   Pago_Completo BOOLEAN NOT NULL,
   Estado_Orden VARCHAR(255) NOT NULL,  -- en curso, finalizado
+  Created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  Modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (CarritoID) REFERENCES Carritos(CarritoID)
 );

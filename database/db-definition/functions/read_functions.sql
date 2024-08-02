@@ -216,3 +216,89 @@ BEGIN
     WHERE p.OcasionID = ocasion_id;
 END;
 $$;
+
+------------------ ORDERS ------------------
+
+--ALL ORDERS (Info para el menú de pedidos)
+CREATE OR REPLACE FUNCTION obtener_pedidos()
+RETURNS TABLE (
+    CarritoID INT,
+    Usuario VARCHAR,
+    Pago_Anticipado TEXT,
+    Pago_Completo TEXT,
+    Estado_Orden VARCHAR,
+    Created_at TIMESTAMP,
+    Modified_at TIMESTAMP
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY
+    SELECT 
+    c.CarritoID,
+    u.Usuario,
+    CASE 
+        WHEN p.Pago_Anticipado THEN 'Pago Anticipado Realizado'
+        ELSE 'Pago Anticipado No Realizado'
+    END AS Pago_Anticipado,
+    CASE 
+        WHEN p.Pago_Completo THEN 'Pago Completo Realizado'
+        ELSE 'Pago Completo No Realizado'
+    END AS Pago_Completo,
+    p.Estado_Orden,
+    p.created_at,
+    p.modified_at
+FROM 
+    Usuarios u
+JOIN 
+    Carritos c ON u.UsuarioID = c.UsuarioID
+JOIN 
+    Pedidos p ON c.CarritoID = p.CarritoID
+ORDER BY 
+    p.Created_at DESC;
+END;
+$$;
+
+
+-----BY STATE-----
+--ENTREGADO O SIN ENTREGAR
+CREATE OR REPLACE FUNCTION obtener_pedidos_por_estado(estado VARCHAR)
+RETURNS TABLE (
+    CarritoID INT,
+    Usuario VARCHAR,
+    Pago_Anticipado TEXT,
+    Pago_Completo TEXT,
+    Estado_Orden VARCHAR,
+    Created_at TIMESTAMP,
+    Modified_at TIMESTAMP
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY
+    SELECT 
+        c.CarritoID,
+        u.Usuario,
+        CASE 
+            WHEN p.Pago_Anticipado THEN 'Pago Anticipado Realizado'
+            ELSE 'Pago Anticipado No Realizado'
+        END AS Pago_Anticipado,
+        CASE 
+            WHEN p.Pago_Completo THEN 'Pago Completo Realizado'
+            ELSE 'Pago Completo No Realizado'
+        END AS Pago_Completo,
+        p.Estado_Orden,
+        p.Created_at,
+        p.Modified_at
+    FROM 
+        Usuarios u
+    JOIN 
+        Carritos c ON u.UsuarioID = c.UsuarioID
+    JOIN 
+        Pedidos p ON c.CarritoID = p.CarritoID
+    WHERE 
+        p.Estado_Orden = estado
+    ORDER BY 
+        p.Created_at DESC;
+END;
+$$;

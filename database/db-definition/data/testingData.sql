@@ -49,5 +49,5 @@ INSERT INTO Carrito_Producto VALUES
 (2, 2, null, 1);
 
 INSERT INTO Pedidos(CarritoID, Metodo_Pago, Pago_Anticipado, Pago_Completo, Estado_Orden) VALUES
-(1, 'efectivo', false, false, 'Sin Entregar'),
+(1, 'efectivo', false, false, 'Sin-Entregar'),
 (2, 'transferencia', true, true, 'Entregado');
