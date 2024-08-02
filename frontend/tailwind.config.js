@@ -15,7 +15,8 @@ module.exports = {
         midPink: '#EA8F8F',
         hoverPink:'#E57373', 
         subtitlesPink: '#BC6B6B',
-        customCream: '#FEFDED',
+        customCream:'#FEFDED',
+        customGray: '#EBEBEB',
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
