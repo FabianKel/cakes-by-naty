@@ -18,10 +18,10 @@ const post = async (link, body) => {
   return data;
 };
 
-export const login = async (email, password) => {
+export const login = async (username, password) => {
   try {
     const user = await post(links.login, {
-      email,
+      username,
       password,
     });
 
@@ -35,16 +35,16 @@ export const login = async (email, password) => {
   }
 };
 
-export const register = async (email, password, firstName, lastName) => {
+export const register = async (username, email, password, rol = 'cliente') => {
   try {
     const user = await post(links.register, {
-      email,
+      usuario: username,
+      rol,
+      correo: email,
       password,
-      first_name: firstName,
-      last_name: lastName,
     });
 
-    console.log('user: ', user);
+    return user;
   } catch (error) {
     console.log('error: ', error);
   }

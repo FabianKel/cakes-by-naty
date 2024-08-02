@@ -58,7 +58,7 @@
 
 **URL:** `localhost:4000/productos/{id}`
 
-**Método:** `PUt`
+**Método:** `PUT`
 
 **Descripción:** Endpoint para modificar un producto.
 
