@@ -76,7 +76,7 @@ app.post('/productos', async (req, res) => {
   // const access_token = authorization.substring(7);
   // if (validateToken(access_token)) {
   try {
-    const { nombre, categoria_id, ocasion, precio, imagen1, imagen2, imagen3, detalles } = req.body;
+    const { nombre, descripcion, categoria_id, ocasion_id, precio, imagen1, imagen2, imagen3, detalles } = req.body;
 
     // Validar campos obligatorios
     if (!nombre || !precio || !categoria_id) {
@@ -85,12 +85,13 @@ app.post('/productos', async (req, res) => {
 
     // Insertar el producto
     const insertProductQuery = `
-          INSERT INTO Productos (Nombre, CategoriaID, OcasionID, Precio, Imagen1, Imagen2, Imagen3)
+          INSERT INTO Productos (Nombre, Descripcion, CategoriaID, OcasionID, Precio, Imagen1, Imagen2, Imagen3)
           VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
           RETURNING ProductoID;
         `;
     const result = await pool.query(insertProductQuery, [
       nombre,
+      descripcion,
       categoria_id,
       ocasion_id,
       precio,
@@ -247,6 +248,7 @@ app.put('/productos/:producto_id', async (req, res) => {
     const producto_id = parseInt(req.params.producto_id);
     const {
       nombre,
+      descripcion,
       categoriaid,
       ocasionid,
       precio,
@@ -266,10 +268,11 @@ app.put('/productos/:producto_id', async (req, res) => {
 
     const client = await pool.connect();
     await client.query(
-      'SELECT * FROM updateProducto($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)',
+      'SELECT * FROM updateProducto($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)',
       [
         producto_id,
         nombre,
+        descripcion,
         categoriaid,
         ocasionid,
         precio,
