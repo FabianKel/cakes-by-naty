@@ -51,7 +51,7 @@ function LoginSection() {
               className="w-full p-4 border border-gray-300 rounded-md font-poppins mb-6"
             />
             {formik.errors.username && (
-              <span className='text-red-500 text-sm block text-center mt-2'>{formik.errors.username}</span>
+              <div className="text-red-500 text-sm block text-center mt-2">{formik.errors.username}</div>
             )}
           </div>
           <div className="mb-8">
