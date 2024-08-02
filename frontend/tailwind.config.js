@@ -9,10 +9,12 @@ module.exports = {
     extend: {
       colors: {
         customPink: '#FEE4E5',
-        custom1Pink: '#EA7E7E',
+        customPink1: '#EA7E7E',
         otherPink: '#EAC2C4',
         midPink: '#EA8F8F',
         hoverPink:'#E57373', 
+        subtitlesPink: '#BC6B6B',
+        customCream: '#FEFDED',
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
