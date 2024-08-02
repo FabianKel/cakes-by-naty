@@ -22,10 +22,13 @@ INSERT INTO Ocasiones (Nombre, FechaInicio, FechaFinal) VALUES
 ('San Valentín', '2024-02-01', '2024-02-14'),
 ('Aniversario', '2024-01-01', '2024-01-01');
 
-INSERT INTO Productos(nombre, CategoriaID, OcasionID, Precio, Imagen1) VALUES
-('Pastel del día del Niño', 3, 6, '35', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaMWE2PHElNz94NDwzwIywmsDbv2_VKp82xA&s' ),
-('Paquete de 6 Cakepops con Anicillos', 2, 1, '60','https://www.livewellbakeoften.com/wp-content/uploads/2021/09/Homemade-Chocolate-Cake-Pops-13.jpg'),
-('Paquete de 5 Galletas Navideñas 🎅', 4, 8, '25','https://cdn7.kiwilimon.com/recetaimagen/90/640x640/27962.jpg.webp');
+INSERT INTO Productos(nombre, Descripcion, CategoriaID, OcasionID, Precio, Imagen1) VALUES
+('Pastel del día del Niño', 'Celebra el Día del Niño con un toque especial con nuestro Pastel del Día del Niño. Este encantador pastel de vainilla está cubierto con fondant y relleno de deliciosa cajeta, creando una combinación de sabores que hará las delicias de los más pequeños. Decorado con el divertido y adorable Monstruo Come Galletas, este pastel es perfecto para agregar un toque de alegría y personalización a cualquier fiesta infantil. Un deleite tanto para la vista como para el paladar.',
+3, 6, '35', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaMWE2PHElNz94NDwzwIywmsDbv2_VKp82xA&s' ),
+('Paquete de 6 Cakepops con Anicillos', '¡Deléitate con nuestro delicioso Paquete de 6 Cakepops con Anicillos! Perfectos para cualquier ocasión, estos cakepops están hechos con una masa de chocolate exquisito y cubiertos con un suave chocolate con leche. Cada bocado es una explosión de sabor que te encantará. Ideales para compartir o disfrutar solo, estos cakepops son una opción deliciosa y divertida.',
+2, 1, '60','https://www.livewellbakeoften.com/wp-content/uploads/2021/09/Homemade-Chocolate-Cake-Pops-13.jpg'),
+('Paquete de 5 Galletas Navideñas 🎅', 'Celebra la magia de la Navidad con nuestro Paquete de 5 Galletas Navideñas 🎅. Estas galletas de jengibre son perfectas para la temporada festiva, con un sabor clásico que evoca todos los encantos de la Navidad. Su textura suave y su aroma especiado te harán sentir el espíritu navideño en cada mordida. Un regalo perfecto o un capricho para disfrutar en casa.',
+4, 8, '25','https://cdn7.kiwilimon.com/recetaimagen/90/640x640/27962.jpg.webp');
 
 INSERT INTO Detalles_Producto(ProductoID, RellenoID, MasaID, Sabor_GalletaID, CoberturaID, Tipo_ChocolateID) VALUES
 (1, 1, 2, null, 1, null),

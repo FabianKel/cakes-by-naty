@@ -1,6 +1,7 @@
 --Productos y Detalles_producto
 CREATE OR REPLACE FUNCTION agregar_producto(
     nombre TEXT,
+    Descripcion TEXT,
     categoria_id INT,
     ocasion TEXT,
     precio DECIMAL(10, 2),
@@ -14,6 +15,7 @@ AS $$
 BEGIN
     INSERT INTO Productos (
         Nombre,
+        Descripcion,
         CategoriaID,
         Ocasion,
         Precio,
@@ -23,6 +25,7 @@ BEGIN
     )
     VALUES (
         nombre,
+        Descripcion,
         categoria_id,
         ocasion,
         precio,

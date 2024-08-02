@@ -7,6 +7,7 @@ CREATE TABLE Categorias (
 CREATE TABLE Productos (
   ProductoID SERIAL PRIMARY KEY,
   Nombre VARCHAR(255) NOT NULL,
+  Descripcion TEXT,
   CategoriaID INT,  
   OcasionID INT,  -- Cumpleaños, San Valentín, Navidad, etc.
   Precio DECIMAL(10, 2) NOT NULL,

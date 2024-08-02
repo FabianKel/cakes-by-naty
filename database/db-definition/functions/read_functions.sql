@@ -3,6 +3,7 @@ CREATE OR REPLACE FUNCTION obtener_productos()
 RETURNS TABLE (
     ProductoID INT,
     ProductoNombre VARCHAR,
+    Descripcion TEXT,
     CategoriaNombre VARCHAR,
     Ocasion VARCHAR,
     Precio DECIMAL,
@@ -22,6 +23,7 @@ BEGIN
     SELECT 
         p.ProductoID, 
         p.Nombre AS ProductoNombre, 
+        p.Descripcion,
         c.Nombre AS CategoriaNombre, 
         o.Nombre, 
         p.Precio, 
@@ -59,6 +61,7 @@ CREATE OR REPLACE FUNCTION obtener_producto_por_id(p_id INT)
 RETURNS TABLE (
     ProductoID INT,
     ProductoNombre VARCHAR,
+    Descripcion TEXT,
     CategoriaNombre VARCHAR,
     Ocasion VARCHAR,
     Precio DECIMAL,
@@ -78,6 +81,7 @@ BEGIN
     SELECT 
         p.ProductoID, 
         p.Nombre AS ProductoNombre, 
+        p.Descripcion,
         c.Nombre AS CategoriaNombre, 
         o.Nombre AS Ocasion, 
         p.Precio, 
@@ -116,6 +120,7 @@ CREATE OR REPLACE FUNCTION obtener_producto_por_categoria(c_id INT)
 RETURNS TABLE (
     ProductoID INT,
     ProductoNombre VARCHAR,
+    Descripcion TEXT,
     Ocasion VARCHAR,
     Precio DECIMAL,
     Imagen1 VARCHAR,
@@ -134,6 +139,7 @@ BEGIN
     SELECT 
         p.ProductoID, 
         p.Nombre AS ProductoNombre, 
+        p.Descripcion,
         o.Nombre AS Ocasion, 
         p.Precio, 
         p.Imagen1, 
@@ -169,6 +175,7 @@ CREATE OR REPLACE FUNCTION obtener_producto_por_ocasion(ocasion_id INT)
 RETURNS TABLE (
     ProductoID INT,
     ProductoNombre VARCHAR,
+    Descripcion TEXT,
     Categoria VARCHAR,
     Precio DECIMAL,
     Imagen1 VARCHAR,
@@ -187,6 +194,7 @@ BEGIN
     SELECT 
         p.ProductoID, 
         p.Nombre AS ProductoNombre, 
+        p.Descripcion,
         c.Nombre AS CategoriaNombre, 
         p.Precio, 
         p.Imagen1, 
