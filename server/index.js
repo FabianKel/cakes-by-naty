@@ -76,7 +76,7 @@ app.post('/productos', async (req, res) => {
   // const access_token = authorization.substring(7);
   // if (validateToken(access_token)) {
   try {
-    const { nombre, categoria_id, ocasion, precio, imagen1, imagen2, imagen3, detalles } = req.body;
+    const { nombre, descripcion, categoria_id, ocasion_id, precio, imagen1, imagen2, imagen3, detalles } = req.body;
 
     // Validar campos obligatorios
     if (!nombre || !precio || !categoria_id) {
@@ -85,12 +85,13 @@ app.post('/productos', async (req, res) => {
 
     // Insertar el producto
     const insertProductQuery = `
-          INSERT INTO Productos (Nombre, CategoriaID, OcasionID, Precio, Imagen1, Imagen2, Imagen3)
+          INSERT INTO Productos (Nombre, Descripcion, CategoriaID, OcasionID, Precio, Imagen1, Imagen2, Imagen3)
           VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
           RETURNING ProductoID;
         `;
     const result = await pool.query(insertProductQuery, [
       nombre,
+      descripcion,
       categoria_id,
       ocasion_id,
       precio,
@@ -127,6 +128,7 @@ app.post('/productos', async (req, res) => {
 
 //GET
 
+
 app.get('/usuarios', async (req, res) => {
   try {
     const client = await pool.connect();
@@ -142,6 +144,10 @@ app.get('/usuarios', async (req, res) => {
   }
 });
 
+
+/*
+PRODUCTOS
+*/
 app.get('/productos', async (req, res) => {
   try {
     const client = await pool.connect();
@@ -222,6 +228,36 @@ app.get('/productos/ocasion/:ocasion_id', async (req, res) => {
   }
 });
 
+/*
+PEDIDOS
+*/
+app.get('/pedidos', async (req, res) => {
+  try {
+    const client = await pool.connect();
+    const getPedidosQuery = 'SELECT * FROM obtener_pedidos();';
+    const result = await client.query(getPedidosQuery);
+    const Pedidos = result.rows;
+    client.release();
+    res.status(200).json({ message: 'Pedidos obtenidos con éxito', Pedidos: Pedidos });
+  } catch (error) {
+    ErrorHandler.handleError(error, res);
+  }
+});
+
+app.get('/pedidos/estado=:estado', async (req, res) => {
+  const { estado } = req.params;
+  try {
+    const client = await pool.connect();
+    const getPedidosQuery = 'SELECT * FROM obtener_pedidos_por_estado($1);';
+    const result = await client.query(getPedidosQuery, [estado]);
+    const Pedidos = result.rows;
+    client.release();
+    res.status(200).json({ message: 'Pedidos obtenidos con éxito', Pedidos: Pedidos });
+  } catch (error) {
+    ErrorHandler.handleError(error, res);
+  }
+});
+
 //UPDATES
 //Productos
 app.put('/productos/:producto_id', async (req, res) => {
@@ -229,6 +265,7 @@ app.put('/productos/:producto_id', async (req, res) => {
     const producto_id = parseInt(req.params.producto_id);
     const {
       nombre,
+      descripcion,
       categoriaid,
       ocasionid,
       precio,
@@ -248,10 +285,11 @@ app.put('/productos/:producto_id', async (req, res) => {
 
     const client = await pool.connect();
     await client.query(
-      'SELECT * FROM updateProducto($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)',
+      'SELECT * FROM updateProducto($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)',
       [
         producto_id,
         nombre,
+        descripcion,
         categoriaid,
         ocasionid,
         precio,
