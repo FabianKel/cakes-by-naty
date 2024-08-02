@@ -53,4 +53,10 @@ INSERT INTO Carrito_Producto VALUES
 
 INSERT INTO Pedidos(CarritoID, Metodo_Pago, Pago_Anticipado, Pago_Completo, Estado_Orden) VALUES
 (1, 'efectivo', false, false, 'Sin-Entregar'),
+(2, 'efectivo', true, true, 'Entregado'),
+(1, 'efectivo', false, false, 'Sin-Entregar'),
+(2, 'transferencia', true, false, 'Sin-Entregar'),
+(3, 'transferencia', true, false, 'Sin-Entregar'),
+(2, 'transferencia', true, true, 'Entregado'),
+(3, 'efectivo', false, false, 'Sin-Entregar'),
 (2, 'transferencia', true, true, 'Entregado');

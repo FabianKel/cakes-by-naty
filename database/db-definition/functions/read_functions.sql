@@ -230,7 +230,7 @@ $$;
 --ALL ORDERS (Info para el menú de pedidos)
 CREATE OR REPLACE FUNCTION obtener_pedidos()
 RETURNS TABLE (
-    CarritoID INT,
+    PedidoID INT,
     Usuario VARCHAR,
     Pago_Anticipado TEXT,
     Pago_Completo TEXT,
@@ -243,7 +243,7 @@ AS $$
 BEGIN
     RETURN QUERY
     SELECT 
-    c.CarritoID,
+    p.PedidoID,
     u.Usuario,
     CASE 
         WHEN p.Pago_Anticipado THEN 'Pago Anticipado Realizado'
@@ -272,7 +272,7 @@ $$;
 --ENTREGADO O SIN ENTREGAR
 CREATE OR REPLACE FUNCTION obtener_pedidos_por_estado(estado VARCHAR)
 RETURNS TABLE (
-    CarritoID INT,
+    PedidoID INT,
     Usuario VARCHAR,
     Pago_Anticipado TEXT,
     Pago_Completo TEXT,
@@ -285,7 +285,7 @@ AS $$
 BEGIN
     RETURN QUERY
     SELECT 
-        c.CarritoID,
+        p.PedidoID,
         u.Usuario,
         CASE 
             WHEN p.Pago_Anticipado THEN 'Pago Anticipado Realizado'
