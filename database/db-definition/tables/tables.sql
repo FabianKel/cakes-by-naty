@@ -7,6 +7,7 @@ CREATE TABLE Categorias (
 CREATE TABLE Productos (
   ProductoID SERIAL PRIMARY KEY,
   Nombre VARCHAR(255) NOT NULL,
+  Descripcion TEXT,
   CategoriaID INT,  
   OcasionID INT,  -- Cumpleaños, San Valentín, Navidad, etc.
   Precio DECIMAL(10, 2) NOT NULL,
@@ -123,5 +124,7 @@ CREATE TABLE Pedidos (
   Pago_Anticipado BOOLEAN NOT NULL,
   Pago_Completo BOOLEAN NOT NULL,
   Estado_Orden VARCHAR(255) NOT NULL,  -- en curso, finalizado
+  Created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  Modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (CarritoID) REFERENCES Carritos(CarritoID)
 );

@@ -1,6 +1,7 @@
 CREATE OR REPLACE FUNCTION updateProducto(
     producto_id INT,
     nombre_ VARCHAR,
+    Descripcion_ TEXT,
     Categoria_ID INT,
     Ocasion_ID INT,
     precio_ DECIMAL,
@@ -20,6 +21,7 @@ BEGIN
     UPDATE Productos
     SET
         Nombre = COALESCE(nombre_, Nombre),
+        Descripcion = COALESCE(Descripcion_, Descripcion),
         CategoriaID = COALESCE(Categoria_ID, CategoriaID),
         OcasionID = COALESCE(Ocasion_ID, OcasionID),
         Precio = COALESCE(precio_, Precio),
