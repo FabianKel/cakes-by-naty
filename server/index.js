@@ -11,7 +11,7 @@ const ErrorHandler = require('./utils/ErrorHandler');
 dotenv.config();
 
 const app = express();
-const port = 4000;
+const port = process.env.PORT || 4000;
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -127,6 +127,23 @@ app.post('/productos', async (req, res) => {
 });
 
 //GET
+
+
+app.get('/usuarios', async (req, res) => {
+  try {
+    const client = await pool.connect();
+
+    const result = await client.query('SELECT * FROM Usuarios;');
+    const usuarios = result.rows;
+
+    client.release();
+
+    res.status(200).json({ message: 'Productos obtenidos con éxito', usuarios: usuarios });
+  } catch (error) {
+    ErrorHandler.handleError(error, res);
+  }
+});
+
 
 /*
 PRODUCTOS
@@ -337,6 +354,9 @@ app.put('/usuarios/:usuario_id', async (req, res) => {
     ErrorHandler.handleError(error, res);
   }
 });
+
+
+module.exports = app;
 
 app.delete('/pedidos/:id', async (req, res) => {
   const { id } = req.params;
