@@ -13,18 +13,33 @@ DECLARE
     tmp_refresh_token text;
     tmp_fingerprint text;
     tmp_fingerprint_hashed text;
+    is_email boolean;
 
 BEGIN
 
-    SELECT 
+    is_email := username ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}$';
+
+    IF is_email THEN
+        SELECT 
             usuarios.UsuarioID AS id,
             usuarios.Rol AS rol,
             usuarios.Correo AS Correo,
             usuarios.Telefono AS Telefono
-    INTO usuario
-    FROM usuarios
-    WHERE usuarios.Usuario::TEXT = username
-        AND usuarios.Password = crypt(login.password , usuarios.Password);
+        INTO usuario
+        FROM usuarios
+        WHERE usuarios.Correo::TEXT = username
+            AND usuarios.Password = crypt(login.password, usuarios.Password);
+    ELSE
+        SELECT 
+            usuarios.UsuarioID AS id,
+            usuarios.Rol AS rol,
+            usuarios.Correo AS Correo,
+            usuarios.Telefono AS Telefono
+        INTO usuario
+        FROM usuarios
+        WHERE usuarios.Usuario::TEXT = username
+            AND usuarios.Password = crypt(login.password, usuarios.Password);
+    END IF;
 
     
     IF usuario.id IS NOT NULL THEN
