@@ -116,7 +116,7 @@ END;
 $$;
 
 --PRODUCTS BY CATEGORY
-CREATE OR REPLACE FUNCTION obtener_producto_por_categoria(c_id INT)
+CREATE OR REPLACE FUNCTION obtener_producto_por_categoria(c_id INT, p_limit INT DEFAULT NULL)
 RETURNS TABLE (
     ProductoID INT,
     ProductoNombre VARCHAR,
@@ -135,38 +135,77 @@ RETURNS TABLE (
 LANGUAGE plpgsql
 AS $$
 BEGIN
-    RETURN QUERY
-    SELECT 
-        p.ProductoID, 
-        p.Nombre AS ProductoNombre, 
-        p.Descripcion,
-        o.Nombre AS Ocasion, 
-        p.Precio, 
-        p.Imagen1, 
-        p.Imagen2, 
-        p.Imagen3, 
-        r.Nombre AS RellenoNombre, 
-        m.Nombre AS MasaNombre, 
-        sg.Tipo AS SaborGalletaTipo, 
-        co.Tipo AS CoberturaTipo, 
-        tc.Tipo AS TipoChocolate
-    FROM 
-        Productos p
-    LEFT JOIN 
-        Ocasiones o ON p.OcasionID = o.OcasionID
-    LEFT JOIN 
-        Detalles_Producto dp ON p.ProductoID = dp.ProductoID
-    LEFT JOIN 
-        Rellenos r ON dp.RellenoID = r.RellenoID
-    LEFT JOIN 
-        Masas m ON dp.MasaID = m.MasaID
-    LEFT JOIN 
-        Sabores_Galletas sg ON dp.Sabor_GalletaID = sg.Sabor_GalletaID
-    LEFT JOIN 
-        Coberturas co ON dp.CoberturaID = co.CoberturaID
-    LEFT JOIN 
-        Tipo_Chocolate tc ON dp.Tipo_ChocolateID = tc.Tipo_ChocolateID
-    WHERE p.CategoriaID = c_id;
+    IF p_limit IS NOT NULL THEN
+        RETURN QUERY
+        SELECT 
+            p.ProductoID, 
+            p.Nombre AS ProductoNombre, 
+            p.Descripcion,
+            o.Nombre AS Ocasion, 
+            p.Precio, 
+            p.Imagen1, 
+            p.Imagen2, 
+            p.Imagen3, 
+            r.Nombre AS RellenoNombre, 
+            m.Nombre AS MasaNombre, 
+            sg.Tipo AS SaborGalletaTipo, 
+            co.Tipo AS CoberturaTipo, 
+            tc.Tipo AS TipoChocolate
+        FROM 
+            Productos p
+        LEFT JOIN 
+            Ocasiones o ON p.OcasionID = o.OcasionID
+        LEFT JOIN 
+            Detalles_Producto dp ON p.ProductoID = dp.ProductoID
+        LEFT JOIN 
+            Rellenos r ON dp.RellenoID = r.RellenoID
+        LEFT JOIN 
+            Masas m ON dp.MasaID = m.MasaID
+        LEFT JOIN 
+            Sabores_Galletas sg ON dp.Sabor_GalletaID = sg.Sabor_GalletaID
+        LEFT JOIN 
+            Coberturas co ON dp.CoberturaID = co.CoberturaID
+        LEFT JOIN 
+            Tipo_Chocolate tc ON dp.Tipo_ChocolateID = tc.Tipo_ChocolateID
+        WHERE 
+            p.CategoriaID = c_id
+        LIMIT 
+            p_limit;
+    ELSE
+        RETURN QUERY
+        SELECT 
+            p.ProductoID, 
+            p.Nombre AS ProductoNombre, 
+            p.Descripcion,
+            o.Nombre AS Ocasion, 
+            p.Precio, 
+            p.Imagen1, 
+            p.Imagen2, 
+            p.Imagen3, 
+            r.Nombre AS RellenoNombre, 
+            m.Nombre AS MasaNombre, 
+            sg.Tipo AS SaborGalletaTipo, 
+            co.Tipo AS CoberturaTipo, 
+            tc.Tipo AS TipoChocolate
+        FROM 
+            Productos p
+        LEFT JOIN 
+            Ocasiones o ON p.OcasionID = o.OcasionID
+        LEFT JOIN 
+            Detalles_Producto dp ON p.ProductoID = dp.ProductoID
+        LEFT JOIN 
+            Rellenos r ON dp.RellenoID = r.RellenoID
+        LEFT JOIN 
+            Masas m ON dp.MasaID = m.MasaID
+        LEFT JOIN 
+            Sabores_Galletas sg ON dp.Sabor_GalletaID = sg.Sabor_GalletaID
+        LEFT JOIN 
+            Coberturas co ON dp.CoberturaID = co.CoberturaID
+        LEFT JOIN 
+            Tipo_Chocolate tc ON dp.Tipo_ChocolateID = tc.Tipo_ChocolateID
+        WHERE 
+            p.CategoriaID = c_id;
+    END IF;
 END;
 $$;
 
@@ -308,5 +347,45 @@ BEGIN
         p.Estado_Orden = estado
     ORDER BY 
         p.Created_at DESC;
+END;
+$$;
+
+-- READ USER BY ID
+
+CREATE OR REPLACE FUNCTION obtener_usuario_por_id(u_id INT)
+RETURNS TABLE (
+    UsuarioID INT,
+    Rol VARCHAR,
+    Usuario VARCHAR,
+    Primer_Nombre VARCHAR,
+    Segundo_Nombre VARCHAR,
+    Correo VARCHAR,
+    Telefono VARCHAR,
+    Direccion1 VARCHAR,
+    Direccion2 VARCHAR,
+    Direccion3 VARCHAR,
+    Created_at TIMESTAMP,
+    Modified_at TIMESTAMP
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY
+    SELECT 
+        u.UsuarioID,
+        u.Rol,
+        u.Usuario,
+        u.Primer_Nombre,
+        u.Segundo_Nombre,
+        u.Correo,
+        u.Telefono,
+        u.Direccion1,
+        u.Direccion2,
+        u.Direccion3,
+        u.Created_at,
+        u.Modified_at
+    FROM 
+        Usuarios u
+    WHERE u.UsuarioID = u_id;
 END;
 $$;
