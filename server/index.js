@@ -355,7 +355,29 @@ app.put('/usuarios/:usuario_id', async (req, res) => {
   }
 });
 
+
 module.exports = app;
+
+app.delete('/pedidos/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const client = await pool.connect();
+
+    const deleteOrderQuery = 'SELECT * FROM eliminar_pedido($1);';
+    const result = await client.query(deleteOrderQuery, [id]);
+    const pedido = result.rows[0];
+
+    client.release();
+
+    if (pedido) {
+      res.status(200).json({ message: 'Pedido eliminado con éxito'});
+    } else {
+      throw { type: 'not_found', message: 'Peido no encontrado' };
+    }
+  } catch (error) {
+    ErrorHandler.handleError(error, res);
+  }
+});
 
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`);
