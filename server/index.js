@@ -72,11 +72,15 @@ app.post('/login', async (req, res) => {
 //POST
 
 app.post('/productos', async (req, res) => {
-  // const { authorization } = req.headers;
-  // const access_token = authorization.substring(7);
+  const { authorization } = req.headers;
+  const auth_token = authorization.substring(7);
+
+  console.log('auth_token: ', auth_token);
+
   // if (validateToken(access_token)) {
   try {
-    const { nombre, descripcion, categoria_id, ocasion_id, precio, imagen1, imagen2, imagen3, detalles } = req.body;
+    const { nombre, descripcion, categoria_id, ocasion_id, precio, imagen1, imagen2, imagen3, detalles } =
+      req.body;
 
     // Validar campos obligatorios
     if (!nombre || !precio || !categoria_id) {
@@ -128,7 +132,6 @@ app.post('/productos', async (req, res) => {
 
 //GET
 
-
 app.get('/usuarios', async (req, res) => {
   try {
     const client = await pool.connect();
@@ -143,7 +146,6 @@ app.get('/usuarios', async (req, res) => {
     ErrorHandler.handleError(error, res);
   }
 });
-
 
 /*
 PRODUCTOS
@@ -233,6 +235,12 @@ PEDIDOS
 */
 app.get('/pedidos', async (req, res) => {
   try {
+    const { authorization } = req.headers;
+    console.log('authorization: ', authorization);
+    const auth_token = authorization.substring(7);
+
+    console.log('auth_token: ', auth_token);
+
     const client = await pool.connect();
     const getPedidosQuery = 'SELECT * FROM obtener_pedidos();';
     const result = await client.query(getPedidosQuery);
@@ -355,7 +363,6 @@ app.put('/usuarios/:usuario_id', async (req, res) => {
   }
 });
 
-
 module.exports = app;
 
 app.delete('/pedidos/:id', async (req, res) => {
@@ -370,7 +377,7 @@ app.delete('/pedidos/:id', async (req, res) => {
     client.release();
 
     if (pedido) {
-      res.status(200).json({ message: 'Pedido eliminado con éxito'});
+      res.status(200).json({ message: 'Pedido eliminado con éxito' });
     } else {
       throw { type: 'not_found', message: 'Peido no encontrado' };
     }
