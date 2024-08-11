@@ -3,6 +3,7 @@
 import { useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
 import * as yup from 'yup';
+import Button from '@/components/Button';
 
 import { login } from '@/utils/https';
 
@@ -69,12 +70,12 @@ function LoginSection() {
             )}
           </div>
           <div className="mb-8">
-            <button
+          <Button
               type="submit"
               className="w-full p-4 bg-white-600 text-black border-2 border-customPink1 rounded-md font-poppins hover:bg-customPink1 transition duration-300"
             >
               Inicia Sesión
-            </button>
+            </Button>
           </div>
         </form>
         <div className="text-center mt-8">

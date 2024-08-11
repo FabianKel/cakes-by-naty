@@ -5,6 +5,7 @@ import { register } from '@/utils/https';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
 import * as yup from 'yup';
+import Button from '@/components/Button';
 
 function RegisterSection() {
     //Para este register se debe tomar el Rol del usuario como el predeterminado osea "Cliente"
@@ -86,12 +87,12 @@ function RegisterSection() {
                         )}
                     </div>
                     <div className='mb-8'>
-                        <button
+                        <Button
                             type='submit'
                             className='w-full p-4 bg-white text-black border-hoverPink border-2 rounded-md font-poppins hover:bg-hoverPink transition duration-300'
                         >
                             Regístrate
-                        </button>
+                        </Button>
                     </div>
                 </form>
                 <div className='text-center mt-8'>
