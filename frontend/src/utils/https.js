@@ -63,10 +63,15 @@ export const register = async (username, email, password, rol = 'cliente') => {
   }
 };
 
-export const getPedidos = async () => {
+export const getPedidos = async (estado) => {
   try {
-    const pedidos = await get(links.pedidos);
-    console.log('pedidos: ', pedidos);
+    let status = '';
+
+    if (estado) status = `/estado=${estado}`;
+
+    const pedidos = await get(`${links.pedidos}${status}`);
+
+    return pedidos;
   } catch (error) {
     return [];
   }

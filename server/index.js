@@ -75,8 +75,6 @@ app.post('/productos', async (req, res) => {
   const { authorization } = req.headers;
   const auth_token = authorization.substring(7);
 
-  console.log('auth_token: ', auth_token);
-
   // if (validateToken(access_token)) {
   try {
     const { nombre, descripcion, categoria_id, ocasion_id, precio, imagen1, imagen2, imagen3, detalles } =
@@ -236,17 +234,18 @@ PEDIDOS
 app.get('/pedidos', async (req, res) => {
   try {
     const { authorization } = req.headers;
-    console.log('authorization: ', authorization);
-    const auth_token = authorization.substring(7);
+    if (authorization) {
+      const auth_token = authorization.substring(7);
 
-    console.log('auth_token: ', auth_token);
-
-    const client = await pool.connect();
-    const getPedidosQuery = 'SELECT * FROM obtener_pedidos();';
-    const result = await client.query(getPedidosQuery);
-    const Pedidos = result.rows;
-    client.release();
-    res.status(200).json({ message: 'Pedidos obtenidos con éxito', Pedidos: Pedidos });
+      const client = await pool.connect();
+      const getPedidosQuery = 'SELECT * FROM obtener_pedidos();';
+      const result = await client.query(getPedidosQuery);
+      const Pedidos = result.rows;
+      client.release();
+      res.status(200).json({ message: 'Pedidos obtenidos con éxito', Pedidos: Pedidos });
+    } else {
+      res.status(404).json({ message: 'Ruta no existe.' });
+    }
   } catch (error) {
     ErrorHandler.handleError(error, res);
   }
@@ -324,8 +323,6 @@ app.put('/usuarios/:usuario_id', async (req, res) => {
   try {
     const usuario_id = parseInt(req.params.usuario_id);
     const { authorization } = req.headers;
-
-    console.log('token: ', authorization.substring(7).trim());
 
     const {
       rol,
