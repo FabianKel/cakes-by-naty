@@ -1,10 +1,9 @@
 --ALL PRODUCTS
-CREATE OR REPLACE FUNCTION obtener_productos()
+CREATE OR REPLACE FUNCTION obtener_productos(p_limit INT DEFAULT NULL)
 RETURNS TABLE (
     ProductoID INT,
     ProductoNombre VARCHAR,
     Descripcion TEXT,
-    CategoriaNombre VARCHAR,
     Ocasion VARCHAR,
     Precio DECIMAL,
     Imagen1 VARCHAR,
@@ -19,40 +18,73 @@ RETURNS TABLE (
 LANGUAGE plpgsql
 AS $$
 BEGIN
-    RETURN QUERY
-    SELECT 
-        p.ProductoID, 
-        p.Nombre AS ProductoNombre, 
-        p.Descripcion,
-        c.Nombre AS CategoriaNombre, 
-        o.Nombre, 
-        p.Precio, 
-        p.Imagen1, 
-        p.Imagen2, 
-        p.Imagen3, 
-        r.Nombre AS RellenoNombre, 
-        m.Nombre AS MasaNombre, 
-        sg.Tipo AS SaborGalletaTipo, 
-        co.Tipo AS CoberturaTipo, 
-        tc.Tipo AS TipoChocolate
-    FROM 
-        Productos p
-    LEFT JOIN
-        Ocasiones o ON p.OcasionID = o.OcasionID
-    LEFT JOIN 
-        Categorias c ON p.CategoriaID = c.CategoriaID
-    LEFT JOIN 
-        Detalles_Producto dp ON p.ProductoID = dp.ProductoID
-    LEFT JOIN 
-        Rellenos r ON dp.RellenoID = r.RellenoID
-    LEFT JOIN 
-        Masas m ON dp.MasaID = m.MasaID
-    LEFT JOIN 
-        Sabores_Galletas sg ON dp.Sabor_GalletaID = sg.Sabor_GalletaID
-    LEFT JOIN 
-        Coberturas co ON dp.CoberturaID = co.CoberturaID
-    LEFT JOIN 
-        Tipo_Chocolate tc ON dp.Tipo_ChocolateID = tc.Tipo_ChocolateID;
+    IF p_limit IS NOT NULL THEN
+        RETURN QUERY
+        SELECT 
+            p.ProductoID, 
+            p.Nombre AS ProductoNombre, 
+            p.Descripcion,
+            o.Nombre AS Ocasion, 
+            p.Precio, 
+            p.Imagen1, 
+            p.Imagen2, 
+            p.Imagen3, 
+            r.Nombre AS RellenoNombre, 
+            m.Nombre AS MasaNombre, 
+            sg.Tipo AS SaborGalletaTipo, 
+            co.Tipo AS CoberturaTipo, 
+            tc.Tipo AS TipoChocolate
+        FROM 
+            Productos p
+        LEFT JOIN 
+            Ocasiones o ON p.OcasionID = o.OcasionID
+        LEFT JOIN 
+            Detalles_Producto dp ON p.ProductoID = dp.ProductoID
+        LEFT JOIN 
+            Rellenos r ON dp.RellenoID = r.RellenoID
+        LEFT JOIN 
+            Masas m ON dp.MasaID = m.MasaID
+        LEFT JOIN 
+            Sabores_Galletas sg ON dp.Sabor_GalletaID = sg.Sabor_GalletaID
+        LEFT JOIN 
+            Coberturas co ON dp.CoberturaID = co.CoberturaID
+        LEFT JOIN 
+            Tipo_Chocolate tc ON dp.Tipo_ChocolateID = tc.Tipo_ChocolateID
+        LIMIT 
+            p_limit;
+    ELSE
+        RETURN QUERY
+        SELECT 
+            p.ProductoID, 
+            p.Nombre AS ProductoNombre, 
+            p.Descripcion,
+            o.Nombre AS Ocasion, 
+            p.Precio, 
+            p.Imagen1, 
+            p.Imagen2, 
+            p.Imagen3, 
+            r.Nombre AS RellenoNombre, 
+            m.Nombre AS MasaNombre, 
+            sg.Tipo AS SaborGalletaTipo, 
+            co.Tipo AS CoberturaTipo, 
+            tc.Tipo AS TipoChocolate
+        FROM 
+            Productos p
+        LEFT JOIN 
+            Ocasiones o ON p.OcasionID = o.OcasionID
+        LEFT JOIN 
+            Detalles_Producto dp ON p.ProductoID = dp.ProductoID
+        LEFT JOIN 
+            Rellenos r ON dp.RellenoID = r.RellenoID
+        LEFT JOIN 
+            Masas m ON dp.MasaID = m.MasaID
+        LEFT JOIN 
+            Sabores_Galletas sg ON dp.Sabor_GalletaID = sg.Sabor_GalletaID
+        LEFT JOIN 
+            Coberturas co ON dp.CoberturaID = co.CoberturaID
+        LEFT JOIN 
+            Tipo_Chocolate tc ON dp.Tipo_ChocolateID = tc.Tipo_ChocolateID;
+    END IF;
 END;
 $$;
 
@@ -210,7 +242,7 @@ END;
 $$;
 
 --PRODUCTS BY OCCASION
-CREATE OR REPLACE FUNCTION obtener_producto_por_ocasion(ocasion_id INT)
+CREATE OR REPLACE FUNCTION obtener_producto_por_ocasion(ocasion_id INT, p_limit INT DEFAULT NULL)
 RETURNS TABLE (
     ProductoID INT,
     ProductoNombre VARCHAR,
@@ -229,38 +261,74 @@ RETURNS TABLE (
 LANGUAGE plpgsql
 AS $$
 BEGIN
-    RETURN QUERY
-    SELECT 
-        p.ProductoID, 
-        p.Nombre AS ProductoNombre, 
-        p.Descripcion,
-        c.Nombre AS CategoriaNombre, 
-        p.Precio, 
-        p.Imagen1, 
-        p.Imagen2, 
-        p.Imagen3, 
-        r.Nombre AS RellenoNombre, 
-        m.Nombre AS MasaNombre, 
-        sg.Tipo AS SaborGalletaTipo, 
-        co.Tipo AS CoberturaTipo, 
-        tc.Tipo AS TipoChocolate
-    FROM 
-        Productos p
-    LEFT JOIN 
-        Categorias c ON p.CategoriaID = c.CategoriaID
-    LEFT JOIN 
-        Detalles_Producto dp ON p.ProductoID = dp.ProductoID
-    LEFT JOIN 
-        Rellenos r ON dp.RellenoID = r.RellenoID
-    LEFT JOIN 
-        Masas m ON dp.MasaID = m.MasaID
-    LEFT JOIN 
-        Sabores_Galletas sg ON dp.Sabor_GalletaID = sg.Sabor_GalletaID
-    LEFT JOIN 
-        Coberturas co ON dp.CoberturaID = co.CoberturaID
-    LEFT JOIN 
-        Tipo_Chocolate tc ON dp.Tipo_ChocolateID = tc.Tipo_ChocolateID
-    WHERE p.OcasionID = ocasion_id;
+    IF p_limit IS NOT NULL THEN
+        RETURN QUERY
+        SELECT 
+            p.ProductoID, 
+            p.Nombre AS ProductoNombre, 
+            p.Descripcion,
+            c.Nombre AS CategoriaNombre, 
+            p.Precio, 
+            p.Imagen1, 
+            p.Imagen2, 
+            p.Imagen3, 
+            r.Nombre AS RellenoNombre, 
+            m.Nombre AS MasaNombre, 
+            sg.Tipo AS SaborGalletaTipo, 
+            co.Tipo AS CoberturaTipo, 
+            tc.Tipo AS TipoChocolate
+        FROM 
+            Productos p
+        LEFT JOIN 
+            Categorias c ON p.CategoriaID = c.CategoriaID
+        LEFT JOIN 
+            Detalles_Producto dp ON p.ProductoID = dp.ProductoID
+        LEFT JOIN 
+            Rellenos r ON dp.RellenoID = r.RellenoID
+        LEFT JOIN 
+            Masas m ON dp.MasaID = m.MasaID
+        LEFT JOIN 
+            Sabores_Galletas sg ON dp.Sabor_GalletaID = sg.Sabor_GalletaID
+        LEFT JOIN 
+            Coberturas co ON dp.CoberturaID = co.CoberturaID
+        LEFT JOIN 
+            Tipo_Chocolate tc ON dp.Tipo_ChocolateID = tc.Tipo_ChocolateID
+        WHERE p.OcasionID = ocasion_id
+        LIMIT p_limit;
+    ELSE
+        RETURN QUERY
+        SELECT 
+            p.ProductoID, 
+            p.Nombre AS ProductoNombre, 
+            p.Descripcion,
+            c.Nombre AS CategoriaNombre, 
+            p.Precio, 
+            p.Imagen1, 
+            p.Imagen2, 
+            p.Imagen3, 
+            r.Nombre AS RellenoNombre, 
+            m.Nombre AS MasaNombre, 
+            sg.Tipo AS SaborGalletaTipo, 
+            co.Tipo AS CoberturaTipo, 
+            tc.Tipo AS TipoChocolate
+        FROM 
+            Productos p
+        LEFT JOIN 
+            Categorias c ON p.CategoriaID = c.CategoriaID
+        LEFT JOIN 
+            Detalles_Producto dp ON p.ProductoID = dp.ProductoID
+        LEFT JOIN 
+            Rellenos r ON dp.RellenoID = r.RellenoID
+        LEFT JOIN 
+            Masas m ON dp.MasaID = m.MasaID
+        LEFT JOIN 
+            Sabores_Galletas sg ON dp.Sabor_GalletaID = sg.Sabor_GalletaID
+        LEFT JOIN 
+            Coberturas co ON dp.CoberturaID = co.CoberturaID
+        LEFT JOIN 
+            Tipo_Chocolate tc ON dp.Tipo_ChocolateID = tc.Tipo_ChocolateID
+        WHERE p.OcasionID = ocasion_id;
+        END IF;
 END;
 $$;
 

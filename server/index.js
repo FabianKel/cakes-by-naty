@@ -94,9 +94,6 @@ app.get('/usuarios/:u_id', async (req, res) => {
 //POST
 
 app.post('/productos', async (req, res) => {
-  // const { authorization } = req.headers;
-  // const access_token = authorization.substring(7);
-  // if (validateToken(access_token)) {
   try {
     const { nombre, descripcion, categoria_id, ocasion_id, precio, imagen1, imagen2, imagen3, detalles } = req.body;
 
@@ -143,9 +140,6 @@ app.post('/productos', async (req, res) => {
   } catch (error) {
     ErrorHandler.handleError(error, res);
   }
-  // } else {
-  //   res.status(401).json({ error: 'Token de acceso inválido' });
-  // }
 });
 
 //GET
@@ -170,46 +164,30 @@ app.get('/usuarios', async (req, res) => {
 /*
 PRODUCTOS
 */
-app.get('/products/:id?', async (req, res) => {
-  const { id } = req.params;
-  const { limit } = req.query; // Parámetro de consulta para el límite
-
+app.get('/productos/:limit?', async (req, res) => {
+  const { limit } = req.params;
   try {
     const client = await pool.connect();
 
-    if (id) {
-      // Obtener un producto específico por ID
-      const getProductByIDQuery = 'SELECT * FROM obtener_producto_por_id($1);';
-      const result = await client.query(getProductByIDQuery, [id]);
-      const producto = result.rows[0];
-
-      if (producto) {
-        res.status(200).json({ message: 'Producto obtenido con éxito', producto });
-      } else {
-        throw { type: 'not_found', message: 'Producto no encontrado' };
-      }
-    } else {
-      // Obtener todos los productos, posiblemente limitado
-      const getProductsQuery = 'SELECT * FROM obtener_productos();';
-      const result = await client.query(getProductsQuery);
-      let productos = result.rows;
-
-      // Aplicar el límite si está presente
-      if (limit) {
-        productos = productos.slice(0, parseInt(limit, 10));
-      }
-
-      res.status(200).json({ message: 'Productos obtenidos con éxito', productos });
-    }
+    const getProductByCatQuery = 'SELECT * FROM obtener_productos($1);';
+    const result = await client.query(getProductByCatQuery, [limit || null]);
+    const productos = result.rows;
 
     client.release();
+
+    if (productos.length > 0) {
+      res.status(200).json({ message: 'Productos obtenidos con éxito', productos: productos });
+    } else {
+      throw { type: 'not_found', message: 'No hay productos disponibles' };
+    }
   } catch (error) {
     ErrorHandler.handleError(error, res);
   }
 });
 
 
-app.get('/productos/:id', async (req, res) => {
+
+app.get('/producto/:id', async (req, res) => {
   const { id } = req.params;
   try {
     const client = await pool.connect();
@@ -251,21 +229,21 @@ app.get('/productos/categoria/:categoria_id/:limit?', async (req, res) => {
   }
 });
 
-app.get('/productos/ocasion/:ocasion_id', async (req, res) => {
-  const { ocasion_id } = req.params;
+app.get('/productos/ocasion/:ocasion_id/:limit?', async (req, res) => {
+  const { ocasion_id, limit } = req.params;
   try {
     const client = await pool.connect();
 
-    const getProductByOccQuery = 'SELECT * FROM obtener_producto_por_ocasion($1);';
-    const result = await client.query(getProductByOccQuery, [ocasion_id]);
+    const getProductByOccQuery = 'SELECT * FROM obtener_producto_por_ocasion($1, $2);';
+    const result = await client.query(getProductByOccQuery, [ocasion_id, limit || null]);
     const productos = result.rows;
 
     client.release();
 
-    if (productos) {
+    if (productos.length > 0) {
       res.status(200).json({ message: 'Productos obtenidos con éxito', productos: productos });
     } else {
-      throw { type: 'not_found', message: 'Productos no encontrados, intente con otra ocasión' };
+      throw { type: 'not_found', message: 'Productos no encontrados, intente otra categoría' };
     }
   } catch (error) {
     ErrorHandler.handleError(error, res);
