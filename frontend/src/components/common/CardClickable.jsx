@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Image from '@/components/Image';
+import Image from '@/components/common/Image';
 
 function CardClickable({ product }) {
     const [showDetails, setShowDetails] = useState(false);

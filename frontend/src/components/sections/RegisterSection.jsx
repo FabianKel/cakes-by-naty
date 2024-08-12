@@ -4,11 +4,19 @@ import React from 'react';
 import { register } from '@/utils/https';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import * as yup from 'yup';
+import Button from '@/components/common/Button';
+
 
 function RegisterSection() {
     //Para este register se debe tomar el Rol del usuario como el predeterminado osea "Cliente"
+    const [passwordVisible, setPasswordVisible] = useState(false);
     const router = useRouter();
+
+    const togglePasswordVisibility = () => {
+        setPasswordVisible(!passwordVisible);
+    };
 
     const formik = useFormik({
         initialValues: {
@@ -71,9 +79,9 @@ function RegisterSection() {
                             <span className='text-red-500 text-sm block text-center mt-2'>{formik.errors.email}</span>
                         )}
                     </div>
-                    <div className='mb-6'>
+                    <div className='mb-6 relative'>
                         <input
-                            type='password'
+                            type={passwordVisible ? 'text' : 'password'}
                             name='password'
                             placeholder='Password'
                             value={formik.values.password}
@@ -81,17 +89,24 @@ function RegisterSection() {
                             onBlur={formik.handleBlur}
                             className="w-full p-4 border border-gray-300 rounded-md font-poppins"
                         />
+                        <Button
+                            type="button"
+                            onClick={togglePasswordVisibility}
+                            className="absolute inset-y-0 right-0 px-3 flex items-center text-gray-600"
+                        >
+                            {passwordVisible ? 'Ocultar' : 'Mostrar'}
+                        </Button>
                         {formik.errors.password && (
                             <span className='text-red-500 text-sm block text-center mt-2'>{formik.errors.password}</span>
                         )}
                     </div>
                     <div className='mb-8'>
-                        <button
+                        <Button
                             type='submit'
                             className='w-full p-4 bg-white text-black border-hoverPink border-2 rounded-md font-poppins hover:bg-hoverPink transition duration-300'
                         >
                             Regístrate
-                        </button>
+                        </Button>
                     </div>
                 </form>
                 <div className='text-center mt-8'>
