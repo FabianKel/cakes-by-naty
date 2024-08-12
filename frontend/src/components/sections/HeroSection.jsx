@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useEffect, useState } from 'react';
-import Card from '@/components/Card';
+import Card from '@/components/common/Card';
 
 function HeroSection() {
     const [products, setProducts] = useState([]);
@@ -22,13 +22,13 @@ function HeroSection() {
                     ¡Disfruta de nuestros deliciosos postres hechos con amor y los mejores ingredientes!
                 </p>
                 <h2 className="text-3xl font-bold mt-16 mb-8 text-gray-500">¡Novedades!</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-1 justify-items-center">
                     {products.slice(0, 3).map((product) => (
                         <Card key={product.productoid} product={product} />
                     ))}
                 </div>
                 <h2 className="text-3xl font-bold mt-16 mb-8 text-gray-500">¡De Temporada!</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-1 justify-items-center">
                     {products.slice(0, 3).map((product) => (
                         <Card key={product.productoid} product={product} />
                     ))}

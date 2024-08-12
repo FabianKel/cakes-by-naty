@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import Icon from '@/components/Icon'
+import Icon from '@/components/common/Icon'
 
 function Footer() {
     return (
