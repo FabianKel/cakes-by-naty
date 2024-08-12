@@ -5,13 +5,13 @@ import Button from '@/components/common/Button';
 
 function Card({ product }) {
     return (
-        <div className="border p-4 m-2 rounded-md shadow-lg flex flex-col justify-between">
+        <div className="border p-4 m-1 rounded-md shadow-lg flex flex-col justify-between max-w-sm"> {/* Ajuste max-w-sm */}
             <h2 className="text-2xl font-bold mb-2 font-navheader">{product.productonombre}</h2>
             <div className="flex justify-center items-center h-full mb-4">
                 <Image src={product.imagen1} alt={product.productonombre} className="w-full h-full object-cover rounded-md" />
             </div>
             <div className="flex justify-center mt-auto">
-            <Button
+                <Button
                     className="p-2 bg-buttonCardPink text-white rounded-md hover:bg-subtitlesPink transition duration-300 font-navheader"
                     onClick={() => console.log('Ver más clicked')}
                 >

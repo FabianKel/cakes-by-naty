@@ -7,7 +7,7 @@ function Header() {
         <header className="flex justify-between items-center p-6 bg-customPink">
             <div className="text-2xl font-bold flex items-center">
                 <Link href="/">
-                    <img src="/cbn.png" alt="Cakes by Naty" className="h-30 w-40 mr-4" /> 
+                    <img src="/cbn.png" alt="Cakes by Naty" className="h-30 w-40 mr-4 hover:scale-105 transition-transform duration-300" /> 
                 </Link>
             </div>
             <nav>
