@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import * as yup from 'yup';
-import Button from '@/components/Button';
+import Button from '@/components/common/Button';
 
 
 import { login } from '@/utils/https';

@@ -1,7 +1,7 @@
 
 import React from 'react';
-import Image from '@/components/Image';
-import Button from '@/components/Button';
+import Image from '@/components/common/Image';
+import Button from '@/components/common/Button';
 
 function Card({ product }) {
     return (

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useEffect, useState } from 'react';
-import Card from '@/components/Card';
+import Card from '@/components/common/Card';
 
 function HeroSection() {
     const [products, setProducts] = useState([]);
