@@ -52,7 +52,10 @@ BEGIN
         FROM (
             SELECT 
                     tmp_fingerprint_hashed AS fingerprint,
-                    extract(epoch from now())::integer + 60*6 as exp
+                    extract(epoch from now())::integer + 60*6 as exp,
+                    usuario.id,
+                    usuario.Correo,
+                    usuario.Rol
         ) r
         INTO tmp_token;
 
@@ -61,7 +64,10 @@ BEGIN
         FROM (
             SELECT username AS username,
                     tmp_fingerprint_hashed AS fingerprint,
-                    extract(epoch from now())::integer + 60*60*12 as exp
+                    extract(epoch from now())::integer + 60*60*12 as exp,
+                    usuario.id,
+                    usuario.Correo,
+                    usuario.Rol
         ) r
         INTO tmp_refresh_token;
 
