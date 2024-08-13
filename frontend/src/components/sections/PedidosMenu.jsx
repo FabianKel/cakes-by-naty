@@ -2,13 +2,14 @@
 
 import { getPedidos } from '@/utils/https';
 import React, { useEffect, useState } from 'react';
-import Custom404 from './Custom404';
+import Custom404 from '../Custom404';
+import { getAuthToken } from '@/utils/functions';
 
 function PedidosMenu() {
   const [pedidos, setPedidos] = useState([]);
   const [estado, setEstado] = useState(''); // Estado para los filtros
 
-  const token = typeof window !== 'undefined' ? sessionStorage.getItem('auth_token') : null;
+  const token = getAuthToken();
 
   if (!token) {
     return <Custom404 />;

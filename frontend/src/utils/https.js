@@ -1,3 +1,4 @@
+import { clearAuthToken } from './functions';
 import links from './links';
 
 const post = async (link, body) => {
@@ -46,6 +47,12 @@ export const login = async (username, password) => {
   } catch (error) {
     console.log('error: ', error);
   }
+};
+
+export const logout = async () => {
+  clearAuthToken();
+
+  // Invalidar el token en el servidor
 };
 
 export const register = async (username, email, password, rol = 'cliente') => {
