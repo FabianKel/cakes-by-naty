@@ -145,7 +145,6 @@ app.post('/productos', async (req, res) => {
 
 //GET
 
-
 app.get('/usuarios', async (req, res) => {
   try {
     const client = await pool.connect();
@@ -160,7 +159,6 @@ app.get('/usuarios', async (req, res) => {
     ErrorHandler.handleError(error, res);
   }
 });
-
 
 /*
 PRODUCTOS
@@ -185,8 +183,6 @@ app.get('/productos/:limit?', async (req, res) => {
     ErrorHandler.handleError(error, res);
   }
 });
-
-
 
 app.get('/producto/:id', async (req, res) => {
   const { id } = req.params;
@@ -354,7 +350,6 @@ app.put('/usuarios/:usuario_id', async (req, res) => {
     const { authorization } = req.headers;
 
 
-
     const {
       rol,
       nickname,
@@ -390,7 +385,6 @@ app.put('/usuarios/:usuario_id', async (req, res) => {
     ErrorHandler.handleError(error, res);
   }
 });
-
 
 module.exports = app;
 

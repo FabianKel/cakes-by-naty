@@ -1,3 +1,4 @@
+import { clearAuthToken } from './functions';
 import links from './links';
 
 const post = async (link, body) => {
@@ -18,6 +19,19 @@ const post = async (link, body) => {
   return data;
 };
 
+const get = async (link) => {
+  const auth_token = window.sessionStorage.getItem('auth_token');
+
+  const response = await fetch(link, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${auth_token}`,
+    },
+  });
+
+  return await response.json();
+};
+
 export const login = async (username, password) => {
   try {
     const user = await post(links.login, {
@@ -35,6 +49,12 @@ export const login = async (username, password) => {
   }
 };
 
+export const logout = async () => {
+  clearAuthToken();
+
+  // Invalidar el token en el servidor
+};
+
 export const register = async (username, email, password, rol = 'cliente') => {
   try {
     const user = await post(links.register, {
@@ -47,5 +67,29 @@ export const register = async (username, email, password, rol = 'cliente') => {
     return user;
   } catch (error) {
     console.log('error: ', error);
+  }
+};
+
+export const getPedidos = async (estado) => {
+  try {
+    let status = '';
+
+    if (estado) status = `/estado=${estado}`;
+
+    const pedidos = await get(`${links.pedidos}${status}`);
+
+    return pedidos;
+  } catch (error) {
+    return [];
+  }
+};
+
+export const getProductos = async () => {
+  try {
+    const productos = await get(links.productos);
+
+    return productos;
+  } catch (error) {
+    return [];
   }
 };
