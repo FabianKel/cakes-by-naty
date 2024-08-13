@@ -2,12 +2,20 @@
 
 import { useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import * as yup from 'yup';
+import Button from '@/components/common/Button';
+
 
 import { login } from '@/utils/https';
 
 function LoginSection() {
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const router = useRouter();
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -54,9 +62,9 @@ function LoginSection() {
               <div className="text-red-500 text-sm block text-center mt-2">{formik.errors.username}</div>
             )}
           </div>
-          <div className="mb-8">
+          <div className="mb-8 relative">
             <input
-              type="password"
+              type={passwordVisible ? 'text' : 'password'}
               name="password"
               placeholder="Contraseña"
               value={formik.values.password}
@@ -64,17 +72,24 @@ function LoginSection() {
               onBlur={formik.handleBlur}
               className="w-full p-4 border border-gray-300 rounded-md font-poppins"
             />
+            <Button
+              type="button"
+              onClick={togglePasswordVisibility}
+              className="absolute inset-y-0 right-0 px-3 flex items-center text-gray-600"
+            >
+              {passwordVisible ? 'Ocultar' : 'Mostrar'}
+            </Button>
             {formik.errors.password && (
               <span className="text-red-500 text-sm block text-center mt-2">{formik.errors.password}</span>
             )}
           </div>
           <div className="mb-8">
-            <button
+            <Button
               type="submit"
               className="w-full p-4 bg-white-600 text-black border-2 border-customPink1 rounded-md font-poppins hover:bg-customPink1 transition duration-300"
             >
               Inicia Sesión
-            </button>
+            </Button>
           </div>
         </form>
         <div className="text-center mt-8">
