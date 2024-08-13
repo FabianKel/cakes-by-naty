@@ -95,7 +95,8 @@ app.get('/usuarios/:u_id', async (req, res) => {
 
 app.post('/productos', async (req, res) => {
   try {
-    const { nombre, descripcion, categoria_id, ocasion_id, precio, imagen1, imagen2, imagen3, detalles } = req.body;
+    const { nombre, descripcion, categoria_id, ocasion_id, precio, imagen1, imagen2, imagen3, detalles } =
+      req.body;
 
     // Validar campos obligatorios
     if (!nombre || !precio || !categoria_id) {
@@ -144,7 +145,6 @@ app.post('/productos', async (req, res) => {
 
 //GET
 
-
 app.get('/usuarios', async (req, res) => {
   try {
     const client = await pool.connect();
@@ -159,7 +159,6 @@ app.get('/usuarios', async (req, res) => {
     ErrorHandler.handleError(error, res);
   }
 });
-
 
 /*
 PRODUCTOS
@@ -184,8 +183,6 @@ app.get('/productos/:limit?', async (req, res) => {
     ErrorHandler.handleError(error, res);
   }
 });
-
-
 
 app.get('/producto/:id', async (req, res) => {
   const { id } = req.params;
@@ -255,12 +252,19 @@ PEDIDOS
 */
 app.get('/pedidos', async (req, res) => {
   try {
-    const client = await pool.connect();
-    const getPedidosQuery = 'SELECT * FROM obtener_pedidos();';
-    const result = await client.query(getPedidosQuery);
-    const Pedidos = result.rows;
-    client.release();
-    res.status(200).json({ message: 'Pedidos obtenidos con éxito', Pedidos: Pedidos });
+    const { authorization } = req.headers;
+    if (authorization) {
+      const auth_token = authorization.substring(7);
+
+      const client = await pool.connect();
+      const getPedidosQuery = 'SELECT * FROM obtener_pedidos();';
+      const result = await client.query(getPedidosQuery);
+      const Pedidos = result.rows;
+      client.release();
+      res.status(200).json({ message: 'Pedidos obtenidos con éxito', Pedidos: Pedidos });
+    } else {
+      res.status(404).json({ message: 'Ruta no existe.' });
+    }
   } catch (error) {
     ErrorHandler.handleError(error, res);
   }
@@ -339,8 +343,6 @@ app.put('/usuarios/:usuario_id', async (req, res) => {
     const usuario_id = parseInt(req.params.usuario_id);
     const { authorization } = req.headers;
 
-    console.log('token: ', authorization.substring(7).trim());
-
     const {
       rol,
       nickname,
@@ -377,7 +379,6 @@ app.put('/usuarios/:usuario_id', async (req, res) => {
   }
 });
 
-
 module.exports = app;
 
 app.delete('/pedidos/:id', async (req, res) => {
@@ -392,7 +393,7 @@ app.delete('/pedidos/:id', async (req, res) => {
     client.release();
 
     if (pedido) {
-      res.status(200).json({ message: 'Pedido eliminado con éxito'});
+      res.status(200).json({ message: 'Pedido eliminado con éxito' });
     } else {
       throw { type: 'not_found', message: 'Peido no encontrado' };
     }
