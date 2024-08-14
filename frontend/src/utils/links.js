@@ -9,6 +9,8 @@ const root = domain;
 const links = {
   login: `${root}/login`,
   register: `${root}/register`,
+  pedidos: `${root}/pedidos`,
+  productos: `${root}/productos`,
 };
 
 export default links;

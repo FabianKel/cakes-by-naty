@@ -1,13 +1,13 @@
-import Header from '@/components/Header'
-import HeroSection from '@/components/HeroSection'
-import Footer from '@/components/Footer'
+import Header from '@/components/common/Header';
+import HeroSection from '@/components/sections/HeroSection';
+import Footer from '@/components/common/Footer';
 
 export default function Home() {
   return (
     <>
-    <Header/>
-    <HeroSection/>
-    <Footer/>
+      <Header />
+      <HeroSection />
+      <Footer />
     </>
-  )
+  );
 }

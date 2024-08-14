@@ -1,13 +1,13 @@
 import React from 'react'
 import Link from 'next/link'
-import Icon from '@/components/Icon'
+import Icon from '@/components/common/Icon'
 
 function Header() {
     return (
         <header className="flex justify-between items-center p-6 bg-customPink">
             <div className="text-2xl font-bold flex items-center">
                 <Link href="/">
-                    <img src="/cbn.png" alt="Cakes by Naty" className="h-30 w-40 mr-4" /> 
+                    <img src="/cbn.png" alt="Cakes by Naty" className="h-30 w-40 mr-4 hover:scale-105 transition-transform duration-300" /> 
                 </Link>
             </div>
             <nav>
@@ -20,6 +20,7 @@ function Header() {
                     </li>
                     <li li className="flex items-center">
                         <Link href="/about" className="text-lg text-gray-800 hover:text-blue-600 hover:text-hoverPink font-navheader mr-6">Sobre Nosotros</Link>
+                        <Link href="/login" className="text-lg text-gray-800 hover:text-blue-600 hover:text-hoverPink font-navheader ml-6 mr-6 ">Iniciar Sesión</Link>
                         <Icon src="/shopping-cart.svg" alt="Carrito" height="8" width="8" className=" ml-10 mr-10 transition-transform transform hover:scale-125" />
                     </li>
                 </ul>
