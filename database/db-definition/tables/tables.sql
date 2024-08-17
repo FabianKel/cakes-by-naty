@@ -64,23 +64,41 @@ CREATE TABLE Detalles_Producto (
   FOREIGN KEY (CoberturaID) REFERENCES Coberturas(CoberturaID)
 );
 
+CREATE TABLE Direcciones (
+  DireccionID SERIAL PRIMARY KEY,
+  Nombre VARCHAR(255) NOT NULL,
+  Campo1 VARCHAR(255) NOT NULL,
+  Campo2 VARCHAR(255),
+  Ciudad VARCHAR (100) NOT NULL,
+  Departamento VARCHAR(100) NOT NULL,
+  Detalles TEXT
+);
+
 CREATE TABLE Usuarios (
   UsuarioID SERIAL PRIMARY KEY,
   Rol VARCHAR(255) NOT NULL,
-  Usuario VARCHAR (255) NOT NULL,
+  Usuario VARCHAR(255) NOT NULL,
   Primer_Nombre VARCHAR(255) NULL,
-  Segundo_Nombre VARCHAR (255) NULL,
+  Segundo_Nombre VARCHAR(255) NULL,
   Correo VARCHAR(255) NULL,
   Telefono VARCHAR(20) NULL,
   Password VARCHAR(255) NOT NULL,
-  Direccion1 VARCHAR(255) NULL,
-  Direccion2 VARCHAR(255) NULL,
-  Direccion3 VARCHAR(255) NULL,
+  Direccion1ID INT,
+  Direccion2ID INT,
+  Direccion3ID INT,
   Created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   Modified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT unique_email UNIQUE (Correo),
-  CONSTRAINT unique_usuario UNIQUE (Usuario)
+  CONSTRAINT unique_usuario UNIQUE (Usuario),
+
+  CONSTRAINT fk_direccion1 FOREIGN KEY (Direccion1ID) REFERENCES Direcciones(DireccionID) ON DELETE SET NULL,
+  CONSTRAINT fk_direccion2 FOREIGN KEY (Direccion2ID) REFERENCES Direcciones(DireccionID) ON DELETE SET NULL,
+  CONSTRAINT fk_direccion3 FOREIGN KEY (Direccion3ID) REFERENCES Direcciones(DireccionID) ON DELETE SET NULL,
+  
+  CONSTRAINT valid_email CHECK (Correo ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'),
+  CONSTRAINT valid_telefono CHECK (Telefono ~ '^\+?[0-9]{8,20}$')
 );
+
 
 CREATE TABLE Carritos (
   CarritoID SERIAL PRIMARY KEY,

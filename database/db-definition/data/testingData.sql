@@ -130,7 +130,6 @@ INSERT INTO Usuarios(Rol, usuario, Primer_Nombre, Segundo_Nombre, correo, telefo
 ('admin', 'Admin', NULL, NULL, NULL, NULL, '$2a$06$YIIBGTw7b9bfowp5b.0EOed/3PFlfDaQeMdOeEf5cXHpiVnfGqWJ6', NULL);
 
 
-
 INSERT INTO Carritos(UsuarioID, Total) VALUES
 (1, 50), (2, 95), (3, 350), (4, 100), (5, 30), (6, 500), (7, 95), (8, 350), (9, 100), (10, 60),
 (11, 90), (12, 65), (13, 250), (14, 400), (15, 30), (16, 80), (17, 95), (18, 350), (19, 400), (20, 550);
