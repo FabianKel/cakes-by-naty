@@ -24,11 +24,11 @@ BEGIN
         Password
     )
     VALUES (
-        rol,
-        usuario,
+        crypt(rol, gen_salt('bf')),
+        crypt(usuario, gen_salt('bf')),
         NULL,
         NULL,
-        correo,
+        crypt(correo, gen_salt('bf')),
         NULL,
         crypt(password, gen_salt('bf'))
     )
