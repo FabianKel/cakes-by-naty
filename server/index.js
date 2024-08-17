@@ -349,6 +349,7 @@ app.put('/usuarios/:usuario_id', async (req, res) => {
     const usuario_id = parseInt(req.params.usuario_id);
     const { authorization } = req.headers;
 
+
     const {
       rol,
       nickname,

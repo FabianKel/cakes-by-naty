@@ -36,12 +36,19 @@ INSERT INTO Detalles_Producto(ProductoID, RellenoID, MasaID, Sabor_GalletaID, Co
 (3, null, null, 2, null, null);
 
 --USUARIOS Y PEDIDOS
+INSERT INTO Direcciones (Nombre, Campo1, Campo2, Ciudad, Departamento, Detalles)
+VALUES 
+('Casa Principal', '6ta calle, casa 3-14', 'Plaza Sésamo, Zona 1', 'Guatemala', 'Guatemala', 'Casa de dos pisos, portón verde.'),
+('Oficina', 'Av. Reforma, Edificio Torre Viva', 'Nivel 10, Oficina 101', 'Guatemala', 'Guatemala', 'Oficina corporativa, solicitar acceso en recepción.'),
+('Apartamento', '12 Calle, Edificio Central Park', 'Apto. 5B, Zona 10', 'Guatemala', 'Guatemala', 'Apartamento con vista al parque, timbre en la entrada principal.');
 
-INSERT INTO Usuarios(Rol, usuario, Primer_Nombre, Segundo_Nombre, correo, telefono, Password, Direccion1) VALUES
-('cliente', 'Aleee26', 'Mónica', 'Salvatierra', 'aleee26@gmail.com', 26022004, 'miab2024', '3ra calle, sector 11, casa 24-36, Condominio los Faroles, San Lucas Sacatepeques, Sacatepequez'),
-('cliente', 'Fabiankel', 'Fabian','Kelson', 'fabiankel@gmail.com', 1103004, 'pasteles123', '6ta calle, casa 3-14, Plaza Sésamo, Villa Nueva, Guatemala'),
-('cliente', 'Gio', 'Giovanni','Santos', 'gio1998@gmail.com', 42004200, 'qwerty', 'sector 2, casa 36, Villas de Miraflores, Zona 11 Guatemala'),
-('admin', 'Admin', NULL, NULL, NULL, NULL, 'admin1234', NULL);
+INSERT INTO Usuarios (Rol, Usuario, Primer_Nombre, Segundo_Nombre, Correo, Telefono, Password, Direccion1ID, Direccion2ID, Direccion3ID) VALUES
+('cliente', 'user123', 'Carlos', 'Lopez', 'carlos.lopez@gmail.com', '+50212345678', 'password123', 1, 2, NULL),
+('cliente', 'mariaq', 'Maria', 'Quintero', 'maria.q@hotmail.com', '+50287654321', 'mypass789', 3, NULL, NULL),
+('administrador', 'admin01', 'Laura', 'Martinez', 'laura.martinez@empresa.com', '+50255553333', 'adminpassword', NULL, NULL, NULL);
+
+
+
 
 INSERT INTO Carritos(UsuarioID, Total) VALUES
 (1, 50), (2, 95), (3, 0);

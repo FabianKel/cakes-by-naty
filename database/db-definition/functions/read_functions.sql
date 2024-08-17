@@ -462,7 +462,6 @@ END;
 $$;
 
 -- READ USER BY ID
-
 CREATE OR REPLACE FUNCTION obtener_usuario_por_id(u_id INT)
 RETURNS TABLE (
     UsuarioID INT,
@@ -472,9 +471,9 @@ RETURNS TABLE (
     Segundo_Nombre VARCHAR,
     Correo VARCHAR,
     Telefono VARCHAR,
-    Direccion1 VARCHAR,
-    Direccion2 VARCHAR,
-    Direccion3 VARCHAR,
+    Direccion1 TEXT,
+    Direccion2 TEXT,
+    Direccion3 TEXT,
     Created_at TIMESTAMP,
     Modified_at TIMESTAMP
 )
@@ -490,13 +489,16 @@ BEGIN
         u.Segundo_Nombre,
         u.Correo,
         u.Telefono,
-        u.Direccion1,
-        u.Direccion2,
-        u.Direccion3,
+        d1.Nombre || ', ' || d1.Campo1 || ', ' || d1.Campo2 || ', ' || d1.Ciudad || ', ' || d1.Departamento AS Direccion1,
+        d2.Nombre || ', ' || d2.Campo1 || ', ' || d2.Campo2 || ', ' || d2.Ciudad || ', ' || d2.Departamento AS Direccion2,
+        d3.Nombre || ', ' || d3.Campo1 || ', ' || d3.Campo2 || ', ' || d3.Ciudad || ', ' || d3.Departamento AS Direccion3,
         u.Created_at,
         u.Modified_at
     FROM 
         Usuarios u
+    LEFT JOIN Direcciones d1 ON u.Direccion1ID = d1.DireccionID
+    LEFT JOIN Direcciones d2 ON u.Direccion2ID = d2.DireccionID
+    LEFT JOIN Direcciones d3 ON u.Direccion3ID = d3.DireccionID
     WHERE u.UsuarioID = u_id;
 END;
 $$;
