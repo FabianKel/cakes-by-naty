@@ -6,13 +6,13 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 const product = {
   image: '../assets/pastel.png', 
-  title: 'Cupcake',
+  title: 'Pastel',
   description: 'Pastel de chocolate con relleno de dulce de leche. Decorado con crema de mantequilla'
 };
 
 function ProductDetails() {
   return (
-    <div className="bg-[#ffffff] min-h-screen p-8">
+    <div className="bg-[#ffffff] min-h-screen p-8 relative">
       {/* Header */}
       <Header color="#da97ed" />
 
@@ -51,7 +51,7 @@ function ProductDetails() {
         </div>
 
         {/* Botón de Pedir */}
-        <div className="mt-8">
+        <div className="absolute bottom-8 right-8">
           <button className="bg-[#e2c2c4] text-black py-3 px-6 rounded-lg shadow-lg hover:bg-[#000000] text-lg">
             Pedir
           </button>
