@@ -253,11 +253,16 @@ PEDIDOS
 app.get('/pedidos', async (req, res) => {
   try {
     const { authorization } = req.headers;
+    const { mes } = req.query;
+    
     if (authorization) {
       const auth_token = authorization.substring(7);
 
       const client = await pool.connect();
-      const getPedidosQuery = 'SELECT * FROM obtener_pedidos();';
+      let getPedidosQuery = 'SELECT * FROM obtener_pedidos()';
+      if (mes) {
+        getPedidosQuery = `SELECT * FROM obtener_pedidos_por_mes(${mes});`;
+      }
       const result = await client.query(getPedidosQuery);
       const Pedidos = result.rows;
       client.release();
@@ -269,6 +274,7 @@ app.get('/pedidos', async (req, res) => {
     ErrorHandler.handleError(error, res);
   }
 });
+
 
 app.get('/pedidos/estado=:estado', async (req, res) => {
   const { estado } = req.params;

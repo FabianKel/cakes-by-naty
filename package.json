@@ -22,5 +22,8 @@
     "@storybook/react": "^8.2.7",
     "@storybook/test": "^8.2.7",
     "storybook": "^8.2.7"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^9.0.2"
   }
 }

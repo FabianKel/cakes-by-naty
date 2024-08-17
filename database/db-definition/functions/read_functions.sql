@@ -374,6 +374,49 @@ ORDER BY
 END;
 $$;
 
+--POR MES--
+CREATE OR REPLACE FUNCTION obtener_pedidos_por_mes(mes INT)
+RETURNS TABLE (
+    PedidoID INT,
+    Usuario VARCHAR,
+    Pago_Anticipado TEXT,
+    Pago_Completo TEXT,
+    Estado_Orden VARCHAR,
+    Created_at TIMESTAMP,
+    Modified_at TIMESTAMP
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY
+    SELECT 
+    p.PedidoID,
+    u.Usuario,
+    CASE 
+        WHEN p.Pago_Anticipado THEN 'Pago Anticipado Realizado'
+        ELSE 'Pago Anticipado No Realizado'
+    END AS Pago_Anticipado,
+    CASE 
+        WHEN p.Pago_Completo THEN 'Pago Completo Realizado'
+        ELSE 'Pago Completo No Realizado'
+    END AS Pago_Completo,
+    p.Estado_Orden,
+    p.created_at,
+    p.modified_at
+FROM 
+    Usuarios u
+JOIN 
+    Carritos c ON u.UsuarioID = c.UsuarioID
+JOIN 
+    Pedidos p ON c.CarritoID = p.CarritoID
+WHERE 
+    EXTRACT(MONTH FROM p.created_at) = mes
+ORDER BY 
+    p.Created_at DESC;
+END;
+$$;
+
+
 
 -----BY STATE-----
 --ENTREGADO O SIN ENTREGAR
