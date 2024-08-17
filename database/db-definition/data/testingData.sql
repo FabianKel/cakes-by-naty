@@ -97,32 +97,39 @@ INSERT INTO Detalles_Producto(ProductoID, RellenoID, MasaID, Sabor_GalletaID, Co
 (20, null, null, null, null, null);
 
 --USUARIOS Y PEDIDOS
+INSERT INTO Direcciones (Nombre, Campo1, Campo2, Ciudad, Departamento, Detalles)
+VALUES 
+('Casa Principal', '6ta calle, casa 3-14', 'Plaza Sésamo, Zona 1', 'Guatemala', 'Guatemala', 'Casa de dos pisos, portón verde.'),
+('Oficina', 'Av. Reforma, Edificio Torre Viva', 'Nivel 10, Oficina 101', 'Guatemala', 'Guatemala', 'Oficina corporativa, solicitar acceso en recepción.'),
+('Apartamento', '12 Calle, Edificio Central Park', 'Apto. 5B, Zona 10', 'Guatemala', 'Guatemala', 'Apartamento con vista al parque, timbre en la entrada principal.');
 
-INSERT INTO Usuarios(Rol, usuario, Primer_Nombre, Segundo_Nombre, correo, telefono, Password, Direccion1) VALUES
-('cliente', 'Aleee26', 'Mónica', 'Salvatierra', 'aleee26@gmail.com', 26022004, 'miab2024', '3ra calle, sector 11, casa 24-36, Condominio los Faroles, San Lucas Sacatepeques, Sacatepequez'),
-('cliente', 'Fabiankel', 'Fabian','Kelson', 'fabiankel@gmail.com', 1103004, 'pasteles123', '6ta calle, casa 3-14, Plaza Sésamo, Villa Nueva, Guatemala'),
-('cliente', 'Gio', 'Giovanni','Santos', 'gio1998@gmail.com', 42004200, 'qwerty', 'sector 2, casa 36, Villas de Miraflores, Zona 11 Guatemala'),
-('cliente', 'Carlos82', 'Carlos', 'Hernandez', 'carlos82@gmail.com', 5551234, 'password1', '4ta avenida, apartamento 203, Edificio Santa Clara, Zona 10, Guatemala'),
-('cliente', 'Lety89', 'Leticia', 'Morales', 'lety89@gmail.com', 77981234, 'lety5678', 'Calle Real, casa 15, San Miguel Petapa, Guatemala'),
-('cliente', 'Luis24', 'Luis', 'Gonzalez', 'luis24@gmail.com', 8805678, 'abc1234', '2da calle, lote 8, Colonia La Esperanza, Mixco, Guatemala'),
-('cliente', 'Anita01', 'Ana', 'Lopez', 'anita01@gmail.com', 4456712, 'miPassword', 'Boulevard Los Próceres, Zona 10, Guatemala'),
-('cliente', 'Pablo1990', 'Pablo', 'Torres', 'pablo1990@gmail.com', 3345678, '123qweasd', '5ta avenida, casa 24, Residenciales Santa Fe, Zona 9, Guatemala'),
-('cliente', 'Meli21', 'Melisa', 'Martinez', 'meli21@gmail.com', 9988765, 'melimeli', 'Sector 7, casa 3, Ciudad San Cristobal, Mixco, Guatemala'),
-('cliente', 'Javi76', 'Javier', 'Vargas', 'javi76@gmail.com', 6677890, 'qazwsx', '1ra calle, casa 12, Villas del Sol, Villa Canales, Guatemala'),
-('cliente', 'Ceci55', 'Cecilia', 'Perez', 'ceci55@gmail.com', 2233445, 'cecilia55', 'Callejón El Carmen, Zona 1, Antigua Guatemala, Sacatepéquez'),
-('cliente', 'Rafa44', 'Rafael', 'Ortega', 'rafa44@gmail.com', 1122334, 'rafa1234', 'Avenida Reforma, Zona 9, Guatemala'),
-('cliente', 'Vero13', 'Veronica', 'Jimenez', 'vero13@gmail.com', 5566778, 'vero2024', 'Calle del Arco, Zona 4, Mixco, Guatemala'),
-('cliente', 'Mau18', 'Mauricio', 'Ruiz', 'mau18@gmail.com', 3344556, 'mauMau18', 'Sector 5, casa 18, Villas del Bosque, San Lucas Sacatepéquez, Sacatepéquez'),
-('cliente', 'Sofi33', 'Sofia', 'Mendez', 'sofi33@gmail.com', 9988776, 'sofia33', 'Boulevard San Nicolás, Villa Nueva, Guatemala'),
-('cliente', 'JoseLuis', 'Jose', 'Luis', 'joseluis@gmail.com', 6677889, 'jose1234', 'Avenida Las Americas, Zona 13, Guatemala'),
-('cliente', 'Ale99', 'Alejandro', 'Castillo', 'ale99@gmail.com', 1231234, 'ale99ale', 'Calle Mariscal, Zona 11, Guatemala'),
-('cliente', 'Vane07', 'Vanessa', 'Garcia', 'vane07@gmail.com', 7788990, 'vane123', 'Sector 3, casa 15, Condominio La Hacienda, Villa Canales, Guatemala'),
-('cliente', 'Gaby05', 'Gabriela', 'Ramos', 'gaby05@gmail.com', 9988007, 'gabyRamos', 'Calle del Comercio, Zona 3, Escuintla, Escuintla'),
-('cliente', 'Fer23', 'Fernando', 'Estrada', 'fer23@gmail.com', 4455667, 'fer1234', 'Boulevard Vista Hermosa, Zona 15, Guatemala'),
-('cliente', 'Lili84', 'Liliana', 'Bautista', 'lili84@gmail.com', 1122004, 'lili84', '1ra avenida, casa 21, Colonia Miraflores, Zona 11, Guatemala'),
-('cliente', 'Marce12', 'Marcela', 'Diaz', 'marce12@gmail.com', 3344789, 'marce2024', 'Calle El Estadio, Zona 1, Quetzaltenango, Quetzaltenango'),
-('cliente', 'Tony40', 'Antonio', 'Santos', 'tony40@gmail.com', 5566778, 'tonyTony40', 'Sector 4, apartamento 302, Condominio El Encanto, Zona 14, Guatemala'),
-('admin', 'Admin', NULL, NULL, NULL, NULL, 'admin1234', NULL);
+INSERT INTO Usuarios(Rol, usuario, Primer_Nombre, Segundo_Nombre, correo, telefono, Password, Direccion1ID) VALUES
+('cliente', 'Aleee26', 'Mónica', 'Salvatierra', 'aleee26@gmail.com', +50212345678, 'miab2024', 1 ),
+('cliente', 'Fabiankel', 'Fabian','Kelson', 'fabiankel@gmail.com', +50212345678, 'pasteles123', 2),
+('cliente', 'Gio', 'Giovanni','Santos', 'gio1998@gmail.com', +50212345678, 'qwerty', 3),
+('cliente', 'Carlos82', 'Carlos', 'Hernandez', 'carlos82@gmail.com', +50212345678,'olaola', 1),
+('cliente', 'Lety89', 'Leticia', 'Morales', 'lety89@gmail.com', +50212345678, 'olademar', 2),
+('cliente', 'Luis24', 'Luis', 'Gonzalez', 'luis24@gmail.com', +50212345678, 'abc1234', 3),
+('cliente', 'Anita01', 'Ana', 'Lopez', 'anita01@gmail.com', +50212345678, 'miPassword', 1),
+('cliente', 'Pablo1990', 'Pablo', 'Torres', 'pablo1990@gmail.com', +50212345678, '123qweasd',2),
+('cliente', 'Meli21', 'Melisa', 'Martinez', 'meli21@gmail.com', +50212345678, 'melimeli', 3),
+('cliente', 'Javi76', 'Javier', 'Vargas', 'javi76@gmail.com', +50212345678, 'qazwsx', 1),
+('cliente', 'Ceci55', 'Cecilia', 'Perez', 'ceci55@gmail.com', +5022233445, 'cecilia55', 3),
+('cliente', 'Rafa44', 'Rafael', 'Ortega', 'rafa44@gmail.com', +5021122334, 'rafa1234', 2),
+('cliente', 'Vero13', 'Veronica', 'Jimenez', 'vero13@gmail.com', +5025566778, 'vero2024', 3),
+('cliente', 'Mau18', 'Mauricio', 'Ruiz', 'mau18@gmail.com', +5023344556, 'mauMau18', 1),
+('cliente', 'Sofi33', 'Sofia', 'Mendez', 'sofi33@gmail.com', +5029988776, 'sofia33',2 ),
+('cliente', 'JoseLuis', 'Jose', 'Luis', 'joseluis@gmail.com', +5026677889, 'jose1234', 3),
+('cliente', 'Ale99', 'Alejandro', 'Castillo', 'ale99@gmail.com', +5021231234, 'ale99ale', 2),
+('cliente', 'Vane07', 'Vanessa', 'Garcia', 'vane07@gmail.com', +5027788990, 'vane123', 1),
+('cliente', 'Gaby05', 'Gabriela', 'Ramos', 'gaby05@gmail.com', +5029988007, 'gabyRamos', 2),
+('cliente', 'Fer23', 'Fernando', 'Estrada', 'fer23@gmail.com', +5024455667, 'fer1234', 1),
+('cliente', 'Lili84', 'Liliana', 'Bautista', 'lili84@gmail.com', +5021122004, 'lili84', 1),
+('cliente', 'Marce12', 'Marcela', 'Diaz', 'marce12@gmail.com', +5023344789, 'marce2024', 2),
+('cliente', 'Tony40', 'Antonio', 'Santos', 'tony40@gmail.com', +5025566778, 'tonyTony40', 2),
+('admin', 'Admin', NULL, NULL, NULL, NULL, '$2a$06$YIIBGTw7b9bfowp5b.0EOed/3PFlfDaQeMdOeEf5cXHpiVnfGqWJ6', NULL);
+
+
 
 INSERT INTO Carritos(UsuarioID, Total) VALUES
 (1, 50), (2, 95), (3, 350), (4, 100), (5, 30), (6, 500), (7, 95), (8, 350), (9, 100), (10, 60),
