@@ -34,10 +34,22 @@ const get = async (link) => {
 
 export const login = async (username, password) => {
   try {
-    const user = await post(links.login, {
-      username,
-      password,
+    // const user = await post(links.login, {
+    //   username,
+    //   password,
+    // });
+    const response = await fetch(links.login, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username,
+        password,
+      }),
     });
+
+    const user = await response.json();
 
     if (user) {
       window.sessionStorage.setItem('auth_token', user.token);

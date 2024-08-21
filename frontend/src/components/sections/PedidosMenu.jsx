@@ -11,6 +11,8 @@ function PedidosMenu() {
 
   const token = getAuthToken();
 
+  console.log('token: ', token);
+
   if (!token) {
     return <Custom404 />;
   }
