@@ -7,9 +7,9 @@ CREATE OR REPLACE FUNCTION update_user (
     param_correo TEXT,
     param_telefono TEXT,
     param_password TEXT,
-    param_direccion1 TEXT,
-    param_direccion2 TEXT,
-    param_direccion3 TEXT
+    param_direccion1ID INT,
+    param_direccion2ID INT,
+    param_direccion3ID INT
 )
 
 RETURNS VOID AS $$
@@ -24,9 +24,9 @@ BEGIN
         Correo = COALESCE(param_correo, Correo),
         Telefono = COALESCE(param_telefono, Telefono),
         Password = COALESCE(param_password, Password),
-        Direccion1 = COALESCE(param_direccion1, Direccion1),
-        Direccion2 = COALESCE(param_direccion2, Direccion2),
-        Direccion3 = COALESCE(param_direccion3, Direccion3),
+        Direccion1ID = COALESCE(param_direccion1ID, Direccion1ID),
+        Direccion2ID = COALESCE(param_direccion2ID, Direccion2ID),
+        Direccion3ID = COALESCE(param_direccion3ID, Direccion3ID),
         Modified_at = CURRENT_TIMESTAMP
     WHERE UsuarioID = param_usuario_id;
 
