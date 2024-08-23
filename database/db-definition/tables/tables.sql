@@ -4,6 +4,7 @@ CREATE TABLE Categorias (
     Nombre VARCHAR -- cupcake, cakepop, pastel, galleta, chocolate, espumilla
 );
 
+
 CREATE TABLE Productos (
   ProductoID SERIAL PRIMARY KEY,
   Nombre VARCHAR(255) NOT NULL,
@@ -11,9 +12,9 @@ CREATE TABLE Productos (
   CategoriaID INT,  
   OcasionID INT,  -- Cumpleaños, San Valentín, Navidad, etc.
   Precio DECIMAL(10, 2) NOT NULL,
-  Imagen1 VARCHAR(255) NULL,
-  Imagen2 VARCHAR(255) NULL,
-  Imagen3 VARCHAR(255) NULL,
+  Imagen1 TEXT NULL,
+  Imagen2 TEXT NULL,
+  Imagen3 TEXT NULL,
   FOREIGN KEY (CategoriaID) REFERENCES Categorias(CategoriaID)
 );
 
