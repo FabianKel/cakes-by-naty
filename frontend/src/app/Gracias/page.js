@@ -1,6 +1,6 @@
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
-import Gracias from '@/components/Gracias'
+import Header from '@/components/common/Header'
+import Footer from '@/components/common/Footer'
+import Gracias from '@/components/sections/Gracias'
 
 export default function Home() {
   return (

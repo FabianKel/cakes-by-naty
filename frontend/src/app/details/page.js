@@ -1,12 +1,12 @@
 import Header from '@/components/common/Header'
-import RegisterSection from '@/components/sections/RegisterSection'
 import Footer from '@/components/common/Footer'
+import Detalles from '@/components/sections/Detalles'
 
-export default function Register() {
+export default function Details() {
   return (
     <>
     <Header/>
-    <RegisterSection/>
+    <Detalles/>
     <Footer/>
     </>
   )

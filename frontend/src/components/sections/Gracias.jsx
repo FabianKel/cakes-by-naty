@@ -1,11 +1,8 @@
 import React from 'react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
 
 function ThankYou() {
     return (
         <div className="bg-[#ffffff] min-h-screen p-8">
-            <Header />
             <main className="flex-grow flex items-center justify-center bg-[#ffffff] p-8">
                 <div className="bg-[#e2c2c4] shadow-lg rounded-lg p-8 text-center w-full md:w-1/2 mx-auto">
                     <h2 className="text-3xl font-bold text-[#000000] mb-6">Cakes by Naty</h2>
@@ -17,7 +14,6 @@ function ThankYou() {
                     </p>
                 </div>
             </main>
-            <Footer />
         </div>
     );
 }
