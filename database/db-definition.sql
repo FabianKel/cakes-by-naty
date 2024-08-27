@@ -18,7 +18,10 @@ ALTER DATABASE cakes_by_naty SET "app.jwt_double_auth"
 
 -- SQL TABLES AND DATA FILES
 \i ../database/db-definition/tables/tables.sql
-\i ../database/db-definition/data/testingData.sql
+\i ../database/db-definition/data/inserts1.sql
+\i ../database/db-definition/data/inserts2.sql
+\i ../database/db-definition/data/inserts3.sql
+
 
 
 
