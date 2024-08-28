@@ -409,6 +409,23 @@ app.delete('/pedidos/:id', async (req, res) => {
   }
 });
 
+app.delete('/carrito/:carritoId/producto/:productoId', async (req, res) => {
+  const { carritoId, productoId } = req.params;
+  try {
+    const client = await pool.connect();
+
+    const eliminarProductoCarritoQuery = 'SELECT * FROM eliminar_producto_carrito($1, $2);';
+    await client.query(eliminarProductoCarritoQuery, [carritoId, productoId]);
+
+    client.release();
+
+    res.status(200).json({ message: 'Producto eliminado del carrito con éxito' });
+  } catch (error) {
+    ErrorHandler.handleError(error, res);
+  }
+});
+
+
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`);
 });
