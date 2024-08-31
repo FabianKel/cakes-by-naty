@@ -9,13 +9,13 @@ export const getCurrentUser = () => {
 };
 
 export const getAuthToken = () => {
-  const auth_token = typeof window !== 'undefined' ? sessionStorage.getItem('auth_token') : null;
+  const auth_token = typeof window !== 'undefined' ? localStorage.getItem('auth_token') : null;
 
   return auth_token;
 };
 
 export const clearAuthToken = () => {
-  sessionStorage.removeItem('auth_token');
-  sessionStorage.removeItem('refresh_token');
-  sessionStorage.removeItem('fingerprint');
+  localStorage.removeItem('auth_token');
+  localStorage.removeItem('refresh_token');
+  localStorage.removeItem('fingerprint');
 };
