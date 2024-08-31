@@ -1,11 +1,11 @@
 function CatalogCategories() {
     const categories = [
-        { name: "Cupcakes", image: "/catalogcupcake.png" },
-        { name: "Cakepops", image: "/catalogcakepop.png" },
-        { name: "Pastel", image: "/catalogcake.png" },
-        { name: "Galletas", image: "/catalogcookies.png" },
-        { name: "Chocolates", image: "/catalogchocolates.png" },
-        { name: "Espumillas", image: "/catalogespumillas.png" }
+        { name: "Cupcakes", image: "/Catalog/catalogcupcake.png" },
+        { name: "Cakepops", image: "/Catalog/catalogcakepop.png" },
+        { name: "Pastel", image: "/Catalog/catalogcake.png" },
+        { name: "Galletas", image: "/Catalog/catalogcookies.png" },
+        { name: "Chocolates", image: "/Catalog/catalogchocolates.png" },
+        { name: "Espumillas", image: "/Catalog/catalogespumillas.png" }
     ];
 
     return (
