@@ -4,7 +4,7 @@
 
 ### 1. Crear un Producto
 
-**URL:** `localhost:4000/productos`
+**URL Normal:** `localhost:4000/productos`
 
 **Método:** `POST`
 
@@ -37,17 +37,31 @@
 
 ### 2. Leer Productos
 **Método:** `GET`
+
 - **Todos los Productos**
 
     **URL:** `localhost:4000/productos`
+  
+- **Todos los Productos con Límite**
+
+   **URL:** `localhost:4000/productos/{limite}`
+
 
 - **Todos los Productos de Cierta Categoría**
 
     **URL:** `localhost:4000/productos/categoria/{categoria_id}`
+    
+- **Todos los Productos de Cierta Categoría con Límite**
+
+   **URL:** `localhost:4000/productos/categoria/{categoria_id}/{limite}`
 
 - **Todos los Productos de Cierta Ocasión**
 
     **URL:** `localhost:4000/productos/ocasion/{ocasion_id}`
+    
+- **Todos los Productos de Cierta Ocasión con Límite**
+
+   **URL:** `localhost:4000/productos/ocasion/{ocasion_id}/{limite}`
 
 - **Producto por ID**
 

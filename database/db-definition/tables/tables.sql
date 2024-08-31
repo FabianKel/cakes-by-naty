@@ -4,6 +4,7 @@ CREATE TABLE Categorias (
     Nombre VARCHAR -- cupcake, cakepop, pastel, galleta, chocolate, espumilla
 );
 
+
 CREATE TABLE Productos (
   ProductoID SERIAL PRIMARY KEY,
   Nombre VARCHAR(255) NOT NULL,
