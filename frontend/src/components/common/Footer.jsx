@@ -18,8 +18,11 @@ function Footer() {
                             </li>
                         </ul>
                     </div>
-                    <div className="text-center">
-                        <h2 className="text-2xl font-bold mb-2 font-subtitles">Pasteles con amor</h2>
+                    <div className="text-center flex flex-col items-center">
+                        <h2 className="text-2xl font-bold mb-2 font-subtitles flex items-center">
+                            Pasteles con amor
+                            <Icon src="/hearts.png" alt="Hearts" height="6" width="6" className="ml-2" />
+                        </h2>
                         <p className="text-gray-700 italic">Hechos con los mejores ingredientes y mucho cariño.</p>
                     </div>
                     <div>

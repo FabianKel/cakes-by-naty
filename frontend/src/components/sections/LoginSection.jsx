@@ -5,12 +5,12 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import * as yup from 'yup';
 import Button from '@/components/common/Button';
-
-
 import { login } from '@/utils/https';
 
 function LoginSection() {
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertType, setAlertType] = useState('');
   const router = useRouter();
 
   const togglePasswordVisibility = () => {
@@ -35,8 +35,13 @@ function LoginSection() {
     const user = await login(username, password);
 
     if (user?.token) {
+      setAlertType('success');
+      setAlertMessage('¡Inicio de sesión exitoso!');
+      await new Promise(resolve => setTimeout(resolve, 2000));
       router.push('/');
     } else {
+      setAlertType('error');
+      setAlertMessage('Nombre de usuario o contraseña incorrectos.');
       console.log('Usuario o contraseña no existen.');
     }
   };
@@ -47,6 +52,11 @@ function LoginSection() {
         <div className="text-center mb-8">
           <h1 className="text-3xl font-semibold font-poppins">Login</h1>
         </div>
+        {alertMessage && (
+          <div className={`mb-4 p-4 rounded-md text-white text-center ${alertType === 'success' ? 'bg-green-500' : 'bg-red-400'}`}>
+            {alertMessage}
+          </div>
+        )}
         <form onSubmit={formik.handleSubmit}>
           <div className="mb-6">
             <input
