@@ -14,6 +14,7 @@ DECLARE
     tmp_fingerprint text;
     tmp_fingerprint_hashed text;
     is_email boolean;
+    secret_key TEXT := 'my_secret_key';
 
 BEGIN
 
@@ -27,7 +28,7 @@ BEGIN
             usuarios.Telefono AS Telefono
         INTO usuario
         FROM usuarios
-        WHERE usuarios.Correo::TEXT = username
+        WHERE pgp_sym_decrypt(usuarios.Correo::bytea, secret_key) = username
             AND usuarios.Password = crypt(login.password, usuarios.Password);
     ELSE
         SELECT 
@@ -37,7 +38,7 @@ BEGIN
             usuarios.Telefono AS Telefono
         INTO usuario
         FROM usuarios
-        WHERE usuarios.Usuario::TEXT = username
+        WHERE pgp_sym_decrypt(usuarios.Usuario::bytea, secret_key) = username
             AND usuarios.Password = crypt(login.password, usuarios.Password);
     END IF;
 
@@ -48,7 +49,7 @@ BEGIN
         tmp_fingerprint_hashed = crypt(tmp_fingerprint, gen_salt('bf'));
 
         -- Create JWT Token
-        SELECT sign(row_to_json(r), current_setting('app.jwt_secret')) AS token
+        SELECT sign(row_to_json(r), current_setting(secret_key)) AS token
         FROM (
             SELECT 
                     tmp_fingerprint_hashed AS fingerprint,
