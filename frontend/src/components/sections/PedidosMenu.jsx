@@ -7,7 +7,7 @@ import { getAuthToken } from '@/utils/functions';
 
 function PedidosMenu() {
   const [pedidos, setPedidos] = useState([]);
-  const [estado, setEstado] = useState(''); // Estado para los filtros
+  const [estado, setEstado] = useState('');
 
   const token = getAuthToken();
 

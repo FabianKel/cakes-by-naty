@@ -339,6 +339,7 @@ CREATE OR REPLACE FUNCTION obtener_pedidos()
 RETURNS TABLE (
     PedidoID INT,
     Usuario VARCHAR,
+    id_usuario INT,
     Pago_Anticipado TEXT,
     Pago_Completo TEXT,
     Estado_Orden VARCHAR,
@@ -352,6 +353,7 @@ BEGIN
     SELECT 
     p.PedidoID,
     u.Usuario,
+    u.UsuarioID AS id_usuario,
     CASE 
         WHEN p.Pago_Anticipado THEN 'Pago Anticipado Realizado'
         ELSE 'Pago Anticipado No Realizado'
