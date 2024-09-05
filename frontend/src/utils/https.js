@@ -65,13 +65,13 @@ export const logout = async () => {
   // Invalidar el token en el servidor
 };
 
-export const register = async (username, email, password, rol = 'cliente') => {
+export const register = async (username, email, password) => {
   try {
     const user = await post(links.register, {
+      rol: 'cliente',
       usuario: username,
-      rol,
       correo: email,
-      password,
+      password
     });
 
     return user;

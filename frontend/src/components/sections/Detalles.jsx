@@ -1,24 +1,30 @@
+"use client";
+
 import React from 'react';
 import Image from 'next/image';
+import useModal from 'src/hooks/useModal';
+import Modal from '../common/Modal';
+import { handleAction } from 'src/handlers/handleAction';
 
 const product = {
-  image: '/instagram.svg', 
-  title: 'Pastel',
-  description: 'Pastel de chocolate con relleno de dulce de leche. Decorado con crema de mantequilla'
+  image: '/Espumillas.jpg', 
+  title: 'Espumillas',
+  description: 'Espumillas bla bla bla bla bla bla bla bla bla bla bla bla'
 };
 
 function ProductDetails() {
+
+  const { isOpen, openModal, closeModal, agree } = useModal();
+
   return (
     <div className="bg-[#ffffff] min-h-screen p-8 relative">
-
-
       <div className="relative mt-6 flex flex-col items-center">
         <div className="absolute top-4 left-4 z-10">
-          <a className='text-blue-600 hover:text-blue-900 hover:cursor-pointer'>Pa trás</a>
+          <a className="text-blue-600 hover:text-blue-900 hover:cursor-pointer">Pa trás</a>
         </div>
 
         <div className="text-center text-2xl font-bold mb-6 text-[#000000]">
-          Pastel de cumpleaños
+          Paquete de Espumillas
         </div>
 
         <div className="flex flex-col md:flex-row items-center justify-center gap-8 w-full md:w-3/4">
@@ -40,10 +46,26 @@ function ProductDetails() {
           </div>
         </div>
 
-        <div className="absolute bottom-8 right-8">
-          <button className="bg-customPink1 text-black py-3 px-6 rounded-lg shadow-lg hover:bg-hoverPink text-lg">
-            Pedir
+        <div className="absolute bottom-8 right-8 flex space-x-4">
+          <button 
+            onClick={() => handleAction('http://localhost:4000/pedidos/9', 'DELETE', openModal, closeModal, agree)} 
+            className="bg-customPink1 text-black py-3 px-6 rounded-lg shadow-lg hover:bg-hoverPink text-lg">
+            Eliminar el 9
           </button>
+          
+          <button 
+            onClick={() => handleAction('http://localhost:4000/pedidos/10', 'DELETE', openModal, closeModal, agree)} 
+            className="bg-customPink1 text-black py-3 px-6 rounded-lg shadow-lg hover:bg-hoverPink text-lg">
+            Eliminar el 10
+          </button>
+
+          <Modal
+            isOpen={isOpen}
+            onCancel={closeModal}
+            onAgree={agree}
+            msg="¿Estás seguro de que deseas realizar esta acción?"
+            type="alert"
+          />
         </div>
       </div>
     </div>

@@ -94,10 +94,7 @@ CREATE TABLE Usuarios (
 
   CONSTRAINT fk_direccion1 FOREIGN KEY (Direccion1ID) REFERENCES Direcciones(DireccionID) ON DELETE SET NULL,
   CONSTRAINT fk_direccion2 FOREIGN KEY (Direccion2ID) REFERENCES Direcciones(DireccionID) ON DELETE SET NULL,
-  CONSTRAINT fk_direccion3 FOREIGN KEY (Direccion3ID) REFERENCES Direcciones(DireccionID) ON DELETE SET NULL,
-  
-  CONSTRAINT valid_email CHECK (Correo ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'),
-  CONSTRAINT valid_telefono CHECK (Telefono ~ '^\+?[0-9]{8,20}$')
+  CONSTRAINT fk_direccion3 FOREIGN KEY (Direccion3ID) REFERENCES Direcciones(DireccionID) ON DELETE SET NULL
 );
 
 

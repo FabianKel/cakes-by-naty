@@ -8,7 +8,7 @@ function Catalogo() {
     const [cupcakes, setCupcakes] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:4000/productos/categoria/3/3')
+        fetch('http://localhost:4000/productos/categoria/3')
             .then((response) => response.json())
             .then((data) => {
                 console.log('Cakes:', data); 
