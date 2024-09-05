@@ -16,8 +16,15 @@ ALTER DATABASE cakes_by_naty SET "app.jwt_double_auth"
 -------------------------------------------------------------------------------
 
 
+
+
 -- SQL TABLES AND DATA FILES
 \i ../database/db-definition/tables/tables.sql
+--Primero se crean los usuarios y sus funciones
+\i ../database/db-definition/functions/users_functions.sql
+\i ../database/db-definition/data/insert_users.sql
+
+
 \i ../database/db-definition/data/testingData.sql
 
 
@@ -33,6 +40,8 @@ ALTER DATABASE cakes_by_naty SET "app.jwt_double_auth"
 -------------------------------------------------------------------------------
 ---------------------------   FUNCTIONS CREATION    ---------------------------
 -------------------------------------------------------------------------------
+
+
 \i ../database/db-definition/functions/login.sql
 
 \i ../database/db-definition/functions/register.sql

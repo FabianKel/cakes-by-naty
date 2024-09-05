@@ -1,5 +1,4 @@
 CREATE OR REPLACE FUNCTION register(
-    p_rol TEXT,
     p_usuario TEXT,
     p_correo TEXT,
     p_password TEXT
@@ -27,7 +26,7 @@ BEGIN
         Password
     )
     VALUES (
-        p_rol,
+        'cliente',
         encrypted_usuario,
         encrypted_correo,
         crypt(p_password, gen_salt('bf'))

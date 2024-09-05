@@ -25,14 +25,13 @@ const pool = new Pool({
 app.use(bodyParser.json());
 
 app.post('/register', async (req, res) => {
-  const { usuario, rol, correo, password } = req.body;
+  const { usuario, correo, password } = req.body;
 
   try {
     const client = await pool.connect();
 
-    const result = await client.query('SELECT * FROM register($1, $2, $3, $4)', [
+    const result = await client.query('SELECT * FROM register($1, $2, $3)', [
       usuario,
-      rol,
       correo,
       password,
     ]);

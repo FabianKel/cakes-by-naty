@@ -1,0 +1,40 @@
+-- Llamadas a la función de inserción de usuarios
+SELECT insertar_usuario('cliente', 'Aleee26', 'Mónica', 'Salvatierra', 'aleee26@gmail.com', '+50212345678', 'miab2024', NULL);
+SELECT insertar_usuario('cliente', 'Fabiankel', 'Fabian', 'Kelson', 'fabiankel@gmail.com', '+50212345678', 'pasteles123', NULL);
+SELECT insertar_usuario('cliente', 'Gio', 'Giovanni', 'Santos', 'gio1998@gmail.com', '+50212345678', 'qwerty', NULL);
+SELECT insertar_usuario('cliente', 'Carlos82', 'Carlos', 'Hernandez', 'carlos82@gmail.com', '+50212345678', 'olaola', NULL);
+SELECT insertar_usuario('cliente', 'Lety89', 'Leticia', 'Morales', 'lety89@gmail.com', '+50212345678', 'olademar', NULL);
+SELECT insertar_usuario('cliente', 'Luis24', 'Luis', 'Gonzalez', 'luis24@gmail.com', '+50212345678', 'abc1234', NULL);
+SELECT insertar_usuario('cliente', 'Anita01', 'Ana', 'Lopez', 'anita01@gmail.com', '+50212345678', 'miPassword', NULL);
+SELECT insertar_usuario('cliente', 'Pablo1990', 'Pablo', 'Torres', 'pablo1990@gmail.com', '+50212345678', '123qweasd', NULL);
+SELECT insertar_usuario('cliente', 'Meli21', 'Melisa', 'Martinez', 'meli21@gmail.com', '+50212345678', 'melimeli', NULL);
+SELECT insertar_usuario('cliente', 'Javi76', 'Javier', 'Vargas', 'javi76@gmail.com', '+50212345678', 'qazwsx', NULL);
+SELECT insertar_usuario('cliente', 'Ceci55', 'Cecilia', 'Perez', 'ceci55@gmail.com', '+5022233445', 'cecilia55', NULL);
+SELECT insertar_usuario('cliente', 'Rafa44', 'Rafael', 'Ortega', 'rafa44@gmail.com', '+5021122334', 'rafa1234', NULL);
+SELECT insertar_usuario('cliente', 'Vero13', 'Veronica', 'Jimenez', 'vero13@gmail.com', '+5025566778', 'vero2024', NULL);
+SELECT insertar_usuario('cliente', 'Mau18', 'Mauricio', 'Ruiz', 'mau18@gmail.com', '+5023344556', 'mauMau18', NULL);
+SELECT insertar_usuario('cliente', 'Sofi33', 'Sofia', 'Mendez', 'sofi33@gmail.com', '+5029988776', 'sofia33', NULL);
+SELECT insertar_usuario('cliente', 'JoseLuis', 'Jose', 'Luis', 'joseluis@gmail.com', '+5026677889', 'jose1234', NULL);
+SELECT insertar_usuario('cliente', 'Ale99', 'Alejandro', 'Castillo', 'ale99@gmail.com', '+5021231234', 'ale99ale', NULL);
+SELECT insertar_usuario('cliente', 'Vane07', 'Vanessa', 'Garcia', 'vane07@gmail.com', '+5027788990', 'vane123', NULL);
+SELECT insertar_usuario('cliente', 'Gaby05', 'Gabriela', 'Ramos', 'gaby05@gmail.com', '+5029988007', 'gabyRamos', NULL);
+SELECT insertar_usuario('cliente', 'Fer23', 'Fernando', 'Estrada', 'fer23@gmail.com', '+5024455667', 'fer1234', NULL);
+SELECT insertar_usuario('cliente', 'Lili84', 'Liliana', 'Bautista', 'lili84@gmail.com', '+5021122004', 'lili84', NULL);
+SELECT insertar_usuario('cliente', 'Marce12', 'Marcela', 'Diaz', 'marce12@gmail.com', '+5023344789', 'marce2024', NULL);
+SELECT insertar_usuario('cliente', 'Tony40', 'Antonio', 'Santos', 'tony40@gmail.com', '+5025566778', 'tonyTony40', NULL);
+SELECT insertar_usuario('admin', 'Admin', NULL, NULL, 'admin@gmail.com', NULL, 'admin123', NULL);
+
+
+SELECT create_and_assign_address(1,'Casa Principal','6ta calle, casa 3-14','Plaza Sésamo, Zona 1','Guatemala','Guatemala','Casa de dos pisos, portón verde.');
+SELECT create_and_assign_address(2,'Casa Principal', '6ta calle, casa 3-14', 'Plaza Sésamo, Zona 1', 'Guatemala', 'Guatemala', 'Casa de dos pisos, portón verde.');
+SELECT create_and_assign_address(3,'Oficina', 'Av. Reforma, Edificio Torre Viva', 'Nivel 10, Oficina 101', 'Guatemala', 'Guatemala', 'Oficina corporativa, solicitar acceso en recepción.');
+SELECT create_and_assign_address(4,'Apartamento', '12 Calle, Edificio Central Park', 'Apto. 5B, Zona 10', 'Guatemala', 'Guatemala', 'Apartamento con vista al parque, timbre en la entrada principal.');
+SELECT create_and_assign_address(5,'Casa Principal', '6ta calle, casa 3-14', 'Plaza Sésamo, Zona 1', 'Guatemala', 'Guatemala', 'Casa de dos pisos, portón verde.');
+SELECT create_and_assign_address(6,'Oficina', 'Av. Reforma, Edificio Torre Viva', 'Nivel 10, Oficina 101', 'Guatemala', 'Guatemala', 'Oficina corporativa, solicitar acceso en recepción.');
+SELECT create_and_assign_address(7,'Apartamento', '12 Calle, Edificio Central Park', 'Apto. 5B, Zona 10', 'Guatemala', 'Guatemala', 'Apartamento con vista al parque, timbre en la entrada principal.');
+SELECT create_and_assign_address(8,'Casa Principal', '6ta calle, casa 3-14', 'Plaza Sésamo, Zona 1', 'Guatemala', 'Guatemala', 'Casa de dos pisos, portón verde.');
+SELECT create_and_assign_address(9,'Oficina', 'Av. Reforma, Edificio Torre Viva', 'Nivel 10, Oficina 101', 'Guatemala', 'Guatemala', 'Oficina corporativa, solicitar acceso en recepción.');
+SELECT create_and_assign_address(10,'Apartamento', '12 Calle, Edificio Central Park', 'Apto. 5B, Zona 10', 'Guatemala', 'Guatemala', 'Apartamento con vista al parque, timbre en la entrada principal.');
+SELECT create_and_assign_address(11,'Casa Principal', '6ta calle, casa 3-14', 'Plaza Sésamo, Zona 1', 'Guatemala', 'Guatemala', 'Casa de dos pisos, portón verde.');
+SELECT create_and_assign_address(12,'Oficina', 'Av. Reforma, Edificio Torre Viva', 'Nivel 10, Oficina 101', 'Guatemala', 'Guatemala', 'Oficina corporativa, solicitar acceso en recepción.');
+SELECT create_and_assign_address(13,'Apartamento', '12 Calle, Edificio Central Park', 'Apto. 5B, Zona 10', 'Guatemala', 'Guatemala', 'Apartamento con vista al parque, timbre en la entrada principal.');
