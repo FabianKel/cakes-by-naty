@@ -11,6 +11,7 @@ const links = {
   register: `${root}/register`,
   pedidos: `${root}/pedidos`,
   productos: `${root}/productos`,
+  usuarios: `${root}/usuarios`,
 };
 
 export default links;

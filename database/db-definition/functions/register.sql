@@ -11,6 +11,7 @@ AS $$
 
 DECLARE
     new_user_id INTEGER;
+    secret_key TEXT := 'my_secret_key';
 
 BEGIN
 
@@ -25,10 +26,10 @@ BEGIN
     )
     VALUES (
         rol,
-        usuario,
+        pgp_sym_encrypt(usuario, secret_key),
         NULL,
         NULL,
-        correo,
+        pgp_sym_encrypt(correo, secret_key),
         NULL,
         crypt(password, gen_salt('bf'))
     )
