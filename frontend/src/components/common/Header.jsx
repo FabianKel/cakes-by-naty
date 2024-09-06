@@ -1,16 +1,16 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import Icon from '@/components/common/Icon';
 import { getCurrentUser } from '@/utils/functions';
 import { logout } from '@/utils/https';
 import { useRouter } from 'next/navigation';
+import Popover from './Popover';
 
 function Header() {
   const router = useRouter();
-    let currentUser = getCurrentUser();
-    console.log('user here: ', currentUser);
+  let currentUser = getCurrentUser();
 
   const [isAut, setIsAuth] = useState(currentUser);
 
@@ -59,15 +59,7 @@ function Header() {
             </Link>
 
             {isAut ? (
-              <button onClick={() => handleLogout()}>
-                <Icon
-                  src='/logout.svg'
-                  alt='Logout'
-                  height='8'
-                  width='8'
-                  className='transition-transform transform hover:scale-125'
-                />
-              </button>
+              <Popover handleLogout={handleLogout} />
             ) : (
               <Link
                 href='/login'
