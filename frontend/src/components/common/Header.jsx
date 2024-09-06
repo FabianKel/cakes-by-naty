@@ -6,6 +6,7 @@ import Icon from '@/components/common/Icon';
 import { getCurrentUser } from '@/utils/functions';
 import { logout } from '@/utils/https';
 import { useRouter } from 'next/navigation';
+import UserButton from './UserButton';
 
 function Header() {
   const router = useRouter();
@@ -59,15 +60,9 @@ function Header() {
 
           <li className='flex items-center'>
             {isAut ? (
-              <a onClick={handleLogout}>
-                <Icon
-                  src='/logout.svg'
-                  alt='Logout'
-                  height='8'
-                  width='8'
-                  className='transition-transform transform hover:scale-125'
-                />
-              </a>
+              
+              <UserButton/>
+                
             ) : (
               <Link href='/login' className='text-lg text-gray-800 hover:text-hoverPink font-navheader ml-6 mr-6'>
                 Iniciar Sesión
