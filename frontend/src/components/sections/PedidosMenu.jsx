@@ -3,15 +3,15 @@
 import { getPedidos } from '@/utils/https';
 import React, { useEffect, useState } from 'react';
 import Custom404 from '../Custom404';
-import { getAuthToken } from '@/utils/functions';
+import { getCurrentUser } from '@/utils/functions';
 
 function PedidosMenu() {
   const [pedidos, setPedidos] = useState([]);
   const [estado, setEstado] = useState('');
 
-  const token = getAuthToken();
+  const currentUser = getCurrentUser();
 
-  if (!token) {
+  if (currentUser.rol !== 'admin') {
     return <Custom404 />;
   }
 

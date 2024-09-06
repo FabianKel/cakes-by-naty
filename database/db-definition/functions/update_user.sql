@@ -18,7 +18,7 @@ BEGIN
     UPDATE Usuarios
     SET
         Rol = COALESCE(param_rol, Rol),
-        Nickname = COALESCE(param_nickname, Nickname),
+        Usuario = COALESCE(param_nickname, Usuario),
         Primer_Nombre = COALESCE(param_primer_nombre, Primer_Nombre),
         Segundo_Nombre = COALESCE(param_segundo_nombre, Segundo_Nombre),
         Correo = COALESCE(param_correo, Correo),
