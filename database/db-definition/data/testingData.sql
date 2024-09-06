@@ -68,7 +68,7 @@ INSERT INTO Productos(nombre, Descripcion, CategoriaID, OcasionID, Precio, Image
 ('Pastel para Confirmación', 'Un pastel especial para la confirmación, decorado con detalles religiosos y personalizado según tus preferencias. Su suave masa de chocolate y relleno de jalea de mora lo hacen irresistible.', 
 3, 17, '350', '/Confirmacion.jpg'),
 ('Galletas Día de la Madre', 'Nuestras galletas de pecanas especiales para el Día de la Madre son el regalo perfecto para expresar tu amor y gratitud.', 
-4, 18, '120', '/Boda.jpeg'),
+4, 18, '120', '/Boda.jpg'),
 ('Pastel para 15 Años', 'Celebra tus 15 años con un pastel único, decorado con detalles personalizados y un toque de elegancia. Masa de veteado con relleno de cajeta para un sabor inolvidable.', 
 3, 13, '450', '/15.jpg'),
 ('Paquete de Espumillas Otoñales', 'Disfruta del otoño con nuestras espumillas de sabores cálidos, perfectas para acompañar tus tardes en esta temporada.', 
