@@ -6,18 +6,18 @@ import Icon from '@/components/common/Icon';
 import { getCurrentUser } from '@/utils/functions';
 import { logout } from '@/utils/https';
 import { useRouter } from 'next/navigation';
-import { Button } from 'src/stories/Button';
 
 function Header() {
   const router = useRouter();
-    let currentUser = getCurrentUser();
-    console.log('user here: ', currentUser);
+  const [isAut, setIsAuth] = useState(null);
 
-  const [isAut, setIsAuth] = useState(currentUser);
+  useEffect(() => {
+    const user = getCurrentUser();
+    setIsAuth(user);
+  }, []);
 
   const handleLogout = () => {
     const result = logout();
-
     if (result) {
       setIsAuth(null);
       router.push('/');
@@ -44,13 +44,10 @@ function Header() {
                 alt='Instagram'
                 height='8'
                 width='8'
-                className=' mr-16 transition-transform transform hover:scale-125'
+                className='mr-16 transition-transform transform hover:scale-125'
               />
             </a>
-            <Link
-              href='/catalog'
-              className='text-lg text-gray-800  hover:text-hoverPink font-navheader mr-6 '
-            >
+            <Link href='/catalog' className='text-lg text-gray-800 hover:text-hoverPink font-navheader mr-6'>
               Catálogo
             </Link>
           </li>
@@ -62,7 +59,7 @@ function Header() {
 
           <li className='flex items-center'>
             {isAut ? (
-              <a onClick={() => handleLogout()}>
+              <a onClick={handleLogout}>
                 <Icon
                   src='/logout.svg'
                   alt='Logout'
@@ -72,14 +69,9 @@ function Header() {
                 />
               </a>
             ) : (
-              <a>
-                <Link
-                  href='/login'
-                  className='text-lg text-gray-800 hover:text-hoverPink font-navheader ml-6 mr-6 '
-                >
+              <Link href='/login' className='text-lg text-gray-800 hover:text-hoverPink font-navheader ml-6 mr-6'>
                 Iniciar Sesión
-                </Link>
-              </a>
+              </Link>
             )}
             <a>
               <Icon
@@ -87,7 +79,7 @@ function Header() {
                 alt='Carrito'
                 height='8'
                 width='8'
-                className=' ml-10 mr-10 transition-transform transform hover:scale-125'
+                className='ml-10 mr-10 transition-transform transform hover:scale-125'
               />
             </a>
           </li>
