@@ -1,16 +1,19 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import Icon from '@/components/common/Icon';
 import { getCurrentUser } from '@/utils/functions';
 import { logout } from '@/utils/https';
 import { useRouter } from 'next/navigation';
-import UserButton from './UserButton';
+[isAut, setIsAuth] = useState(null);
+
+import Popover from './Popover';
 
 function Header() {
   const router = useRouter();
-  const [isAut, setIsAuth] = useState(null);
+  let currentUser = getCurrentUser();
+
 
   useEffect(() => {
     const user = getCurrentUser();
@@ -60,9 +63,7 @@ function Header() {
 
           <li className='flex items-center'>
             {isAut ? (
-              
-              <UserButton/>
-                
+              <Popover handleLogout={handleLogout} />
             ) : (
               <Link href='/login' className='text-lg text-gray-800 hover:text-hoverPink font-navheader ml-6 mr-6'>
                 Iniciar Sesión
