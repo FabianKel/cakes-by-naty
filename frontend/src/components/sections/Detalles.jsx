@@ -2,6 +2,9 @@
 import React from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import useModal from 'src/hooks/useModal';
+import Modal from '../common/Modal';
+import { handleAction } from 'src/handlers/handleAction';
 
 const product = {
   id: 4,
@@ -17,6 +20,9 @@ const product = {
 };
 
 function ProductDetails() {
+   
+  const { isOpen, openModal, closeModal, agree } = useModal();
+
   const router = useRouter(); 
 
   const handleGoBack = () => {
@@ -81,13 +87,32 @@ function ProductDetails() {
           </div>
         </div>
 
-        <div className="absolute bottom-4 right-4">
+        <div className="absolute bottom-8 right-8 flex space-x-4">
+          <button 
+            onClick={() => handleAction('http://localhost:4000/pedidos/9', 'DELETE', openModal, closeModal, agree)} 
+            className="bg-customPink1 text-black py-3 px-6 rounded-lg shadow-lg hover:bg-hoverPink text-lg">
+            Eliminar el 9
+          </button>
+          
+          <button 
+            onClick={() => handleAction('http://localhost:4000/pedidos/10', 'DELETE', openModal, closeModal, agree)} 
+            className="bg-customPink1 text-black py-3 px-6 rounded-lg shadow-lg hover:bg-hoverPink text-lg">
+            Eliminar el 10
+
           <button 
             className="bg-[#e2c2c4] text-black py-3 px-6 rounded-lg shadow-lg hover:bg-hoverPink text-lg"
             onClick={handleAddToCart}
           >
             Agregar
           </button>
+
+          <Modal
+            isOpen={isOpen}
+            onCancel={closeModal}
+            onAgree={agree}
+            msg="¿Estás seguro de que deseas realizar esta acción?"
+            type="alert"
+          />
         </div>
       </div>
     </div>

@@ -6,17 +6,22 @@ import Icon from '@/components/common/Icon';
 import { getCurrentUser } from '@/utils/functions';
 import { logout } from '@/utils/https';
 import { useRouter } from 'next/navigation';
+[isAut, setIsAuth] = useState(null);
+
 import Popover from './Popover';
 
 function Header() {
   const router = useRouter();
   let currentUser = getCurrentUser();
 
-  const [isAut, setIsAuth] = useState(currentUser);
+
+  useEffect(() => {
+    const user = getCurrentUser();
+    setIsAuth(user);
+  }, []);
 
   const handleLogout = () => {
     const result = logout();
-
     if (result) {
       setIsAuth(null);
       router.push('/');
@@ -43,13 +48,10 @@ function Header() {
                 alt='Instagram'
                 height='8'
                 width='8'
-                className=' mr-16 transition-transform transform hover:scale-125'
+                className='mr-16 transition-transform transform hover:scale-125'
               />
             </a>
-            <Link
-              href='/catalog'
-              className='text-lg text-gray-800  hover:text-hoverPink font-navheader mr-6 '
-            >
+            <Link href='/catalog' className='text-lg text-gray-800 hover:text-hoverPink font-navheader mr-6'>
               Catálogo
             </Link>
           </li>
@@ -57,25 +59,25 @@ function Header() {
             <Link href='/about' className='text-lg text-gray-800 hover:text-hoverPink font-navheader mr-6'>
               Sobre Nosotros
             </Link>
+          </li>
 
+          <li className='flex items-center'>
             {isAut ? (
               <Popover handleLogout={handleLogout} />
             ) : (
-              <Link
-                href='/login'
-                className='text-lg text-gray-800 hover:text-hoverPink font-navheader ml-6 mr-6 '
-              >
+              <Link href='/login' className='text-lg text-gray-800 hover:text-hoverPink font-navheader ml-6 mr-6'>
                 Iniciar Sesión
               </Link>
             )}
-
-            <Icon
-              src='/shopping-cart.svg'
-              alt='Carrito'
-              height='8'
-              width='8'
-              className=' ml-10 mr-10 transition-transform transform hover:scale-125'
-            />
+            <a>
+              <Icon
+                src='/shopping-cart.svg'
+                alt='Carrito'
+                height='8'
+                width='8'
+                className='ml-10 mr-10 transition-transform transform hover:scale-125'
+              />
+            </a>
           </li>
         </ul>
       </nav>

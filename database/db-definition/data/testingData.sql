@@ -68,7 +68,7 @@ INSERT INTO Productos(nombre, Descripcion, CategoriaID, OcasionID, Precio, Image
 ('Pastel para Confirmación', 'Un pastel especial para la confirmación, decorado con detalles religiosos y personalizado según tus preferencias. Su suave masa de chocolate y relleno de jalea de mora lo hacen irresistible.', 
 3, 17, '350', '/Confirmacion.jpg'),
 ('Galletas Día de la Madre', 'Nuestras galletas de pecanas especiales para el Día de la Madre son el regalo perfecto para expresar tu amor y gratitud.', 
-4, 18, '120', '/Boda.jpeg'),
+4, 18, '120', '/Boda.jpg'),
 ('Pastel para 15 Años', 'Celebra tus 15 años con un pastel único, decorado con detalles personalizados y un toque de elegancia. Masa de veteado con relleno de cajeta para un sabor inolvidable.', 
 3, 13, '450', '/15.jpg'),
 ('Paquete de Espumillas Otoñales', 'Disfruta del otoño con nuestras espumillas de sabores cálidos, perfectas para acompañar tus tardes en esta temporada.', 
@@ -103,31 +103,6 @@ VALUES
 ('Oficina', 'Av. Reforma, Edificio Torre Viva', 'Nivel 10, Oficina 101', 'Guatemala', 'Guatemala', 'Oficina corporativa, solicitar acceso en recepción.'),
 ('Apartamento', '12 Calle, Edificio Central Park', 'Apto. 5B, Zona 10', 'Guatemala', 'Guatemala', 'Apartamento con vista al parque, timbre en la entrada principal.');
 
-INSERT INTO Usuarios(Rol, usuario, Primer_Nombre, Segundo_Nombre, correo, telefono, Password, Direccion1ID) VALUES
-('cliente', 'Aleee26', 'Mónica', 'Salvatierra', 'aleee26@gmail.com', +50212345678, 'miab2024', 1 ),
-('cliente', 'Fabiankel', 'Fabian','Kelson', 'fabiankel@gmail.com', +50212345678, 'pasteles123', 2),
-('cliente', 'Gio', 'Giovanni','Santos', 'gio1998@gmail.com', +50212345678, 'qwerty', 3),
-('cliente', 'Carlos82', 'Carlos', 'Hernandez', 'carlos82@gmail.com', +50212345678,'olaola', 1),
-('cliente', 'Lety89', 'Leticia', 'Morales', 'lety89@gmail.com', +50212345678, 'olademar', 2),
-('cliente', 'Luis24', 'Luis', 'Gonzalez', 'luis24@gmail.com', +50212345678, 'abc1234', 3),
-('cliente', 'Anita01', 'Ana', 'Lopez', 'anita01@gmail.com', +50212345678, 'miPassword', 1),
-('cliente', 'Pablo1990', 'Pablo', 'Torres', 'pablo1990@gmail.com', +50212345678, '123qweasd',2),
-('cliente', 'Meli21', 'Melisa', 'Martinez', 'meli21@gmail.com', +50212345678, 'melimeli', 3),
-('cliente', 'Javi76', 'Javier', 'Vargas', 'javi76@gmail.com', +50212345678, 'qazwsx', 1),
-('cliente', 'Ceci55', 'Cecilia', 'Perez', 'ceci55@gmail.com', +5022233445, 'cecilia55', 3),
-('cliente', 'Rafa44', 'Rafael', 'Ortega', 'rafa44@gmail.com', +5021122334, 'rafa1234', 2),
-('cliente', 'Vero13', 'Veronica', 'Jimenez', 'vero13@gmail.com', +5025566778, 'vero2024', 3),
-('cliente', 'Mau18', 'Mauricio', 'Ruiz', 'mau18@gmail.com', +5023344556, 'mauMau18', 1),
-('cliente', 'Sofi33', 'Sofia', 'Mendez', 'sofi33@gmail.com', +5029988776, 'sofia33',2 ),
-('cliente', 'JoseLuis', 'Jose', 'Luis', 'joseluis@gmail.com', +5026677889, 'jose1234', 3),
-('cliente', 'Ale99', 'Alejandro', 'Castillo', 'ale99@gmail.com', +5021231234, 'ale99ale', 2),
-('cliente', 'Vane07', 'Vanessa', 'Garcia', 'vane07@gmail.com', +5027788990, 'vane123', 1),
-('cliente', 'Gaby05', 'Gabriela', 'Ramos', 'gaby05@gmail.com', +5029988007, 'gabyRamos', 2),
-('cliente', 'Fer23', 'Fernando', 'Estrada', 'fer23@gmail.com', +5024455667, 'fer1234', 1),
-('cliente', 'Lili84', 'Liliana', 'Bautista', 'lili84@gmail.com', +5021122004, 'lili84', 1),
-('cliente', 'Marce12', 'Marcela', 'Diaz', 'marce12@gmail.com', +5023344789, 'marce2024', 2),
-('cliente', 'Tony40', 'Antonio', 'Santos', 'tony40@gmail.com', +5025566778, 'tonyTony40', 2),
-('admin', 'Admin', NULL, NULL, NULL, NULL, '$2a$06$YIIBGTw7b9bfowp5b.0EOed/3PFlfDaQeMdOeEf5cXHpiVnfGqWJ6', NULL);
 
 
 INSERT INTO Carritos(UsuarioID, Total) VALUES
