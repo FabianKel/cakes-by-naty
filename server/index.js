@@ -7,6 +7,7 @@ const { Pool } = require('pg');
 const dotenv = require('dotenv');
 const config = require('./config');
 const ErrorHandler = require('./utils/ErrorHandler');
+const { decodeToken } = require('./utils/decodeToken');
 
 dotenv.config();
 
@@ -254,7 +255,7 @@ app.get('/pedidos', async (req, res) => {
   try {
     const { authorization } = req.headers;
     const { mes } = req.query;
-    
+
     if (authorization) {
       const auth_token = authorization.substring(7);
 
@@ -274,7 +275,6 @@ app.get('/pedidos', async (req, res) => {
     ErrorHandler.handleError(error, res);
   }
 });
-
 
 app.get('/pedidos/estado=:estado', async (req, res) => {
   const { estado } = req.params;
@@ -349,38 +349,44 @@ app.put('/usuarios/:usuario_id', async (req, res) => {
     const usuario_id = parseInt(req.params.usuario_id);
     const { authorization } = req.headers;
 
+    if (authorization) {
+      const auth_token = authorization.substring(7);
+      const isValidToken = decodeToken(auth_token);
 
-    const {
-      rol,
-      nickname,
-      primer_nombre,
-      segundo_nombre,
-      correo,
-      telefono,
-      password,
-      direccion1,
-      direccion2,
-      direccion3,
-    } = req.body;
+      if (isValidToken) {
+        const {
+          rol,
+          nickname,
+          primer_nombre,
+          segundo_nombre,
+          correo,
+          telefono,
+          password,
+          direccion1,
+          direccion2,
+          direccion3,
+        } = req.body;
 
-    const client = await pool.connect();
-    await client.query('SELECT * FROM update_user($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)', [
-      usuario_id,
-      rol,
-      nickname,
-      primer_nombre,
-      segundo_nombre,
-      correo,
-      telefono,
-      password,
-      direccion1,
-      direccion2,
-      direccion3,
-    ]);
+        const client = await pool.connect();
+        await client.query('SELECT * FROM update_user($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)', [
+          usuario_id,
+          rol,
+          nickname,
+          primer_nombre,
+          segundo_nombre,
+          correo,
+          telefono,
+          password,
+          direccion1,
+          direccion2,
+          direccion3,
+        ]);
 
-    client.release();
+        client.release();
 
-    res.status(200).json({ message: 'Usuario actualizado con éxito' });
+        res.status(200).json({ message: 'Usuario actualizado con éxito' });
+      }
+    }
   } catch (error) {
     ErrorHandler.handleError(error, res);
   }
@@ -424,7 +430,6 @@ app.delete('/carrito/:carritoId/producto/:productoId', async (req, res) => {
     ErrorHandler.handleError(error, res);
   }
 });
-
 
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`);
