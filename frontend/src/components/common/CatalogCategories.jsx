@@ -2,12 +2,12 @@ import Link from 'next/link';
 
 function CatalogCategories() {
     const categories = [
-        { name: "Cupcakes", image: "/catalogcupcake.png", url:"/catalog/cupcakes" },
-        { name: "Cakepops", image: "/catalogcakepop.png", url:"/catalog/cakepops" },
-        { name: "Pastel", image: "/catalogcake.png", url:"/catalog/pasteles" },
-        { name: "Galletas", image: "/catalogcookies.png", url:"/catalog/galletas" },
-        { name: "Chocolates", image: "/catalogchocolates.png" , url:"/catalog/chocolates"},
-        { name: "Espumillas", image: "/catalogespumillas.png", url:"/catalog/espumillas" }
+        { name: "Cupcakes", image: "Catalog/catalogcupcake.png", url:"/catalog/cupcakes" },
+        { name: "Cakepops", image: "Catalog/catalogcakepop.png", url:"/catalog/cakepops" },
+        { name: "Pastel", image: "Catalog/catalogcake.png", url:"/catalog/pasteles" },
+        { name: "Galletas", image: "Catalog/catalogcookies.png", url:"/catalog/galletas" },
+        { name: "Chocolates", image: "Catalog/catalogchocolates.png" , url:"/catalog/chocolates"},
+        { name: "Espumillas", image: "Catalog/catalogespumillas.png", url:"/catalog/espumillas" }
     ];
 
     return (

@@ -44,7 +44,7 @@ function Sidebar() {
       >
         <div className="flex justify-center py-6">
           <Link href="/">
-            <img src="/cbn.png" alt="Cakes by Naty" className="h-24 w-auto mt-6 hover:scale-105 transition-transform duration-300" />
+            <img src="Logos/cbn.png" alt="Cakes by Naty" className="h-24 w-auto mt-6 hover:scale-105 transition-transform duration-300" />
           </Link>
         </div>
 

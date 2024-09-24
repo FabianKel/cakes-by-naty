@@ -1,19 +1,19 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Icon from '@/components/common/Icon';
 import { getCurrentUser } from '@/utils/functions';
 import { logout } from '@/utils/https';
 import { useRouter } from 'next/navigation';
-[isAut, setIsAuth] = useState(null);
 
 import Popover from './Popover';
 
 function Header() {
+
+  const [isAuth, setIsAuth] = useState(null);
   const router = useRouter();
   let currentUser = getCurrentUser();
-
 
   useEffect(() => {
     const user = getCurrentUser();
@@ -33,7 +33,7 @@ function Header() {
       <div className='text-2xl font-bold flex items-center'>
         <Link href='/'>
           <img
-            src='/cbn.png'
+            src='Logos/cbn.png'
             alt='Cakes by Naty'
             className='h-30 w-40 mr-4 hover:scale-105 transition-transform duration-300'
           />
@@ -62,7 +62,7 @@ function Header() {
           </li>
 
           <li className='flex items-center'>
-            {isAut ? (
+            {isAuth ? (
               <Popover handleLogout={handleLogout} />
             ) : (
               <Link href='/login' className='text-lg text-gray-800 hover:text-hoverPink font-navheader ml-6 mr-6'>

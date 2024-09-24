@@ -98,6 +98,7 @@ function ProductDetails() {
             onClick={() => handleAction('http://localhost:4000/pedidos/10', 'DELETE', openModal, closeModal, agree)} 
             className="bg-customPink1 text-black py-3 px-6 rounded-lg shadow-lg hover:bg-hoverPink text-lg">
             Eliminar el 10
+          </button>
 
           <button 
             className="bg-[#e2c2c4] text-black py-3 px-6 rounded-lg shadow-lg hover:bg-hoverPink text-lg"
