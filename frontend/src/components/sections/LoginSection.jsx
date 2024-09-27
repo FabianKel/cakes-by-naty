@@ -27,7 +27,7 @@ function LoginSection() {
     },
     validationSchema: yup.object({
       username: yup.string().trim().required('Nombre de usuario o correo es requerido'),
-      password: yup.string().trim().required('Contraseña es requerido'),
+      password: yup.string().trim().required('La contraseña es requerida'),
     }),
   });
 
@@ -53,7 +53,7 @@ function LoginSection() {
           <h1 className="text-3xl font-semibold font-poppins">Login</h1>
         </div>
         {alertMessage && (
-          <div className={`mb-4 p-4 rounded-md text-white text-center ${alertType === 'success' ? 'bg-green-500' : 'bg-red-400'}`}>
+          <div className={`mb-6 p-4 rounded-md text-white text-center ${alertType === 'success' ? 'bg-green-500' : 'bg-red-400'}`}>
             {alertMessage}
           </div>
         )}
@@ -89,11 +89,11 @@ function LoginSection() {
             >
               {passwordVisible ? 'Ocultar' : 'Mostrar'}
             </Button>
-            {formik.errors.password && (
+          </div>
+          {formik.errors.password && (
               <span className="text-red-500 text-sm block text-center mt-2">{formik.errors.password}</span>
             )}
-          </div>
-          <div className="mb-8">
+          <div className="mb-8 mt-6">
             <Button
               type="submit"
               className="w-full p-4 bg-white-600 text-black border-2 border-customPink1 rounded-md font-poppins hover:bg-customPink1 transition duration-300"
