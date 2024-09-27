@@ -69,7 +69,7 @@ function Header() {
                 Iniciar Sesión
               </Link>
             )}
-            <a>
+            <a href='/Carrito'>
               <Icon
                 src='/shopping-cart.svg'
                 alt='Carrito'
