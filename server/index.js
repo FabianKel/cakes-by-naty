@@ -414,6 +414,47 @@ app.delete('/pedidos/:id', async (req, res) => {
   }
 });
 
+
+//ENDPOINT DE CARRITO
+//Ver carrito
+app.get('/carrito/:user_id', async (req, res) => {
+  const { user_id } = req.params;
+  try {
+    const client = await pool.connect();
+    const query = 'SELECT * FROM ver_carrito($1);';
+    const result = await client.query(query, [user_id]);
+    const carrito = result.rows;
+    client.release();
+    res.status(200).json(carrito);
+  } catch (error) {
+    ErrorHandler.handleError(error, res);
+  }
+});
+
+
+//agregar producto a carrito
+app.post('/carrito/agregar', async (req, res) => {
+  const { usuarioid, productoid, cantidad, personalizacionid } = req.body;
+
+  try {
+      // Ejecutar la función SQL para agregar el producto al carrito
+      const result = await pool.query(
+          'SELECT agregar_producto_a_carrito($1, $2, $3, $4)', 
+          [usuarioid, productoid, cantidad, personalizacionid]
+      );
+      
+      res.status(200).json({
+          message: 'Producto agregado al carrito exitosamente',
+          carrito_id: result.rows[0].carritoid,
+      });
+  } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Error al agregar el producto al carrito' });
+  }
+});
+
+
+
 app.delete('/carrito/:carritoId/producto/:productoId', async (req, res) => {
   const { carritoId, productoId } = req.params;
   try {
@@ -431,5 +472,5 @@ app.delete('/carrito/:carritoId/producto/:productoId', async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`App listening at http://localhost:${port}`);
+  console.log('App listening at http://localhost:${port}');
 });
