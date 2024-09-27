@@ -2,20 +2,48 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { getAuthToken, getCurrentUser } from '@/utils/functions';
+import { getUsuario } from '@/utils/https';
 import Image from 'next/image';
 
-function Carrito({ user_id }) {
+function Carrito() {
+    const [usuario, setUsuario] = useState(null);
     const [desserts, setDesserts] = useState([]);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [loading, setLoading] = useState(true);
+
+
     const router = useRouter();
 
     useEffect(() => {
-        if (user_id) {
-            // Hacer fetch al backend usando el user_id
-            fetch(`http://localhost:4000/carrito/${user_id}/`)
+        const token = getAuthToken();
+        let currentUser = getCurrentUser();
+    
+        if (token && currentUser) {
+            setIsAuthenticated(true);
+            const fetchData = async () => {
+                try {
+                    const user = await getUsuario(currentUser.id); 
+                    setUsuario(user.usuario);
+                } catch (error) {
+                    console.error('Error al obtener los datos del usuario:', error);
+                } finally {
+                    setLoading(false);
+                }
+            };
+            fetchData();
+        } else {
+            setLoading(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (usuario && usuario.usuarioid) {
+            fetch(`http://localhost:4000/carrito/${usuario.usuarioid}/`)
                 .then((response) => response.json())
                 .then((data) => {
                     if (Array.isArray(data)) {
-                        setDesserts(data);
+                        setDesserts(data); // Almacena los productos del carrito
                     } else {
                         console.error("Formato de datos incorrecto", data);
                     }
@@ -24,8 +52,9 @@ function Carrito({ user_id }) {
                     console.error('Error al cargar el carrito:', error);
                 });
         }
-    }, [user_id]);
-
+    }, [usuario]);
+    
+    
     const handleGoBack = () => {
         router.back();
     };
@@ -57,19 +86,14 @@ function Carrito({ user_id }) {
     };
 
     return (
-        <div className='flex flex-col min-h-screen'>
-            <div className="relative p-4">
-                <button
-                    onClick={handleGoBack}
-                    className="absolute top-4 left-4 text-black text-5xl focus:outline-none hover:text-gray-700"
-                >
-                    &larr;
-                </button>
-                <div className="container mx-auto p-4">
+        <div className="flex flex-col items-center justify-center min-h-screen">
+            <div className="flex flex-col min-h-screen w-2/3">
+
+                <div className="flex flex-col justify-center mx-auto p-4 ">
                     <h1 className="text-3xl md:text-4xl text-center font-bold mt-6 mb-6">Tu Carrito</h1>
                     {desserts.length > 0 ? (
                         <>
-                            <ul className="space-y-6">
+                            <ul className="space-y-6  max-h-screen overflow-y-auto">
                                 {desserts.map((dessert) => (
                                     <li key={dessert.producto_id} className="flex flex-col sm:flex-row items-start bg-[#e2c2c4] shadow-lg rounded-lg p-6">
                                         <div className="flex-shrink-0 w-full sm:w-40 h-40 relative mb-4 sm:mb-0">
@@ -124,7 +148,15 @@ function Carrito({ user_id }) {
                             </div>
                         </>
                     ) : (
-                        <p className="text-center text-xl text-gray-700">Tu carrito está vacío.</p>
+                            <div className='flex flex-col justify-center'>
+                                <p className="w-72 text-xl text-gray-700 py-11 self-center">Vaya... Parece que no tienes ningún postre en tu carrito 😓</p>
+                                <a
+                                  href='/catalog'  
+                                className=" text-center text-blue-900 text-3xl  hover:text-gray-700 self-center"
+                            >
+                                Navegar
+                                </a>
+                            </div>
                     )}
                 </div>
             </div>
