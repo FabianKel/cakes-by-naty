@@ -6,7 +6,6 @@ import React, { useEffect, useState } from 'react';
 import { getUsuario, getUsuarioPedidos } from '@/utils/https';
 import { getAuthToken, getCurrentUser } from '@/utils/functions';
 import Custom404 from '../Custom404';
-import Carrito from '../sections/Carrito';
 
 function UserSection() {
   const [usuario, setUsuario] = useState(null);
@@ -48,7 +47,7 @@ function UserSection() {
   }
   
   return (
-    <div className='flex items-center justify-center min-h-screen bg-white w-full'>
+    <div className='flex items-start justify-center min-h-screen bg-white w-full pt-20'>
       <div className='flex flex-row gap-5 sm:flex-col md:flex-row w-1/2'>
         <div className='bg-white w-full max-w-lg mx-auto p-12 py-16 rounded-lg shadow-lg border border-gray-300'>
           <h1 className='text-3xl font-semibold font-poppins text-center'>{usuario.usuario}</h1>
@@ -115,7 +114,6 @@ function UserSection() {
         </div>
         <PedidosList pedidos={pedidos} />
       </div>
-      <Carrito user_id={usuario.usuarioid} className=''/>
     </div>
   );
 }
