@@ -148,11 +148,11 @@ function Carrito() {
                             </div>
                         </>
                     ) : (
-                            <div>
-                                <p className="text-center text-xl text-gray-700">Tu carrito está vacío.</p>
+                            <div className='flex flex-col justify-center'>
+                                <p className="w-72 text-xl text-gray-700 py-11 self-center">Vaya... Parece que no tienes ningún postre en tu carrito 😓</p>
                                 <a
                                   href='/catalog'  
-                                className=" text-black text-5xl focus:outline-none hover:text-gray-700"
+                                className=" text-center text-blue-900 text-3xl  hover:text-gray-700 self-center"
                             >
                                 Navegar
                                 </a>

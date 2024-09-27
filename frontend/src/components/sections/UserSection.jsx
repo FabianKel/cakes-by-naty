@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { getUsuario, getUsuarioPedidos } from '@/utils/https';
 import { getAuthToken, getCurrentUser } from '@/utils/functions';
 import Custom404 from '../Custom404';
+import LoginSection from './LoginSection';
 
 function UserSection() {
   const [usuario, setUsuario] = useState(null);
@@ -43,12 +44,12 @@ function UserSection() {
   }
 
   if (!isAuthenticated) {
-    return <Custom404 />; // Solo muestra Custom404 si no está autenticado
+    return <LoginSection />;
   }
   
   return (
     <div className='flex items-start justify-center min-h-screen bg-white w-full pt-20'>
-      <div className='flex flex-row gap-5 sm:flex-col md:flex-row w-1/2'>
+      <div className='flex flex-row gap-5 sm:flex-col md:flex-row '>
         <div className='bg-white w-full max-w-lg mx-auto p-12 py-16 rounded-lg shadow-lg border border-gray-300'>
           <h1 className='text-3xl font-semibold font-poppins text-center'>{usuario.usuario}</h1>
           <div className='mt-6 flex flex-col text-left mb-8 gap-6'>
