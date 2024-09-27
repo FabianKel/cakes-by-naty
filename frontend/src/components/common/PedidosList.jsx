@@ -8,7 +8,7 @@ const PedidosList = ({ pedidos }) => {
           const formattedDate = new Date(pedido.created_at).toLocaleDateString();
 
           return (
-            <div key={pedido.CarritoID} className='bg-white p-5 pb-10 rounded shadow-md max-w-4xl mx-auto'>
+            <div key={pedido.pedidoid} className='bg-white p-5 pb-10 rounded shadow-md max-w-4xl mx-auto'>
               <div className='flex justify-between'>
                 <h2 className='text-xl font-semibold mb-2'>Orden #{pedido.pedidoid}</h2>
                 <h2 className='text-xl font-semibold mb-2'>Fecha de Orden: {formattedDate}</h2>
