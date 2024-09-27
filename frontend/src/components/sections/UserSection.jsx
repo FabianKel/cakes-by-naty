@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { getUsuario, getUsuarioPedidos } from '@/utils/https';
 import { getAuthToken, getCurrentUser } from '@/utils/functions';
 import Custom404 from '../Custom404';
+import Carrito from '../sections/Carrito';
 
 function UserSection() {
   const [usuario, setUsuario] = useState(null);
@@ -23,6 +24,7 @@ function UserSection() {
         try {
           const user = await getUsuario(currentUser.id);
           const pedidos = await getUsuarioPedidos(currentUser.id);
+
           setUsuario(user.usuario);
           setPedidos(pedidos);
         } catch (error) {
@@ -111,8 +113,9 @@ function UserSection() {
             </div>
           </div>
         </div>
-        <PedidosList pedidos={pedidos}/>
+        <PedidosList pedidos={pedidos} />
       </div>
+      <Carrito user_id={usuario.usuarioid} className=''/>
     </div>
   );
 }
