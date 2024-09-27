@@ -7,24 +7,80 @@ import useModal from 'src/hooks/useModal';
 import Modal from '../common/Modal';
 import { handleAction } from 'src/handlers/handleAction';
 import links from '@/utils/links';
+import { getAuthToken, getCurrentUser } from '@/utils/functions';
+import { getUsuario } from '@/utils/https';
+import LoginSection from './LoginSection';
 
 const ProductDetails = ({ id }) => {
   const router = useRouter();
 
   const { isOpen, openModal, closeModal, agree } = useModal();
   const [product, setProduct] = useState(undefined);
+  const [usuario, setUsuario] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const token = getAuthToken();
+    const currentUser = getCurrentUser();
+
+    if (token && currentUser) {
+      setIsAuthenticated(true);
+      const fetchData = async () => {
+        try {
+          const user = await getUsuario(currentUser.id);
+          setUsuario(user.usuario); 
+        } catch (error) {
+          console.error('Error al obtener los datos del usuario:', error);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchData();
+    } else {
+      setLoading(false);
+    }
+  }, []);
 
   const handleGoBack = () => {
     router.back();
   };
 
-  const handleAddToCart = () => {
-    const storedDesserts = JSON.parse(localStorage.getItem('desserts')) || [];
-    const updatedDesserts = [...storedDesserts, product];
-    localStorage.setItem('desserts', JSON.stringify(updatedDesserts));
-    console.log(`${product.productonombre} agregado al carrito`);
+  const handleAddToCart = async () => {
+    if (!usuario || !product) {
+      console.error('Usuario o producto no disponible');
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:4000/carrito/agregar', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          usuarioid: usuario.usuarioid, 
+          productoid: product.productoid, 
+          cantidad: 1, 
+          personalizacionid: null, 
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log('Producto agregado al carrito exitosamente:', data);
+        alert('Producto agregado al carrito');
+      } else {
+        console.error('Error al agregar el producto al carrito:', data);
+        alert('Error al agregar el producto al carrito');
+      }
+    } catch (error) {
+      console.error('Error en la solicitud:', error);
+    }
   };
 
+  // Obtener el producto por ID
   useEffect(() => {
     fetch(links.productos)
       .then((response) => response.json())
@@ -36,6 +92,14 @@ const ProductDetails = ({ id }) => {
       })
       .catch((error) => console.error('Error fetching cakes:', error));
   }, [id]);
+
+  if (loading) {
+    return <div>Cargando...</div>; 
+  }
+
+  if (!isAuthenticated) {
+    return <LoginSection />; 
+  }
 
   return (
     <div
@@ -88,24 +152,6 @@ const ProductDetails = ({ id }) => {
           </div>
 
           <div className='absolute bottom-8 right-8 flex space-x-4'>
-            <button
-              onClick={() =>
-                handleAction('http://localhost:4000/pedidos/9', 'DELETE', openModal, closeModal, agree)
-              }
-              className='bg-customPink1 text-black py-3 px-6 rounded-lg shadow-lg hover:bg-hoverPink text-lg'
-            >
-              Eliminar el 9
-            </button>
-
-            <button
-              onClick={() =>
-                handleAction('http://localhost:4000/pedidos/10', 'DELETE', openModal, closeModal, agree)
-              }
-              className='bg-customPink1 text-black py-3 px-6 rounded-lg shadow-lg hover:bg-hoverPink text-lg'
-            >
-              Eliminar el 10
-            </button>
-
             <button
               className='bg-[#e2c2c4] text-black py-3 px-6 rounded-lg shadow-lg hover:bg-hoverPink text-lg'
               onClick={handleAddToCart}
