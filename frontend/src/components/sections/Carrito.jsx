@@ -31,11 +31,23 @@ function Carrito({ user_id }) {
     };
 
     const handleRemove = (id) => {
-        const updatedDesserts = desserts.filter(dessert => dessert.producto_id !== id);
-        setDesserts(updatedDesserts);
-        // Aquí deberías hacer una solicitud DELETE al backend para quitar el producto del carrito
+        fetch(`http://localhost:4000/carrito/${user_id}/producto/${id}`, {
+            method: 'DELETE',
+        })
+        .then((response) => {
+            if (response.ok) {
+                // Actualizamos el estado para remover el producto del carrito
+                const updatedDesserts = desserts.filter(dessert => dessert.producto_id !== id);
+                setDesserts(updatedDesserts);
+            } else {
+                console.error('Error al eliminar el producto');
+            }
+        })
+        .catch((error) => {
+            console.error('Error en la solicitud DELETE:', error);
+        });
     };
-
+    
     const handleIncrease = (id) => {
         const updatedDesserts = desserts.map(dessert =>
             dessert.producto_id === id ? { ...dessert, cantidad: dessert.cantidad + 1 } : dessert
