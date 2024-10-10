@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import Button from '@/components/common/Button';
 
 function ProductCRUD() {
@@ -22,13 +23,24 @@ function ProductCRUD() {
         }
     });
 
+    const [productos, setProductos] = useState([]);
+
+    useEffect(() => {
+        // Simulando la carga de productos desde un archivo JSON
+        const cargarProductos = async () => {
+            const response = await fetch('http://localhost:4000/productos/6');
+            const data = await response.json();
+            setProductos(data.productos);
+        };
+        cargarProductos();
+    }, []);
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
 
         if (name === 'precio' && value < 0) {
             return;
         }
-
         if (name in productData.detalles) {
             setProductData({
                 ...productData,
@@ -49,7 +61,6 @@ function ProductCRUD() {
         setProductData({ ...productData, imagen: e.target.files[0] });
     };
 
-
     const agregarProducto = async () => {
         console.log("Función agregarProducto ejecutada...");
         const producto = {
@@ -69,9 +80,7 @@ function ProductCRUD() {
                 tipo_chocolate_id: productData.detalles.tipo_chocolate_id ? parseInt(productData.detalles.tipo_chocolate_id) : null
             }
         };
-
         console.log("Producto a enviar:", producto);
-
         try {
             const response = await fetch('http://localhost:4000/productos', {
                 method: 'POST',
@@ -80,7 +89,6 @@ function ProductCRUD() {
                 },
                 body: JSON.stringify(producto),
             });
-
             const data = await response.json();
             if (response.ok) {
                 alert('Producto creado con éxito');
@@ -100,12 +108,43 @@ function ProductCRUD() {
 
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-50 ">
+        <div className="flex justify-center items-center min-h-screen bg-gray-50">
             <div className="bg-white w-full max-w-6xl p-8 rounded-md shadow-lg mt-4 mb-4">
                 <div className="grid grid-cols-2 gap-10">
                     <div className="bg-gray-100 p-8 rounded-md shadow-inner">
                         <h2 className="text-2xl font-bold mb-4 text-center">Tus productos</h2>
-                        <div className="min-h-[1010px] h-auto bg-white border-2 border-gray-300 rounded-md flex items-center justify-center">
+                        <div className="min-h-[1010px] h-auto bg-white border-2 border-gray-300 rounded-md flex flex-col items-left justify-start overflow-y-auto max-h-80">
+                            {productos.map((producto) => (
+                                <div key={producto.productoid} className="relative flex items-center border-b border-gray-300 p-4">
+                                    <Image 
+                                        src={producto.imagen1}
+                                        alt={producto.productonombre}
+                                        width={100}
+                                        height={100}
+                                        className="rounded-md"
+                                    />
+                                    <div className="ml-4 flex-grow">
+                                        <h3 className="text-xl font-semibold">{producto.productonombre}</h3>
+                                        <p className="text-sm text-gray-600">{producto.categoria}</p>
+                                        <p className="text-sm text-gray-600">{producto.ocasion}</p>
+                                        <p className="text-lg font-bold">Q{parseFloat(producto.precio).toFixed(2)}</p>
+                                    </div>
+                                    <div className="flex flex-col gap-5">
+                                        <Button 
+                                            //onClick={() => handleEdit(producto)}
+                                            className="mb-2 p-2 bg-blue-500 text-white rounded-md"
+                                        >
+                                            Editar
+                                        </Button>
+                                        <Button 
+                                            //onClick={() => handleDelete(producto.productoid)}
+                                            className="p-2 bg-red-500 text-white rounded-md"
+                                        >
+                                            Borrar
+                                        </Button>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     </div>
 
@@ -122,7 +161,6 @@ function ProductCRUD() {
                                         onChange={handleInputChange}
                                         placeholder="Ej: Pastel de Cumpleaños"
                                         className="w-full p-2 border rounded-md mb-4"
-                                        
                                     />
 
                                     <label className="block font-semibold mb-2">Categoría:</label>
@@ -148,6 +186,7 @@ function ProductCRUD() {
                                         placeholder="Escribe una descripción del producto"
                                         className="w-full p-2 border rounded-md mb-4 h-32"
                                     ></textarea>
+
                                 </div>
                                 <div>
                                     <label className="block font-semibold mb-2">Precio:</label>
@@ -194,6 +233,7 @@ function ProductCRUD() {
                                         name="relleno_id"
                                         value={productData.relleno_id}
                                         onChange={handleInputChange}
+                                        placeholder="Ej: Chocolate"
                                         className="w-full p-2 border rounded-md mb-4"
                                     >
                                         <option value="">Selecciona un relleno</option>
@@ -216,7 +256,6 @@ function ProductCRUD() {
                                         <option value="1">Leche</option>
                                         <option value="3">Oscuro</option>
                                     </select>
-
                                     <label className="block font-semibold mb-2">Masa:</label>
                                     <select
                                         name="masa_id"
@@ -233,7 +272,6 @@ function ProductCRUD() {
                                         <option value="4">Veteado</option>
                                         <option value="6">Zanahoria</option>
                                     </select>
-
                                     <label className="block font-semibold mb-2">Sabor de Galleta:</label>
                                     <select
                                         name="sabor_galleta_id"
@@ -249,15 +287,16 @@ function ProductCRUD() {
                                         <option value="5">Matcha</option>
                                         <option value="6">Pecanas</option>
                                     </select>
-
+                                    
                                     <label className="block font-semibold mb-2">Cobertura:</label>
                                     <select
                                         name="cobertura_id"
                                         value={productData.cobertura_id}
                                         onChange={handleInputChange}
+                                        placeholder="Ej: Fondant"
                                         className="w-full p-2 border rounded-md mb-4"
                                     >
-                                        <option value="">Selecciona una cobertura</option>
+                                         <option value="">Selecciona una cobertura</option>
                                         <option value="5">Cream Cheese</option>
                                         <option value="3">Crema de Mantequilla</option>
                                         <option value="1">Fondant</option>
@@ -265,8 +304,7 @@ function ProductCRUD() {
                                         <option value="4">Turron</option>
                                     </select>
 
-
-                                </div>
+                                    </div>
                                 <div className="col-span-2">
                                     <label className="block font-semibold mb-2 mt-2">Imagen:</label>
                                     <div className="border-dashed border-2 border-gray-300 p-10 h-64 w-full text-center mt-4 mb-4 flex justify-center items-center relative">
@@ -280,6 +318,7 @@ function ProductCRUD() {
                                             <p className="text-gray-500 text-sm mb-4">Arrastra o selecciona una imagen</p>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
 
