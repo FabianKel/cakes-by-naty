@@ -9,6 +9,9 @@ const config = require('./config');
 const ErrorHandler = require('./utils/ErrorHandler');
 const { decodeToken } = require('./utils/decodeToken');
 
+//import de rutas
+const usersRoutes = require('./routes/users');       // Rutas de usuarios
+
 dotenv.config();
 
 const app = express();
@@ -24,6 +27,9 @@ const pool = new Pool({
 });
 
 app.use(bodyParser.json());
+
+//rutas
+app.use('/usuarios', usersRoutes);
 
 app.post('/register', async (req, res) => {
   const { usuario, correo, password } = req.body;
@@ -69,27 +75,7 @@ app.post('/login', async (req, res) => {
   }
 });
 
-//GET USUARIO BY ID
-app.get('/usuarios/:u_id', async (req, res) => {
-  const { u_id } = req.params;
-  try {
-    const client = await pool.connect();
 
-    const getUserByID = 'SELECT * FROM obtener_usuario_por_id($1);';
-    const result = await client.query(getUserByID, [u_id]);
-    const usuario = result.rows[0];
-
-    client.release();
-
-    if (usuario) {
-      res.status(200).json({ message: 'Usuario obtenido con éxito', usuario: usuario });
-    } else {
-      throw { type: 'not_found', message: 'Usuario no encontrado' };
-    }
-  } catch (error) {
-    ErrorHandler.handleError(error, res);
-  }
-});
 
 //POST
 
