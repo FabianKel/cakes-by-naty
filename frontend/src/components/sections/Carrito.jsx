@@ -141,7 +141,7 @@ function Carrito() {
                                         </div>
                                         <div className="flex flex-col items-center sm:ml-4 mt-4 sm:mt-0">
                                             <button
-                                                className="bg-[#FEE4E5] text-black py-2 px-4 rounded-lg shadow-lg hover:bg-gray-800"
+                                                className="bg-[#FEE4E5] text-black py-2 px-4 rounded-lg shadow-lg hover:bg-hoverPink"
                                                 onClick={() => handleRemove(dessert.producto_id)}
                                             >
                                                 Quitar
@@ -152,7 +152,7 @@ function Carrito() {
                             </ul>
                             <div className="p-4 flex justify-end">
                                 <button
-                                    className="bg-[#FEE4E5] text-black py-3 px-6 rounded-lg shadow-lg hover:bg-gray-800"
+                                    className="bg-[#FEE4E5] text-black py-3 px-6 rounded-lg shadow-lg hover:bg-hoverPink"
                                     onClick={handleConfirm}
                                 >
                                     Recibo
