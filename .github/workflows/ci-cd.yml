@@ -49,6 +49,9 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
+      - name: Create docker-compose.yml file
+        run: echo "${{ secrets.DOCKER_COMPOSE_YML }}" > docker-compose.yml
+
       - name: Build and run Docker Compose
         run: |
          docker compose -f docker-compose.yml down
