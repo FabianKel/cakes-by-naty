@@ -1,49 +1,70 @@
 const pool = require('../db');
+const ErrorHandler = require('../utils/ErrorHandler');
 
+
+// Obtener productos con un límite opcional
 const getProducts = async (req, res) => {
+  const { limit } = req.params;
   try {
-    const { rows } = await pool.query('SELECT * FROM Products');
-    res.status(200).json(rows);
+    const client = await pool.connect();
+    const query = 'SELECT * FROM obtener_productos($1);';
+    const result = await client.query(query, [limit || null]);
+    const productos = result.rows;
+    client.release();
+
+    if (productos.length > 0) {
+      res.status(200).json({ message: 'Productos obtenidos con éxito', productos });
+    } else {
+      throw { type: 'not_found', message: 'No hay productos disponibles' };
+    }
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    ErrorHandler.handleError(error, res);
   }
 };
 
-const getProductById = async (req, res) => {
-  const { id } = req.params;
+
+// Obtener productos por categoría con un límite opcional
+const getProductsByCategory = async (req, res) => {
+  const { categoria_id, limit } = req.params;
   try {
-    const { rows } = await pool.query('SELECT * FROM Products WHERE id = $1', [id]);
-    if (rows.length === 0) return res.status(404).json({ message: 'Product not found' });
-    res.status(200).json(rows[0]);
+    const client = await pool.connect();
+    const query = 'SELECT * FROM obtener_producto_por_categoria($1, $2);';
+    const result = await client.query(query, [categoria_id, limit || null]);
+    const productos = result.rows;
+    client.release();
+
+    if (productos.length > 0) {
+      res.status(200).json({ message: 'Productos obtenidos con éxito', productos });
+    } else {
+      throw { type: 'not_found', message: 'Productos no encontrados, intente otra categoría' };
+    }
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    ErrorHandler.handleError(error, res);
   }
 };
 
-const putProduct = async (req, res) => {
-  const { id } = req.params;
-  const { nombre, imagen, descripcion, precio, stock, categoria } = req.body;
+// Obtener productos por ocasión con un límite opcional
+const getProductsByOccasion = async (req, res) => {
+  const { ocasion_id, limit } = req.params;
   try {
-    const { rowCount } = await pool.query(
-      'UPDATE Products SET name = $1, image = $2, description = $3, price = $4, stock = $5, category = $6 WHERE id = $7',
-      [nombre, imagen, descripcion, precio, stock, categoria, id]
-    );
-    if (rowCount === 0) return res.status(404).json({ message: 'Product not found' });
-    res.status(200).json({ message: 'Product has been updated' });
+    const client = await pool.connect();
+    const query = 'SELECT * FROM obtener_producto_por_ocasion($1, $2);';
+    const result = await client.query(query, [ocasion_id, limit || null]);
+    const productos = result.rows;
+    client.release();
+
+    if (productos.length > 0) {
+      res.status(200).json({ message: 'Productos obtenidos con éxito', productos });
+    } else {
+      throw { type: 'not_found', message: 'Productos no encontrados, intente otra ocasión' };
+    }
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    ErrorHandler.handleError(error, res);
   }
 };
 
-const deleteProduct = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const { rowCount } = await pool.query('DELETE FROM Products WHERE id = $1', [id]);
-    if (rowCount === 0) return res.status(404).json({ message: 'Product not found' });
-    res.status(200).json({ message: 'Product deleted' });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+module.exports = {
+  getProducts,
+  getProductsByCategory,
+  getProductsByOccasion,
 };
-
-module.exports = { getProducts, getProductById, putProduct, deleteProduct };

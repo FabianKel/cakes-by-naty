@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { getUserById } = require('../controllers/usersController');
+const { getUserById, register, login, getAllUsers, editUser } = require('../controllers/usersController');
 
-// Ruta para obtener un usuario por ID
 router.get('/:u_id', getUserById);
+router.post('/all', getAllUsers);
+router.post('/register', register);
+router.post('/login', login);
+router.put('/edit', editUser)
 
 module.exports = router;

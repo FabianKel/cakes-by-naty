@@ -11,7 +11,8 @@ BEGIN
     -- 1. Buscar si el usuario ya tiene un carrito abierto
     SELECT CarritoID INTO v_carritoid
     FROM Carritos
-    WHERE UsuarioID = p_usuarioid;
+    WHERE UsuarioID = p_usuarioid
+    FOR UPDATE;  -- Bloquea el carrito para evitar condiciones de carrera
 
     -- 2. Si no existe un carrito para este usuario, crearlo
     IF v_carritoid IS NULL THEN
@@ -20,12 +21,12 @@ BEGIN
         RETURNING CarritoID INTO v_carritoid;
     END IF;
 
-    -- 3. Verificar si el producto ya está en el carrito
+    -- 3. Verificar si el producto ya está en el carrito (considerando personalización)
     SELECT Cantidad INTO v_producto_cantidad
     FROM Carrito_Producto
     WHERE CarritoID = v_carritoid
       AND ProductoID = p_productoid
-      AND (PersonalizacionID = p_personalizacionid OR p_personalizacionid IS NULL);
+      AND COALESCE(PersonalizacionID, -1) = COALESCE(p_personalizacionid, -1);  -- Maneja el NULL correctamente
 
     -- 4. Si el producto ya está en el carrito, actualizar la cantidad
     IF FOUND THEN
@@ -33,20 +34,25 @@ BEGIN
         SET Cantidad = v_producto_cantidad + p_cantidad
         WHERE CarritoID = v_carritoid
           AND ProductoID = p_productoid
-          AND (PersonalizacionID = p_personalizacionid OR p_personalizacionid IS NULL);
+          AND COALESCE(PersonalizacionID, -1) = COALESCE(p_personalizacionid, -1);
     ELSE
         -- 5. Si el producto no está en el carrito, agregarlo
         INSERT INTO Carrito_Producto (CarritoID, ProductoID, PersonalizacionID, Cantidad)
         VALUES (v_carritoid, p_productoid, p_personalizacionid, p_cantidad);
     END IF;
 
-    -- 6. Opcional: Actualizar el total del carrito
+    -- 6. Actualizar el total del carrito
     UPDATE Carritos
     SET Total = Total + (SELECT Precio FROM Productos WHERE ProductoID = p_productoid) * p_cantidad
     WHERE CarritoID = v_carritoid;
 
+    -- Opcional: Manejar errores con EXCEPTION
+    EXCEPTION
+        WHEN OTHERS THEN
+            RAISE EXCEPTION 'Error al agregar producto al carrito para el usuario %', p_usuarioid;
 END;
 $$ LANGUAGE plpgsql;
+
 
 CREATE OR REPLACE FUNCTION ver_carrito(p_carrito_id INT)
 RETURNS TABLE (

@@ -20,7 +20,7 @@ describe('Recrear el proceso de login', () => {
     client.release();
 
     const response = await request(app)
-      .post('/login')
+      .post('/user/login')
       .send({ username: 'edman', password: 'admin1234' })
       .set('Accept', 'application/json');
 
