@@ -36,7 +36,7 @@ jobs:
 
       - name: Run frontend tests inside Docker
         working-directory: ./frontend
-        run: docker compose exec app npm run test
+        run: docker compose exec npm run test
 
       - name: Shut down Docker Compose
         run: docker compose -f docker-compose.yml down

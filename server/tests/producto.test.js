@@ -19,7 +19,7 @@ describe('GET /productos/:id', () => {
     const client = await pool.connect();
     client.release();
 
-    const response = await request(app).get('/productos/1');
+    const response = await request(app).get('/producto/1');
 
     expect(response.statusCode).toBe(200);
     expect(response.body).toHaveProperty('producto');
