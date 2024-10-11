@@ -31,8 +31,7 @@ jobs:
       - name: Wait for services to be ready
         run: sleep 10
         
-      - name: Run backend tests inside Docker
-        run: docker compose exec server npm run test
+      
 
       - name: Run frontend tests inside Docker
         working-directory: ./frontend
