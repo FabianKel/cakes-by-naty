@@ -32,7 +32,8 @@ jobs:
         run: sleep 10
 
       - name: Run frontend tests inside Docker
-        run: docker compose exec frontend npm run test
+        working-directory: ./frontend
+        run: docker compose exec app npm run test
 
       - name: Shut down Docker Compose
         run: docker compose -f docker-compose.yml down
