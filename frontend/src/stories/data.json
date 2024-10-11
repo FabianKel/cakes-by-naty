@@ -1,0 +1,26 @@
+[   
+    {
+        "product_id": 1,
+        "productonombre": "Pastel 1",
+        "src": "https://placehold.co/600x400",
+        "alt": "Imagen"
+    },
+    {
+        "product_id": 2,
+        "productonombre": "Pastel 2",
+        "src": "https://placehold.co/600x400",
+        "alt": "Imagen"
+    },
+    {
+        "product_id": 3,
+        "productonombre": "Pastel 3",
+        "src": "https://placehold.co/600x400",
+        "alt": "Imagen"
+    },
+    {
+        "product_id": 2,
+        "productonombre": "Pastel 4",
+        "src": "https://placehold.co/600x400",
+        "alt": "Imagen"
+    }
+]
