@@ -21,7 +21,8 @@ describe('Recrear el proceso de login', () => {
 
     const response = await request(app)
       .post('/user/login')
-      .send({ username: 'edman', password: 'admin1234' })
+      .send({ username: 'Aleee26', password: 'miab2024' })
+
       .set('Accept', 'application/json');
 
     expect(response.statusCode).toBe(201);

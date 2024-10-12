@@ -21,6 +21,7 @@ describe('GET /products/:id', () => {
 
     const response = await request(app).get('/product/1');
 
+
     expect(response.statusCode).toBe(200);
     expect(response.body).toHaveProperty('producto');
     expect(response.body.producto).not.toBeNull();
