@@ -8,7 +8,7 @@ function HeroSection() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:4000/productos')
+    fetch('http://localhost:4000/products')
       .then((response) => response.json())
       .then((data) => setProducts(data.productos))
       .catch((error) => console.error('Error fetching products:', error));
