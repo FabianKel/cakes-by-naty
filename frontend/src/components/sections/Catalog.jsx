@@ -8,7 +8,7 @@ function Catalogo() {
     const [cupcakes, setCupcakes] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:4000/productos/categoria/3/3')
+        fetch('http://localhost:4000/products/categoria/3/3')
             .then((response) => response.json())
             .then((data) => {
                 console.log('Cakes:', data); 
@@ -16,7 +16,7 @@ function Catalogo() {
             })
             .catch((error) => console.error('Error fetching cakes:', error));
 
-        fetch('http://localhost:4000/productos/categoria/1/3')
+        fetch('http://localhost:4000/products/categoria/1/3')
             .then((response) => response.json())
             .then((data) => {
                 console.log('Cupcakes:', data); 

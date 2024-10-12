@@ -9,7 +9,7 @@ function AboutSection() {
                     <h1 className="text-5xl font-bold text-center mb-8 text-customPink1">Nuestra Historia</h1>
                     <p className="text-center text-lg text-gray-700 mb-8 italic">Un equipo diverso trabajando en estrecha colaboración para ofrecerte los mejores postres</p>
                     <div className="flex flex-col md:flex-row items-center mb-16">
-                        <Image src="/aboutus1.jpg" alt="About Us" className="w-full h-96 md:w-1/2 rounded-lg shadow-lg mb-8 md:mb-0 md:mr-8" />
+                        <Image src="cupcakes/aboutus1.jpg" alt="About Us" className="w-full h-96 md:w-1/2 rounded-lg shadow-lg mb-8 md:mb-0 md:mr-8" />
                         <div className="md:w-1/2 text-gray-700">
                             <p className="mb-4">
                                 En Cakes by Naty, no solo nos especializamos en la creación de pasteles deliciosos y personalizados para cualquier ocasión. Nuestro equipo de expertos pasteleros también crea una variedad de postres que incluyen galletas, cupcakes, cakepops y mucho más. Utilizamos solo los mejores ingredientes para asegurar que cada postre sea una obra de arte.
@@ -39,10 +39,10 @@ function AboutSection() {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-                        <Image src="/cake1.jpg" alt="Pasteles" className="w-full rounded-lg shadow-lg" />
+                        <Image src="pasteles/cake1.jpg" alt="Pasteles" className="w-full rounded-lg shadow-lg" />
                         <Image src="/cakepops1.webp" alt="Cakepops" className="w-full rounded-lg shadow-lg" />
                         <Image src="/chocolatecookies1.avif" alt="Galletas" className="w-full rounded-lg shadow-lg" />
-                        <Image src="/espumillas1.png" alt="Espumillas" className="w-full rounded-lg shadow-lg" />
+                        <Image src="espumillas/espumillas1.png" alt="Espumillas" className="w-full rounded-lg shadow-lg" />
                     </div>
                 </div>
             </section>

@@ -39,7 +39,7 @@ function Carrito() {
 
     useEffect(() => {
         if (usuario && usuario.usuarioid) {
-            fetch(`http://localhost:4000/carrito/${usuario.usuarioid}/`)
+            fetch(`http://localhost:4000/carts/${usuario.usuarioid}/`)
                 .then((response) => response.json())
                 .then((data) => {
                     if (Array.isArray(data)) {

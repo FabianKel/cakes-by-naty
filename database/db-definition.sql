@@ -22,6 +22,9 @@ ALTER DATABASE cakes_by_naty SET "app.jwt_double_auth"
 \i ../database/db-definition/tables/tables.sql
 --Primero se crean los usuarios y sus funciones
 \i ../database/db-definition/functions/users_functions.sql
+\i ../database/db-definition/functions/carrito_functions.sql
+
+
 \i ../database/db-definition/data/insert_users.sql
 
 

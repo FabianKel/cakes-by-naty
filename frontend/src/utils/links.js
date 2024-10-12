@@ -7,11 +7,11 @@ const domain = protocol + host + port;
 const root = domain;
 
 const links = {
-  login: `${root}/login`,
-  register: `${root}/register`,
-  pedidos: `${root}/pedidos`,
-  productos: `${root}/productos`,
-  usuarios: `${root}/usuarios`,
+  login: `${root}/users/login`,
+  register: `${root}/users/register`,
+  pedidos: `${root}/orders`,
+  productos: `${root}/products`,
+  usuarios: `${root}/users`,
 };
 
 export default links;

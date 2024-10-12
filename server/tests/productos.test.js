@@ -19,7 +19,7 @@ describe('Productos', () => {
     const client = await pool.connect();
     client.release();
 
-    const response = await request(app).get('/productos');
+    const response = await request(app).get('/products');
 
     expect(response.statusCode).toBe(200);
   });

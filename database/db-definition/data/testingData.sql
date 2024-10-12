@@ -104,32 +104,29 @@ VALUES
 ('Apartamento', '12 Calle, Edificio Central Park', 'Apto. 5B, Zona 10', 'Guatemala', 'Guatemala', 'Apartamento con vista al parque, timbre en la entrada principal.');
 
 
+--SE CREAN CARRITOS AL AGREGAR PRODUCTOS
+SELECT agregar_producto_a_carrito(1, 3, 1, NULL);
+SELECT agregar_producto_a_carrito(2, 1, 2, NULL);
+SELECT agregar_producto_a_carrito(2, 6, 1, NULL);
+SELECT agregar_producto_a_carrito(3, 6, 1, NULL);
+SELECT agregar_producto_a_carrito(1, 5, 1, NULL);
+SELECT agregar_producto_a_carrito(2, 4, 1, NULL);
+SELECT agregar_producto_a_carrito(3, 3, 1, NULL);
+SELECT agregar_producto_a_carrito(2, 3, 5, NULL);
+SELECT agregar_producto_a_carrito(6, 4, 1, NULL);
+SELECT agregar_producto_a_carrito(5, 6, 1, NULL);
+SELECT agregar_producto_a_carrito(6, 7, 1, NULL);
+SELECT agregar_producto_a_carrito(5, 9, 1, NULL);
+SELECT agregar_producto_a_carrito(3, 5, 1, NULL);
+SELECT agregar_producto_a_carrito(8, 4, 1, NULL);
+SELECT agregar_producto_a_carrito(4, 3, 2, NULL);
+SELECT agregar_producto_a_carrito(3, 2, 1, NULL);
+SELECT agregar_producto_a_carrito(4, 3, 1, NULL);
+SELECT agregar_producto_a_carrito(9, 5, 3, NULL);
+SELECT agregar_producto_a_carrito(10, 13, 1, NULL);
+SELECT agregar_producto_a_carrito(5, 3, 2, NULL);
+SELECT agregar_producto_a_carrito(7, 3, 1, NULL);
 
-INSERT INTO Carritos(UsuarioID, Total) VALUES
-(1, 50), (2, 95), (3, 350), (4, 100), (5, 30), (6, 500), (7, 95), (8, 350), (9, 100), (10, 60),
-(11, 90), (12, 65), (13, 250), (14, 400), (15, 30), (16, 80), (17, 95), (18, 350), (19, 400), (20, 550);
-
-INSERT INTO Carrito_Producto VALUES
-(1, 3, null, 2),
-(2, 1, null, 1),
-(2, 2, null, 1),
-(3, 4, NULL, 1),
-(1, 5, NULL, 3),
-(2, 6, NULL, 2),
-(3, 7, NULL, 1),
-(3, 15, NULL, 3),
-(2, 16, NULL, 2),
-(1, 17, NULL, 1),
-(3, 18, NULL, 4),
-(2, 19, NULL, 3),
-(1, 20, NULL, 2),
-(1, 8, NULL, 4),
-(3, 9, NULL, 2),
-(2, 10, NULL, 3),
-(1, 11, NULL, 2),
-(3, 12, NULL, 1),
-(2, 13, NULL, 2),
-(1, 14, NULL, 1);
 
 INSERT INTO Pedidos(CarritoID, Metodo_Pago, Pago_Anticipado, Pago_Completo, Estado_Orden) VALUES
 (1, 'efectivo', false, false, 'Sin-Entregar'),

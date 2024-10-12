@@ -14,12 +14,13 @@ afterAll(async () => {
   await pool.end(); // Cierra la conexión con la base de datos después de las pruebas
 });
 
-describe('GET /productos/:id', () => {
+describe('GET /products/:id', () => {
   test('La prueba debe retornar un producto en especifico', async () => {
     const client = await pool.connect();
     client.release();
 
-    const response = await request(app).get('/producto/1');
+    const response = await request(app).get('/product/1');
+
 
     expect(response.statusCode).toBe(200);
     expect(response.body).toHaveProperty('producto');
