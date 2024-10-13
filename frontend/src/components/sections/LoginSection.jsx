@@ -59,7 +59,7 @@ function LoginSection() {
           </div>
         )}
         <form onSubmit={formik.handleSubmit}>
-          <div className="mb-6">
+          <div className="mb-2">
             <input
               type="text"
               name="username"
@@ -70,10 +70,10 @@ function LoginSection() {
               className="w-full p-3 md:p-4 border border-pink-300 rounded-md font-poppins focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink mb-6"
             />
             {formik.errors.username && (
-              <div className="text-red-500 text-sm block text-center mt-2">{formik.errors.username}</div>
+              <div className="text-red-500 text-sm block text-center mb-6">{formik.errors.username}</div>
             )}
           </div>
-          <div className="mb-8 relative">
+          <div className="mb-2 relative">
             <input
               type={passwordVisible ? 'text' : 'password'}
               name="password"
@@ -92,9 +92,9 @@ function LoginSection() {
             </Button>
           </div>
           {formik.errors.password && (
-              <span className="text-red-500 text-sm block text-center mt-2">{formik.errors.password}</span>
+              <span className="text-red-500 text-sm block text-center mb-6 mt-6">{formik.errors.password}</span>
             )}
-          <div className="mb-8 mt-6">
+          <div className="mb-8 mt-12">
             <Button
               type="submit"
               className="w-full p-3 md:p-4 bg-white text-black border-pink-200 border-2 rounded-md font-poppins hover:bg-hoverPink transition duration-300"

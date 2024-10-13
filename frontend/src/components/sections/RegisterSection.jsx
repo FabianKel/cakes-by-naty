@@ -72,7 +72,7 @@ function RegisterSection() {
                             className="w-full p-3 md:p-4 border border-pink-300 rounded-md font-poppins focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink"
                         />
                         {formik.errors.username && (
-                            <span className="text-red-500 text-sm block text-center mt-2">{formik.errors.username}</span>
+                            <span className="text-red-500 text-sm block text-center mb-6 mt-4">{formik.errors.username}</span>
                         )}
                     </div>
                     <div className="mb-6">
@@ -86,10 +86,10 @@ function RegisterSection() {
                             className="w-full p-3 md:p-4 border border-pink-300 rounded-md font-poppins focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink"
                         />
                         {formik.errors.email && (
-                            <span className="text-red-500 text-sm block text-center mt-2">{formik.errors.email}</span>
+                            <span className="text-red-500 text-sm block text-center mb-6 mt-4">{formik.errors.email}</span>
                         )}
                     </div>
-                    <div className="mb-8 relative">
+                    <div className="mb-6 relative">
                         <input
                             type={passwordVisible ? 'text' : 'password'}
                             name="password"
@@ -108,9 +108,9 @@ function RegisterSection() {
                         </Button>
                     </div>
                     {formik.errors.password && (
-                        <span className="text-red-500 text-sm block text-center mt-2">{formik.errors.password}</span>
+                        <span className="text-red-500 text-sm block text-center mb-2">{formik.errors.password}</span>
                     )}
-                    <div className="mb-8 mt-6">
+                    <div className="mb-8 mt-12">
                         <Button
                             type="submit"
                             className="w-full p-3 md:p-4 bg-white text-black border-pink-200 border-2 rounded-md font-poppins hover:bg-hoverPink transition duration-300"
