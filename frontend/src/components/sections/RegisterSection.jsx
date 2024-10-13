@@ -6,6 +6,8 @@ import { useState } from 'react';
 import * as yup from 'yup';
 import { register } from '@/utils/https';
 import dynamic from 'next/dynamic';
+import Head from 'next/head';
+
 const Button = dynamic(() => import('@/components/common/Button'), { ssr: false });
 
 function RegisterSection() {
@@ -50,88 +52,95 @@ function RegisterSection() {
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-[url('/fondos/fondo.webp')] bg-cover backdrop-blur-sm">
-            <div className="z-10 bg-white/80 w-full max-w-sm md:max-w-lg mx-auto p-6 md:p-12 py-12 md:py-20 rounded-lg shadow-lg border border-pink-200">
-                <div className="text-center mb-8">
-                    <h1 className="text-2xl md:text-4xl font-semibold font-cursive text-pink-800">Registro</h1>
-                </div>
-                {alertMessage && (
-                    <div className={`mb-6 p-4 rounded-md text-white text-center ${alertType === 'success' ? 'bg-green-500' : 'bg-red-400'}`}>
-                        {alertMessage}
+        <>
+            {/* Preload de la imagen solo en la página de registro */}
+            <Head>
+                <link rel="preload" href="/fondos/fondo.webp" as="image" />
+            </Head>
+
+            <div className="flex items-center justify-center min-h-screen bg-[url('/fondos/fondo.webp')] bg-cover backdrop-blur-sm">
+                <div className="z-10 bg-white/80 w-full max-w-sm md:max-w-lg mx-auto p-6 md:p-12 py-12 md:py-20 rounded-lg shadow-lg border border-pink-200">
+                    <div className="text-center mb-8">
+                        <h1 className="text-2xl md:text-4xl font-semibold font-cursive text-pink-800">Registro</h1>
                     </div>
-                )}
-                <form onSubmit={formik.handleSubmit}>
-                    <div className="mb-6">
-                        <input
-                            type="text"
-                            name="username"
-                            placeholder="Usuario"
-                            value={formik.values.username}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            className="w-full p-3 md:p-4 border border-pink-300 rounded-md font-poppins focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink"
-                        />
-                        {formik.errors.username && (
-                            <span className="text-red-500 text-sm block text-center mb-6 mt-4">{formik.errors.username}</span>
-                        )}
-                    </div>
-                    <div className="mb-6">
-                        <input
-                            type="email"
-                            name="email"
-                            placeholder="Correo electrónico"
-                            value={formik.values.email}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            className="w-full p-3 md:p-4 border border-pink-300 rounded-md font-poppins focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink"
-                        />
-                        {formik.errors.email && (
-                            <span className="text-red-500 text-sm block text-center mb-6 mt-4">{formik.errors.email}</span>
-                        )}
-                    </div>
-                    <div className="mb-6 relative">
-                        <input
-                            type={passwordVisible ? 'text' : 'password'}
-                            name="password"
-                            placeholder="Contraseña"
-                            value={formik.values.password}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            className="w-full p-3 md:p-4 border border-pink-300 rounded-md font-poppins focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink"
-                        />
-                        <Button
-                            type="button"
-                            onClick={togglePasswordVisibility}
-                            className="absolute inset-y-0 right-0 px-3 flex items-center text-pink-600"
-                        >
-                            {passwordVisible ? 'Ocultar' : 'Mostrar'}
-                        </Button>
-                    </div>
-                    {formik.errors.password && (
-                        <span className="text-red-500 text-sm block text-center mb-2">{formik.errors.password}</span>
+                    {alertMessage && (
+                        <div className={`mb-6 p-4 rounded-md text-white text-center ${alertType === 'success' ? 'bg-green-500' : 'bg-red-400'}`}>
+                            {alertMessage}
+                        </div>
                     )}
-                    <div className="mb-8 mt-12">
-                        <Button
-                            type="submit"
-                            className="w-full p-3 md:p-4 bg-white text-black border-pink-200 border-2 rounded-md font-poppins hover:bg-hoverPink transition duration-300"
-                        >
-                            Regístrate
-                        </Button>
+                    <form onSubmit={formik.handleSubmit}>
+                        <div className="mb-6">
+                            <input
+                                type="text"
+                                name="username"
+                                placeholder="Usuario"
+                                value={formik.values.username}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                className="w-full p-3 md:p-4 border border-pink-300 rounded-md font-poppins focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink"
+                            />
+                            {formik.errors.username && (
+                                <span className="text-red-500 text-sm block text-center mb-6 mt-4">{formik.errors.username}</span>
+                            )}
+                        </div>
+                        <div className="mb-6">
+                            <input
+                                type="email"
+                                name="email"
+                                placeholder="Correo electrónico"
+                                value={formik.values.email}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                className="w-full p-3 md:p-4 border border-pink-300 rounded-md font-poppins focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink"
+                            />
+                            {formik.errors.email && (
+                                <span className="text-red-500 text-sm block text-center mb-6 mt-4">{formik.errors.email}</span>
+                            )}
+                        </div>
+                        <div className="mb-6 relative">
+                            <input
+                                type={passwordVisible ? 'text' : 'password'}
+                                name="password"
+                                placeholder="Contraseña"
+                                value={formik.values.password}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                className="w-full p-3 md:p-4 border border-pink-300 rounded-md font-poppins focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink"
+                            />
+                            <Button
+                                type="button"
+                                onClick={togglePasswordVisibility}
+                                className="absolute inset-y-0 right-0 px-3 flex items-center text-pink-600"
+                            >
+                                {passwordVisible ? 'Ocultar' : 'Mostrar'}
+                            </Button>
+                        </div>
+                        {formik.errors.password && (
+                            <span className="text-red-500 text-sm block text-center mb-2">{formik.errors.password}</span>
+                        )}
+                        <div className="mb-8 mt-12">
+                            <Button
+                                type="submit"
+                                className="w-full p-3 md:p-4 bg-white text-black border-pink-200 border-2 rounded-md font-poppins hover:bg-hoverPink transition duration-300"
+                            >
+                                Regístrate
+                            </Button>
+                        </div>
+                    </form>
+                    <div className="text-center mt-8">
+                        <p className="text-sm md:text-base">
+                            ¿Ya tienes una cuenta?{' '}
+                            <a
+                                onClick={() => router.push('/login')}
+                                className="text-pink-600 hover:text-pink-800 hover:cursor-pointer font-bold transition-colors"
+                            >
+                                Inicia Sesión
+                            </a>
+                        </p>
                     </div>
-                </form>
-                <div className="text-center mt-8">
-                    <p className="text-sm md:text-base">
-                        ¿Ya tienes una cuenta?{' '}
-                        <a
-                            onClick={() => router.push('/login')}
-                            className="text-pink-600 hover:text-pink-800 hover:cursor-pointer font-bold transition-colors"
-                        >
-                            Inicia Sesión
-                        </a>
-                    </p>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 

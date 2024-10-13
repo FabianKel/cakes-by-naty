@@ -296,7 +296,7 @@ function ProductCRUD() {
                                         placeholder="Ej: Fondant"
                                         className="w-full p-2 border rounded-md mb-4"
                                     >
-                                         <option value="">Selecciona una cobertura</option>
+                                        <option value="">Selecciona una cobertura</option>
                                         <option value="5">Cream Cheese</option>
                                         <option value="3">Crema de Mantequilla</option>
                                         <option value="1">Fondant</option>
