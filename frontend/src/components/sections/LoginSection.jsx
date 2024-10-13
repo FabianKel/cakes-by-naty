@@ -4,8 +4,10 @@ import { useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import * as yup from 'yup';
-import Button from '@/components/common/Button';
 import { login } from '@/utils/https';
+import dynamic from 'next/dynamic';
+
+const Button = dynamic(() => import('@/components/common/Button'), { ssr: false });
 
 function LoginSection() {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -46,8 +48,7 @@ function LoginSection() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[url('/fondos/fondo.jpeg')] bg-cover backdrop-blur-sm">
-      <div className="absolute inset-0 bg-white/20 backdrop-blur-sm"></div>
+    <div className="flex items-center justify-center min-h-screen bg-[url('/fondos/fondo.webp')] bg-cover backdrop-blur-sm">
       <div className="z-10 bg-white/80 w-full max-w-sm md:max-w-lg mx-auto p-6 md:p-12 py-12 md:py-20 rounded-lg shadow-lg border border-pink-200">
         <div className="text-center mb-8">
           <h1 className="text-2xl md:text-4xl font-semibold font-cursive text-pink-800">¡Bienvenido!</h1>
