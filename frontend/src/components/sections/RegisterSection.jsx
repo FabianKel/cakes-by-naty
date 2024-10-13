@@ -1,16 +1,13 @@
 'use client';
 import React from 'react';
-
-import { register } from '@/utils/https';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import * as yup from 'yup';
 import Button from '@/components/common/Button';
-
+import { register } from '@/utils/https';
 
 function RegisterSection() {
-    //Para este register se debe tomar el Rol del usuario como el predeterminado osea "Cliente"
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
     const [alertType, setAlertType] = useState('');
@@ -31,8 +28,8 @@ function RegisterSection() {
         },
         validationSchema: yup.object({
             username: yup.string().trim().required('Nombre de usuario es requerido'),
-            email: yup.string().trim().required('Correo electrónico es requerido'),
-            password: yup.string().trim().required('Contraseña es requerido'),
+            email: yup.string().email().required('Correo electrónico es requerido'),
+            password: yup.string().trim().required('Contraseña es requerida'),
         }),
     });
 
@@ -42,7 +39,7 @@ function RegisterSection() {
         if (user?.register) {
             setAlertType('success');
             setAlertMessage('¡Registro exitoso!');
-            await new Promise(resolve => setTimeout(resolve, 2000)); 
+            await new Promise(resolve => setTimeout(resolve, 2000));
             router.push('/login');
         } else {
             setAlertType('error');
@@ -52,13 +49,14 @@ function RegisterSection() {
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-white">
-            <div className="bg-white w-full max-w-lg mx-auto p-12 py-20 rounded-lg shadow-lg border border-gray-300">
+        <div className="flex items-center justify-center min-h-screen bg-[url('/fondos/fondo.jpeg')] bg-cover backdrop-blur-sm">
+            <div className="absolute inset-0 bg-white/20 backdrop-blur-sm"></div>
+            <div className="z-10 bg-white/80 w-full max-w-sm md:max-w-lg mx-auto p-6 md:p-12 py-12 md:py-20 rounded-lg shadow-lg border border-pink-200">
                 <div className="text-center mb-8">
-                    <h1 className="text-3xl font-semibold font-poppins">Registro</h1>
+                    <h1 className="text-2xl md:text-4xl font-semibold font-cursive text-pink-800">Registro</h1>
                 </div>
                 {alertMessage && (
-                    <div className={`mb-4 p-4 rounded-md text-white text-center ${alertType === 'success' ? 'bg-green-500' : 'bg-red-500'}`}>
+                    <div className={`mb-6 p-4 rounded-md text-white text-center ${alertType === 'success' ? 'bg-green-500' : 'bg-red-400'}`}>
                         {alertMessage}
                     </div>
                 )}
@@ -71,62 +69,62 @@ function RegisterSection() {
                             value={formik.values.username}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            className="w-full p-4 border border-gray-300 rounded-md font-poppins"
+                            className="w-full p-3 md:p-4 border border-pink-300 rounded-md font-poppins focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink"
                         />
                         {formik.errors.username && (
-                            <span className="text-red-500 text-sm block text-center mt-4">{formik.errors.username}</span>
+                            <span className="text-red-500 text-sm block text-center mt-2">{formik.errors.username}</span>
                         )}
                     </div>
                     <div className="mb-6">
                         <input
                             type="email"
                             name="email"
-                            placeholder="Email"
+                            placeholder="Correo electrónico"
                             value={formik.values.email}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            className="w-full p-4 border border-gray-300 rounded-md font-poppins"
+                            className="w-full p-3 md:p-4 border border-pink-300 rounded-md font-poppins focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink"
                         />
                         {formik.errors.email && (
-                            <span className="text-red-500 text-sm block text-center mt-4">{formik.errors.email}</span>
+                            <span className="text-red-500 text-sm block text-center mt-2">{formik.errors.email}</span>
                         )}
                     </div>
-                    <div className="mb-6 relative">
+                    <div className="mb-8 relative">
                         <input
                             type={passwordVisible ? 'text' : 'password'}
                             name="password"
-                            placeholder="Password"
+                            placeholder="Contraseña"
                             value={formik.values.password}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            className="w-full p-4 border border-gray-300 rounded-md font-poppins"
+                            className="w-full p-3 md:p-4 border border-pink-300 rounded-md font-poppins focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-pink"
                         />
                         <Button
                             type="button"
                             onClick={togglePasswordVisibility}
-                            className="absolute inset-y-0 right-0 px-3 flex items-center text-gray-600"
+                            className="absolute inset-y-0 right-0 px-3 flex items-center text-pink-600"
                         >
                             {passwordVisible ? 'Ocultar' : 'Mostrar'}
                         </Button>
                     </div>
                     {formik.errors.password && (
-                            <span className="text-red-500 text-sm block text-center mt-2">{formik.errors.password}</span>
-                        )}
-                    <div className="mb-8 mt-8 ">
+                        <span className="text-red-500 text-sm block text-center mt-2">{formik.errors.password}</span>
+                    )}
+                    <div className="mb-8 mt-6">
                         <Button
                             type="submit"
-                            className="w-full p-4 bg-white text-black border-hoverPink border-2 rounded-md font-poppins hover:bg-hoverPink transition duration-300"
+                            className="w-full p-3 md:p-4 bg-white text-black border-pink-200 border-2 rounded-md font-poppins hover:bg-hoverPink transition duration-300"
                         >
                             Regístrate
                         </Button>
                     </div>
                 </form>
                 <div className="text-center mt-8">
-                    <p>
+                    <p className="text-sm md:text-base">
                         ¿Ya tienes una cuenta?{' '}
                         <a
                             onClick={() => router.push('/login')}
-                            className="text-midPink hover:text-hoverPink hover:cursor-pointer font-bold transition-colors"
+                            className="text-pink-600 hover:text-pink-800 hover:cursor-pointer font-bold transition-colors"
                         >
                             Inicia Sesión
                         </a>
