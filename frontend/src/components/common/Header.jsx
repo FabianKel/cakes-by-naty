@@ -29,11 +29,11 @@ function Header() {
   };
 
   return (
-    <header className='flex justify-between items-center p-6 bg-customPink'>
+    <header className='flex justify-between items-center p-6 bg-customBlue2'>
       <div className='text-2xl font-bold flex items-center'>
         <Link href='/'>
           <img
-            src='Logos/cbn.png'
+            src='Logos/logo.png'
             alt='Cakes by Naty'
             className='h-30 w-40 mr-4 hover:scale-105 transition-transform duration-300'
           />
@@ -51,12 +51,12 @@ function Header() {
                 className='mr-16 transition-transform transform hover:scale-125'
               />
             </a>
-            <Link href='/catalog' className='text-lg text-gray-800 hover:text-hoverPink font-navheader mr-6'>
+            <Link href='/catalog' className='text-lg text-gray-800 hover:text-hoverPurple font-navheader mr-6'>
               Catálogo
             </Link>
           </li>
           <li className='flex items-center'>
-            <Link href='/about' className='text-lg text-gray-800 hover:text-hoverPink font-navheader mr-6'>
+            <Link href='/about' className='text-lg text-gray-800 hover:text-hoverPurple font-navheader mr-6'>
               Sobre Nosotros
             </Link>
           </li>
@@ -65,7 +65,7 @@ function Header() {
             {isAuth ? (
               <Popover handleLogout={handleLogout} />
             ) : (
-              <Link href='/login' className='text-lg text-gray-800 hover:text-hoverPink font-navheader ml-6 mr-6'>
+              <Link href='/login' className='text-lg text-gray-800 hover:text-hoverPurple font-navheader ml-6 mr-6'>
                 Iniciar Sesión
               </Link>
             )}

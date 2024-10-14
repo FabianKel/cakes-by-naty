@@ -83,7 +83,7 @@ function Carrito({ user_id }) {
                         <>
                             <ul className="space-y-6">
                                 {desserts.map((dessert) => (
-                                    <li key={dessert.producto_id} className="flex flex-col sm:flex-row items-start bg-[#e2c2c4] shadow-lg rounded-lg p-6">
+                                    <li key={dessert.producto_id} className="flex flex-col sm:flex-row items-start bg-[#8a7db3] shadow-lg rounded-lg p-6">
                                         <div className="flex-shrink-0 w-full sm:w-40 h-40 relative mb-4 sm:mb-0">
                                             <Image
                                                 src={dessert.imagen1_producto}
@@ -99,7 +99,7 @@ function Carrito({ user_id }) {
                                             <div className="flex items-center mt-2">
                                                 <span className="text-lg text-[#000000] mr-2">Cantidad:</span>
                                                 <button 
-                                                    className="bg-[#FEE4E5] text-black py-1 px-3 border border-gray-400 hover:bg-[#fdb5b5]"
+                                                    className="bg-[#020a5f] text-white py-1 px-3 border border-gray-400 hover:bg-[#bbbcdb]"
                                                     onClick={() => handleDecrease(dessert.producto_id)}
                                                 >
                                                     -
@@ -108,7 +108,7 @@ function Carrito({ user_id }) {
                                                     {dessert.cantidad}
                                                 </div>
                                                 <button 
-                                                    className="bg-[#FEE4E5] text-black py-1 px-3 border border-gray-400 hover:bg-[#fdb5b5]"
+                                                    className="bg-[#002484] text-white py-1 px-3 border border-gray-400 hover:bg-[#bbbcdb]"
                                                     onClick={() => handleIncrease(dessert.producto_id)}
                                                 >
                                                     +
@@ -117,7 +117,7 @@ function Carrito({ user_id }) {
                                         </div>
                                         <div className="flex flex-col items-center sm:ml-4 mt-4 sm:mt-0">
                                             <button
-                                                className="bg-[#FEE4E5] text-black py-2 px-4 rounded-lg shadow-lg hover:bg-gray-800"
+                                                className="bg-[#002484] text-white py-2 px-4 rounded-lg shadow-lg hover:bg-[#bbbcdb]"
                                                 onClick={() => handleRemove(dessert.producto_id)}
                                             >
                                                 Quitar
@@ -128,7 +128,7 @@ function Carrito({ user_id }) {
                             </ul>
                             <div className="p-4 flex justify-end">
                                 <button
-                                    className="bg-[#FEE4E5] text-black py-3 px-6 rounded-lg shadow-lg hover:bg-gray-800"
+                                    className="bg-[#002484] text-black py-3 px-6 rounded-lg shadow-lg hover:bg-[#bbbcdb]"
                                     onClick={handleConfirm}
                                 >
                                     Recibo
