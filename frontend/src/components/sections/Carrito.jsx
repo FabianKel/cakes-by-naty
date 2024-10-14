@@ -60,7 +60,7 @@ function Carrito() {
     };
 
     const handleRemove = (id) => {
-        fetch(`http://localhost:4000/carrito/${user_id}/producto/${id}`, {
+        fetch(`http://localhost:4000/carts/${usuario.usuarioid}/producto/${id}`, {
             method: 'DELETE',
         })
         .then((response) => {

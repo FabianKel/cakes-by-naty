@@ -38,12 +38,12 @@ const addProductToCart = async (req, res) => {
 
 //eliminar producto de carrito
 const deleteProductFromCart = async (req, res) => {
-    const { carritoId, productoId } = req.params;
+    const { user_id, producto_id } = req.params;
     try {
       const client = await pool.connect();
   
       const eliminarProductoCarritoQuery = 'SELECT * FROM eliminar_producto_carrito($1, $2);';
-      await client.query(eliminarProductoCarritoQuery, [carritoId, productoId]);
+      await client.query(eliminarProductoCarritoQuery, [user_id, producto_id]);
   
       client.release();
   
