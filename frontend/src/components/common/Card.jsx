@@ -8,15 +8,17 @@ function Card({ product, showButton = true }) {
 
   return (
     <div className="w-full max-w-xs rounded-lg shadow-lg flex flex-col justify-between mx-4 mb-6 overflow-hidden transition-transform transform hover:scale-105">
-      <h2 className="text-xl font-bold mb-2 font-navheader text-center h-12"> 
-        {product.productonombre}
-      </h2>
-      <div className="flex justify-center items-center h-48 w-full mb-4">
-        <Image
-          src={product.imagen1}
-          alt={product.productonombre}
-          className="w-full h-full object-cover rounded-md"
-        />
+      <div className="px-4">
+        <h2 className="text-lg font-bold mb-2 font-hsubtitles text-center pt-4"> 
+          {product.productonombre}
+        </h2>
+        <div className="flex justify-center items-center h-48 w-full mb-4">
+          <Image
+            src={product.imagen1}
+            alt={product.productonombre}
+            className="w-full h-full object-cover rounded-md"
+          />
+        </div>
       </div>
       {showButton && (
         <div className="flex justify-center mt-auto mb-4">
