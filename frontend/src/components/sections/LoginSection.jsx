@@ -96,7 +96,7 @@ function LoginSection() {
           <div className="mb-8">
             <Button
               type="submit"
-              className="w-full p-4 bg-white-600 text-black border-2 border-customPink1 rounded-md font-poppins hover:bg-customPink1 transition duration-300"
+              className="w-full p-4 bg-white-600 text-black border-2 border-Purple rounded-md font-poppins hover:bg-customPink1 transition duration-300"
             >
               Inicia Sesión
             </Button>
@@ -107,7 +107,7 @@ function LoginSection() {
             ¿Aún no tienes una cuenta?{' '}
             <a
               onClick={() => router.push('/register')}
-              className="text-midPink hover:text-hoverPink hover:cursor-pointer font-bold transition-colors"
+              className="text-Purple hover:text- hover:cursor-pointer font-bold transition-colors"
             >
               Regístrate
             </a>

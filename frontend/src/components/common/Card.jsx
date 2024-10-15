@@ -20,7 +20,7 @@ function Card({ product, showButton = true }) {
       {showButton && ( // Solo se muestra si es true
         <div className='flex justify-center mt-auto'>
           <Button
-            className='p-2 bg-buttonCardPurple text-white rounded-md hover:bg-customBlue2 transition duration-300 font-navheader'
+            className='p-2 bg-Purple text-white rounded-md hover:bg-customBlue2 transition duration-300 font-navheader'
             onClick={() => router.push(`/productos/${product.productoid}`)}
           >
             Ver más

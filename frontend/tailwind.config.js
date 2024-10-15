@@ -17,7 +17,7 @@ module.exports = {
         subtitlesPink: '#BC6B6B',
         customCream:'#FEFDED',
         customGray: '#EBEBEB',
-        buttonCardPurple: '#5d63c8',
+        Purple: '#5d63c8',
         customPurple: '#8a7db3',
         customPurple1: '#8386bb',
         hoverPurple: '#8386bb',
@@ -25,6 +25,7 @@ module.exports = {
         customBlue: '#002484',
         customBlue1: '#020a5f',
         customBlue2: '#d1d2ec',
+        Purple1: '#f4f4ff',
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
