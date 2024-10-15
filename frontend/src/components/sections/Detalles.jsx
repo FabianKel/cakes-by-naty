@@ -62,7 +62,7 @@ const ProductDetails = ({ id }) => {
           <div className='text-center text-2xl font-bold mb-6 text-[#000000]'>{product.productonombre}</div>
 
           <div className='flex flex-col md:flex-row items-center justify-center gap-8 w-full md:w-3/4'>
-            <div className='bg-[#e2c2c4] p-4 rounded shadow-lg flex justify-center items-center w-full md:w-1/2'>
+            <div className='bg-[#696ec1] p-4 rounded shadow-lg flex justify-center items-center w-full md:w-1/2'>
               <div className='relative w-full h-0' style={{ paddingBottom: '100%' }}>
                 <Image
                   src={product.imagen1}
@@ -77,7 +77,7 @@ const ProductDetails = ({ id }) => {
             <div className='w-full md:w-1/2 text-center md:text-left'>
               <h1 className='text-3xl font-bold mb-2 text-[#000000]'>{product.productonombre}</h1>
               <p className='text-lg font-bold mb-2'>{product.additionalInfo}</p>
-              <span className='inline-block bg-[#e2c2c4] text-black py-1 px-3 rounded-full text-sm font-semibold mb-4'>
+              <span className='inline-block bg-[#696ec1] text-white py-1 px-3 rounded-full text-sm font-semibold mb-4'>
                 {product.ocasion}
               </span>
               <p className='text-lg font-bold mb-4'>{product.descripcion}</p>
@@ -107,7 +107,7 @@ const ProductDetails = ({ id }) => {
             </button>
 
             <button
-              className='bg-[#e2c2c4] text-black py-3 px-6 rounded-lg shadow-lg hover:bg-hoverPink text-lg'
+              className='bg-[#adaec5] text-black py-3 px-6 rounded-lg shadow-lg hover:bg-hoverPurple text-lg'
               onClick={handleAddToCart}
             >
               Agregar

@@ -83,7 +83,7 @@ function Carrito({ user_id }) {
                         <>
                             <ul className="space-y-6">
                                 {desserts.map((dessert) => (
-                                    <li key={dessert.producto_id} className="flex flex-col sm:flex-row items-start bg-[#8a7db3] shadow-lg rounded-lg p-6">
+                                    <li key={dessert.producto_id} className="flex flex-col sm:flex-row items-start bg-[#696ec1] shadow-lg rounded-lg p-6">
                                         <div className="flex-shrink-0 w-full sm:w-40 h-40 relative mb-4 sm:mb-0">
                                             <Image
                                                 src={dessert.imagen1_producto}
@@ -94,12 +94,12 @@ function Carrito({ user_id }) {
                                             />
                                         </div>
                                         <div className="flex-1 sm:ml-6">
-                                            <h3 className="text-2xl font-bold text-[#000000] mb-2">{dessert.nombre_producto}</h3>
-                                            <p className="text-lg text-[#000000]">Precio: Q{parseFloat(dessert.precio).toFixed(2)}</p>
+                                            <h3 className="text-2xl font-bold text-[#ffffff] mb-2">{dessert.nombre_producto}</h3>
+                                            <p className="text-lg text-[#ffffff]">Precio: Q{parseFloat(dessert.precio).toFixed(2)}</p>
                                             <div className="flex items-center mt-2">
-                                                <span className="text-lg text-[#000000] mr-2">Cantidad:</span>
+                                                <span className="text-lg text-[#ffffff] mr-2">Cantidad:</span>
                                                 <button 
-                                                    className="bg-[#020a5f] text-white py-1 px-3 border border-gray-400 hover:bg-[#bbbcdb]"
+                                                    className="bg-[#adaec5] text-black py-1 px-3 border border-gray-400 hover:bg-[#888aae]"
                                                     onClick={() => handleDecrease(dessert.producto_id)}
                                                 >
                                                     -
@@ -108,7 +108,7 @@ function Carrito({ user_id }) {
                                                     {dessert.cantidad}
                                                 </div>
                                                 <button 
-                                                    className="bg-[#002484] text-white py-1 px-3 border border-gray-400 hover:bg-[#bbbcdb]"
+                                                    className="bg-[#adaec5] text-black py-1 px-3 border border-gray-400 hover:bg-[#888aae]"
                                                     onClick={() => handleIncrease(dessert.producto_id)}
                                                 >
                                                     +
@@ -117,7 +117,7 @@ function Carrito({ user_id }) {
                                         </div>
                                         <div className="flex flex-col items-center sm:ml-4 mt-4 sm:mt-0">
                                             <button
-                                                className="bg-[#002484] text-white py-2 px-4 rounded-lg shadow-lg hover:bg-[#bbbcdb]"
+                                                className="bg-[#adaec5] text-black py-2 px-4 rounded-lg shadow-lg hover:bg-[#888aae]"
                                                 onClick={() => handleRemove(dessert.producto_id)}
                                             >
                                                 Quitar
@@ -128,7 +128,7 @@ function Carrito({ user_id }) {
                             </ul>
                             <div className="p-4 flex justify-end">
                                 <button
-                                    className="bg-[#002484] text-black py-3 px-6 rounded-lg shadow-lg hover:bg-[#bbbcdb]"
+                                    className="bg-[#696ec1] text-white py-3 px-6 rounded-lg shadow-lg hover:bg-[#888aae]"
                                     onClick={handleConfirm}
                                 >
                                     Recibo
