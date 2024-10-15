@@ -22,7 +22,7 @@ module.exports = {
         customPurple1: '#8386bb',
         hoverPurple: '#8386bb',
         buttonCardBlue: '#002484',
-        customBlue: '#002484',
+        Purple: '#8386bb',
         customBlue1: '#020a5f',
         customBlue2: '#d1d2ec',
         Purple1: '#f4f4ff',
