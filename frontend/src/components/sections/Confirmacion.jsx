@@ -23,19 +23,19 @@ function ConfirmOrder() {
                 >
                     &larr; 
                 </button>
-                <div className="bg-[#e2c2c4] shadow-lg rounded-lg p-8 text-center w-full md:w-1/2 mx-auto">
-                    <h2 className="text-3xl font-bold text-[#000000] mb-6">Cakes by Naty</h2>
-                    <p className="text-lg text-[#000000]">
+                <div className="bg-[#8386bb] shadow-lg rounded-lg p-8 text-center w-full md:w-1/2 mx-auto">
+                    <h2 className="text-3xl font-bold text-[#ffffff] mb-6">Cakes by Naty</h2>
+                    <p className="text-lg text-[#ffffff]">
                         Por favor, revisa tu pedido antes de confirmar.
                     </p>
-                    <p className="text-lg text-[#000000]">
+                    <p className="text-lg text-[#ffffff]">
                         ¿Está todo correcto?
                     </p>
-                    <p className="text-lg font-bold mt-4">
-                        Tu número de orden es <span className="text-[#000000]">#00001</span>
+                    <p className="text-lg text-[#ffffff] font-bold mt-4">
+                        Tu número de orden es <span className="text-[#ffffff]">#00001</span>
                     </p>
                     <button
-                        className="bg-[#FEE4E5] text-black py-3 px-6 mt-6 rounded-lg shadow-lg hover:bg-gray-800 transition-colors"
+                        className="bg-[#d0d0ff] text-black py-3 px-6 mt-6 rounded-lg shadow-lg hover:bg-[#f4f4ff] transition-colors"
                         onClick={handleConfirm}
                     >
                         Pagar
