@@ -5,16 +5,16 @@ import Icon from '@/components/common/Icon'
 function Footer() {
     return (
         <footer>
-            <div className="bg-customPink py-8 px-4">
+            <div className="bg-baseLilac py-8 px-4">
                 <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
                     <div>
                         <h2 className="text-xl md:text-2xl font-bold mb-4 font-subtitles">Cakes by Naty</h2>
                         <ul>
                             <li className="mb-2">
-                                <Link href="/catalog" className="text-gray-800 hover:text-hoverPink">Catálogo</Link>
+                                <Link href="/catalog" className="text-gray-800 hover:text-white">Catálogo</Link>
                             </li>
                             <li className="mb-2">
-                                <Link href="/about" className="text-gray-800 hover:text-hoverPink">Sobre Nosotros</Link>
+                                <Link href="/about" className="text-gray-800 hover:text-white">Sobre Nosotros</Link>
                             </li>
                         </ul>
                     </div>
@@ -38,8 +38,8 @@ function Footer() {
                     </div>
                 </div>
             </div>
-            <div className="bg-otherPink py-4 w-full">
-                <div className="text-center text-sm md:text-base text-gray-600">
+            <div className="bg-baseLavender py-4 w-full">
+                <div className="text-center text-sm md:text-base text-white">
                     © 2024, Cakes by Naty. Todos los derechos reservados.
                 </div>
             </div>

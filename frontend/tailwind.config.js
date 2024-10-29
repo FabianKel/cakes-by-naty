@@ -17,6 +17,11 @@ module.exports = {
         subtitlesPink: '#BC6B6B',
         customCream:'#FEFDED',
         customGray: '#EBEBEB',
+        baseLilac: '#D1D2EC',
+        baseLavender: '#8386BB',
+        mainhoverIndigo: "#4B0082",
+        titlesPurple: "#656DCE",
+        subtitlesPurple: '#5F65AF',
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

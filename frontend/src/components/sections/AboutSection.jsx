@@ -7,12 +7,11 @@ function AboutSection() {
             <section className="bg-white py-20 px-4">
                 <div className="container mx-auto">
                     {/* Título */}
-                    <h1 className="text-4xl md:text-5xl font-bold text-center mb-8 text-customPink1">Nuestra Historia</h1>
+                    <h1 className="text-4xl md:text-5xl font-bold text-center mb-8 text-titlesPurple">Nuestra Historia</h1>
                     <p className="text-center text-lg text-gray-700 mb-8 italic">
                         Un equipo diverso trabajando en estrecha colaboración para ofrecerte los mejores postres
                     </p>
 
-                    {/* Imagen y texto de la historia */}
                     <div className="flex flex-col md:flex-row items-center mb-16 space-y-8 md:space-y-0 md:space-x-8">
                         <Image
                             src="aboutus/aboutus1.jpg"
@@ -43,7 +42,7 @@ function AboutSection() {
                     <div className="bg-customCream p-6 md:p-8 rounded-lg shadow-lg mb-16 text-center">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <div className="p-4">
-                                <h2 className="text-2xl md:text-3xl font-bold mb-4 text-subtitlesPink">Nuestra Misión</h2>
+                                <h2 className="text-2xl md:text-3xl font-bold mb-4 text-subtitlesPurple">Nuestra Misión</h2>
                                 <p className="text-gray-700">
                                     Nuestra misión es hacer tus momentos especiales aún más dulces con nuestros pasteles personalizados y
                                     deliciosos. Nos comprometemos a utilizar solo los mejores ingredientes y a ofrecer un servicio
@@ -51,7 +50,7 @@ function AboutSection() {
                                 </p>
                             </div>
                             <div className="p-4">
-                                <h2 className="text-2xl md:text-3xl font-bold mb-4 text-subtitlesPink">Nuestra Visión</h2>
+                                <h2 className="text-2xl md:text-3xl font-bold mb-4 text-subtitlesPurple">Nuestra Visión</h2>
                                 <p className="text-gray-700">
                                     Aspiramos a ser la pastelería preferida en la región, conocida por la calidad y creatividad de nuestros
                                     productos. Queremos que cada cliente se sienta especial y que nuestros postres sean parte de sus

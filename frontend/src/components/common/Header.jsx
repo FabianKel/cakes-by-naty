@@ -28,7 +28,7 @@ function Header() {
   };
 
   return (
-    <header className='flex flex-col md:flex-row justify-between items-center p-4 md:p-6 bg-customPink'>
+    <header className='flex flex-col md:flex-row justify-between items-center p-4 md:p-6 bg-baseLilac'>
       <div className='flex justify-center md:justify-start w-full md:w-auto'>
         <Link href='/'>
           <img
@@ -50,12 +50,12 @@ function Header() {
                 className='mr-2 md:mr-16 transition-transform transform hover:scale-125'
               />
             </a>
-            <Link href='/catalog' className='text-sm md:text-lg text-gray-800 hover:text-hoverPink font-navheader'>
+            <Link href='/catalog' className='text-sm md:text-lg text-gray-800 hover:text-mainhoverIndigo font-navheader text-bold'>
               Catálogo
             </Link>
           </li>
           <li className='flex items-center'>
-            <Link href='/about' className='text-sm md:text-lg text-gray-800 hover:text-hoverPink font-navheader'>
+            <Link href='/about' className='text-sm md:text-lg text-gray-800 hover:text-mainhoverIndigo font-navheader'>
               Sobre Nosotros
             </Link>
           </li>
@@ -63,7 +63,7 @@ function Header() {
             {isAuth ? (
               <Popover handleLogout={handleLogout} />
             ) : (
-              <Link href='/login' className='text-sm md:text-lg text-gray-800 hover:text-hoverPink font-navheader ml-2'>
+              <Link href='/login' className='text-sm md:text-lg text-gray-800 hover:text-mainhoverIndigo font-navheader ml-2'>
                 Iniciar Sesión
               </Link>
             )}

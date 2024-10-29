@@ -23,7 +23,7 @@ function Card({ product, showButton = true }) {
       {showButton && (
         <div className="flex justify-center mt-auto mb-4">
           <Button
-            className="p-2 bg-buttonCardPink text-white rounded-md hover:bg-subtitlesPink transition duration-300 font-navheader"
+            className="p-2 bg-baseLavender text-white rounded-md hover:bg-subtitlesPink transition duration-300 font-navheader"
             onClick={() => router.push(`/productos/${product.productoid}`)}
           >
             Ver más
