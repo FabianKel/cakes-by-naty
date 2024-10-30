@@ -18,12 +18,12 @@ function Carrito() {
     useEffect(() => {
         const token = getAuthToken();
         let currentUser = getCurrentUser();
-    
+
         if (token && currentUser) {
             setIsAuthenticated(true);
             const fetchData = async () => {
                 try {
-                    const user = await getUsuario(currentUser.id); 
+                    const user = await getUsuario(currentUser.id);
                     setUsuario(user.usuario);
                 } catch (error) {
                     console.error('Error al obtener los datos del usuario:', error);
@@ -53,8 +53,8 @@ function Carrito() {
                 });
         }
     }, [usuario]);
-    
-    
+
+
     const handleGoBack = () => {
         router.back();
     };
@@ -63,26 +63,25 @@ function Carrito() {
         fetch(`http://localhost:4000/carts/${usuario.usuarioid}/producto/${id}`, {
             method: 'DELETE',
         })
-        .then((response) => {
-            if (response.ok) {
-                // Actualizamos el estado para remover el producto del carrito
-                const updatedDesserts = desserts.filter(dessert => dessert.producto_id !== id);
-                setDesserts(updatedDesserts);
-            } else {
-                console.error('Error al eliminar el producto');
-            }
-        })
-        .catch((error) => {
-            console.error('Error en la solicitud DELETE:', error);
-        });
+            .then((response) => {
+                if (response.ok) {
+                    // Actualizamos el estado para remover el producto del carrito
+                    const updatedDesserts = desserts.filter(dessert => dessert.producto_id !== id);
+                    setDesserts(updatedDesserts);
+                } else {
+                    console.error('Error al eliminar el producto');
+                }
+            })
+            .catch((error) => {
+                console.error('Error en la solicitud DELETE:', error);
+            });
     };
-    
+
     const handleIncrease = (id) => {
         const updatedDesserts = desserts.map(dessert =>
             dessert.producto_id === id ? { ...dessert, cantidad: dessert.cantidad + 1 } : dessert
         );
         setDesserts(updatedDesserts);
-        // Aquí deberías actualizar la cantidad en el backend
     };
 
     const handleDecrease = (id) => {
@@ -90,7 +89,6 @@ function Carrito() {
             dessert.producto_id === id && dessert.cantidad > 1 ? { ...dessert, cantidad: dessert.cantidad - 1 } : dessert
         );
         setDesserts(updatedDesserts);
-        // Aquí deberías actualizar la cantidad en el backend
     };
 
     const handleConfirm = () => {
@@ -107,7 +105,7 @@ function Carrito() {
                         <>
                             <ul className="space-y-6  max-h-screen overflow-y-auto">
                                 {desserts.map((dessert) => (
-                                    <li key={dessert.producto_id} className="flex flex-col sm:flex-row items-start bg-[#e2c2c4] shadow-lg rounded-lg p-6">
+                                    <li key={dessert.producto_id} className="flex flex-col sm:flex-row items-start bg-white border border-gray-300 shadow-lg rounded-lg p-6">
                                         <div className="flex-shrink-0 w-full sm:w-40 h-40 relative mb-4 sm:mb-0">
                                             <Image
                                                 src={dessert.imagen1_producto}
@@ -122,17 +120,17 @@ function Carrito() {
                                             <p className="text-lg text-[#000000]">Precio: Q{parseFloat(dessert.precio).toFixed(2)}</p>
                                             <div className="flex items-center mt-2">
                                                 <span className="text-lg text-[#000000] mr-2">Cantidad:</span>
-                                                <button 
-                                                    className="bg-[#FEE4E5] text-black py-1 px-3 border border-gray-400 hover:bg-[#fdb5b5]"
+                                                <button
+                                                    className="bg-baseLilac text-black py-1 px-3 border border-gray-400 hover:bg-[#fdb5b5]"
                                                     onClick={() => handleDecrease(dessert.producto_id)}
                                                 >
                                                     -
                                                 </button>
-                                                <div className="bg-[#ffffff] border-t border-b border-gray-400 py-1 px-3 text-lg text-[#000000] text-center">
+                                                <div className="bg-white border-t border-b border-gray-400 py-1 px-3 text-lg text-[#000000] text-center">
                                                     {dessert.cantidad}
                                                 </div>
-                                                <button 
-                                                    className="bg-[#FEE4E5] text-black py-1 px-3 border border-gray-400 hover:bg-[#fdb5b5]"
+                                                <button
+                                                    className="bg-baseLilac text-black py-1 px-3 border border-gray-400 hover:bg-[#fdb5b5]"
                                                     onClick={() => handleIncrease(dessert.producto_id)}
                                                 >
                                                     +
@@ -141,7 +139,7 @@ function Carrito() {
                                         </div>
                                         <div className="flex flex-col items-center sm:ml-4 mt-4 sm:mt-0">
                                             <button
-                                                className="bg-[#FEE4E5] text-black py-2 px-4 rounded-lg shadow-lg hover:bg-hoverPink"
+                                                className="bg-buttonPurple text-white py-2 px-4 rounded-lg shadow-lg hover:bg-buttonhoverPurple"
                                                 onClick={() => handleRemove(dessert.producto_id)}
                                             >
                                                 Quitar
@@ -152,23 +150,23 @@ function Carrito() {
                             </ul>
                             <div className="p-4 flex justify-end">
                                 <button
-                                    className="bg-[#FEE4E5] text-black py-3 px-6 rounded-lg shadow-lg hover:bg-hoverPink"
+                                    className="bg-buttonPurple text-white py-3 px-6 mt-4 rounded-lg shadow-lg hover:bg-buttonhoverPurple"
                                     onClick={handleConfirm}
                                 >
-                                    Recibo
+                                    Generar recibo
                                 </button>
                             </div>
                         </>
                     ) : (
-                            <div className='flex flex-col justify-center'>
-                                <p className="w-72 text-xl text-gray-700 py-11 self-center">Vaya... Parece que no tienes ningún postre en tu carrito 😓</p>
-                                <a
-                                  href='/catalog'  
+                        <div className='flex flex-col justify-center'>
+                            <p className="w-72 text-xl text-gray-700 py-11 self-center">Vaya... Parece que no tienes ningún postre en tu carrito 😓</p>
+                            <a
+                                href='/catalog'
                                 className=" text-center text-blue-900 text-3xl  hover:text-gray-700 self-center"
                             >
                                 Navegar
-                                </a>
-                            </div>
+                            </a>
+                        </div>
                     )}
                 </div>
             </div>

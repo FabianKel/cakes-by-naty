@@ -87,7 +87,7 @@ useEffect(() => {
     fetch(fetchLink)
       .then((response) => response.json())
       .then((data) => {
-        setProduct(data.producto); // Asegúrate de acceder al campo 'producto'
+        setProduct(data.producto); 
       })
       .catch((error) => console.error('Error fetching product:', error));
   }
@@ -115,10 +115,8 @@ return (
         </button>
       </div>
 
-      <div className='text-center text-2xl font-bold mb-6 text-[#000000]'>{product.productonombre}</div>
-
-      <div className='flex flex-col md:flex-row items-center justify-center gap-8 w-full md:w-3/4'>
-        <div className='bg-[#e2c2c4] p-4 rounded shadow-lg flex justify-center items-center w-full md:w-1/2'>
+      <div className='flex flex-col md:flex-row items-center justify-center gap-8 w-full mt-6 md:w-3/4'>
+        <div className='bg-baseLilac p-4 rounded shadow-lg flex justify-center items-center w-full md:w-1/2'>
           <div className='relative w-full h-0' style={{ paddingBottom: '100%' }}>
             <Image
               src={product.imagen1}
@@ -131,22 +129,25 @@ return (
         </div>
 
         <div className='w-full md:w-1/2 text-center md:text-left'>
-          <h1 className='text-3xl font-bold mb-2 text-[#000000]'>{product.productonombre}</h1>
-          <p className='text-lg font-bold mb-2'>{product.descripcion}</p>
+          <h1 className='text-3xl font-bold mb-10 text-center text-black'>{product.productonombre}</h1>
+          <p className='text-lg mb-6'>{product.descripcion}</p>
           {product.ocasion !== 'Indefinida' && (
-            <span className='inline-block bg-[#e2c2c4] text-black py-1 px-3 rounded-full text-sm font-semibold mb-4'>
+            <span className='inline-block bg-baseLavender text-white py-1 px-3 rounded-full text-sm font-semibold mb-8'>
               {product.ocasion}
             </span>
           )}
-          <p className='text-lg font-bold mb-4'>Tipo de masa: {product.masanombre}</p>
-          <p className='text-lg font-bold mb-4'>Cobertura: {product.coberturatipo}</p>
-          <p className='text-lg font-bold mt-4'>Precio: Q. {parseFloat(product.precio).toFixed(2)}</p>
+            <p className='text-lg mb-4'>
+              <span className='font-bold mr-2'>Tipo de masa:</span>{product.masanombre}</p>
+            <p className='text-lg mb-4'>
+              <span className= 'font-bold mr-2'>Cobertura:</span> {product.coberturatipo}</p>
+            <p className='text-lg mt-4'>
+              <span className= 'font-bold mr-2'>Precio: </span> Q. {parseFloat(product.precio).toFixed(2)}</p>
         </div>
       </div>
 
       <div className='absolute bottom-8 right-8 flex space-x-4'>
         <button
-          className='bg-[#e2c2c4] text-black py-3 px-6 rounded-lg shadow-lg hover:bg-hoverPink text-lg'
+          className='bg-buttonPurple text-white py-3 px-6 rounded-lg shadow-lg hover:bg-buttonhoverPurple text-lg'
           onClick={handleAddToCart}
         >
           Agregar

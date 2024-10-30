@@ -32,9 +32,9 @@ function Header() {
       <div className='flex justify-center md:justify-start w-full md:w-auto'>
         <Link href='/'>
           <img
-            src='Logos/cbn.png'
+            src='Logos/cbnlogo.png'
             alt='Cakes by Naty'
-            className='h-30 w-40 md:h-30 md:w-40 hover:scale-105 transition-transform duration-300'
+            className='h-24 w-24 md:h-30 md:w-40 hover:scale-105 transition-transform duration-300'
           />
         </Link>
       </div>
@@ -50,12 +50,12 @@ function Header() {
                 className='mr-2 md:mr-16 transition-transform transform hover:scale-125'
               />
             </a>
-            <Link href='/catalog' className='text-sm md:text-lg text-gray-800 hover:text-mainhoverIndigo font-navheader text-bold'>
+            <Link href='/catalog' className='text-sm md:text-lg text-gray-800 hover:text-mainhoverIndigo transition-transform transform hover:scale-110 font-navheader'>
               Catálogo
             </Link>
           </li>
           <li className='flex items-center'>
-            <Link href='/about' className='text-sm md:text-lg text-gray-800 hover:text-mainhoverIndigo font-navheader'>
+            <Link href='/about' className='text-sm md:text-lg text-gray-800 hover:text-mainhoverIndigo hover:scale-110 font-navheader'>
               Sobre Nosotros
             </Link>
           </li>

@@ -11,12 +11,12 @@ const CatalogCategories = () => {
   };
 
   const categories = [
-    { name: 'Cupcakes', image: 'Catalog/catalogcupcake.png', url: 'cupcakes' },
-    { name: 'Cakepops', image: 'Catalog/catalogcakepop.png', url: 'cakepops' },
-    { name: 'Pastel', image: 'Catalog/catalogcake.png', url: 'pasteles' },
-    { name: 'Galletas', image: 'Catalog/catalogcookies.png', url: 'galletas' },
-    { name: 'Chocolates', image: 'Catalog/catalogchocolates.png', url: 'chocolates' },
-    { name: 'Espumillas', image: 'Catalog/catalogespumillas.png', url: 'espumillas' },
+    { name: 'Cupcakes', image: 'Catalog/cupcakes.jpg', url: 'cupcakes' },
+    { name: 'Cakepops', image: 'Catalog/cakepops.jpg', url: 'cakepops' },
+    { name: 'Pastel', image: 'Catalog/cakes.jpg', url: 'pasteles' },
+    { name: 'Galletas', image: 'Catalog/cookies.jpg', url: 'galletas' },
+    { name: 'Chocolates', image: 'Catalog/chocolates.jpg', url: 'chocolates' },
+    { name: 'Espumillas', image: 'Catalog/espumillas.jpg', url: 'espumillas' },
   ];
 
   return (
