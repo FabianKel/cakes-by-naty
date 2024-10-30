@@ -6,7 +6,7 @@ function ProductGroup({ products }) {
         <div className="my-8 mx-auto w-full">
             <div className="grid grid-cols-4 gap-4">
                 {products.map((product, index) => (
-                    <Link href={'/productos/${product.productoid}'} key={index}>
+                    <Link href={`/productos/${product.productoid}`} key={index}>
                         <div className="border p-4 rounded-lg shadow-lg flex flex-col items-center">
                             <h3 className="text-lg font-bold mb-2">{product.productonombre}</h3>
                             <img

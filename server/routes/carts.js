@@ -4,7 +4,7 @@ const { getCartByUserId, addProductToCart, deleteProductFromCart } = require('..
 
 router.get('/:user_id', getCartByUserId);
 router.post('/add', addProductToCart);
-router.delete('/carrito/:carritoId/producto/:productoId', deleteProductFromCart);
+router.delete('/:user_id/producto/:producto_id', deleteProductFromCart);
 
 
 module.exports = router;

@@ -72,7 +72,9 @@ INSERT INTO Productos(nombre, Descripcion, CategoriaID, OcasionID, Precio, Image
 ('Pastel para 15 Años', 'Celebra tus 15 años con un pastel único, decorado con detalles personalizados y un toque de elegancia. Masa de veteado con relleno de cajeta para un sabor inolvidable.', 
 3, 13, '450', '/15.jpg'),
 ('Paquete de Espumillas Otoñales', 'Disfruta del otoño con nuestras espumillas de sabores cálidos, perfectas para acompañar tus tardes en esta temporada.', 
-6, 3, '30', '/EO.jpg');
+6, 3, '30', '/EO.jpg'),
+('Pumpkin Pie', 'El postre estrella de la temporada. Disfruta de este Pie de Calabaza para compartir con tus seres queridos', 
+3, 3, '30', '/EO.jpg');
 
 INSERT INTO Detalles_Producto(ProductoID, RellenoID, MasaID, Sabor_GalletaID, CoberturaID, Tipo_ChocolateID) VALUES
 (1, 1, 2, null, 1, null),
