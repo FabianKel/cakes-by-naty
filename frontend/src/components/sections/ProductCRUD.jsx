@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Button from '@/components/common/Button';
+import { getAuthToken, getCurrentUser } from '@/utils/functions';
+
 
 function ProductCRUD() {
   const [productData, setProductData] = useState({
@@ -34,7 +36,7 @@ function ProductCRUD() {
   useEffect(() => {
     // Simulando la carga de productos desde un archivo JSON
     const cargarProductos = async () => {
-      const response = await fetch('http://localhost:4000/productos/6');
+      const response = await fetch('http://localhost:4000/products/6');
       const data = await response.json();
       setProductos(data.productos);
     };

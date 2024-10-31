@@ -1,4 +1,3 @@
--- READ USER BY ID
 CREATE OR REPLACE FUNCTION obtener_usuario_por_id(u_id INT)
 RETURNS TABLE (
     UsuarioID INT,
@@ -23,68 +22,97 @@ BEGIN
     SELECT 
         u.UsuarioID,
         u.Rol,
-        -- Desencriptar Usuario y otros campos con manejo de errores
-        CASE
-            WHEN pgp_sym_decrypt(u.Usuario, secret_key) IS NOT NULL
-            THEN pgp_sym_decrypt(u.Usuario, secret_key)::TEXT
-            ELSE 'Desencriptación fallida'
-        END AS Usuario,
-        
-        CASE
-            WHEN pgp_sym_decrypt(u.Primer_Nombre, secret_key) IS NOT NULL
-            THEN pgp_sym_decrypt(u.Primer_Nombre, secret_key)::TEXT
-            ELSE 'Desencriptación fallida'
-        END AS Primer_Nombre,
+        COALESCE(
+            CASE
+                WHEN u.Usuario IS NULL THEN 'No hay información'
+                ELSE COALESCE(
+                    pgp_sym_decrypt(u.Usuario, secret_key)::TEXT,
+                    'Desencriptación fallida'
+                )
+            END, 
+            'Desencriptación fallida'
+        ) AS Usuario,
 
-        CASE
-            WHEN pgp_sym_decrypt(u.Segundo_Nombre, secret_key) IS NOT NULL
-            THEN pgp_sym_decrypt(u.Segundo_Nombre, secret_key)::TEXT
-            ELSE 'Desencriptación fallida'
-        END AS Segundo_Nombre,
+        COALESCE(
+            CASE
+                WHEN u.Primer_Nombre IS NULL THEN 'No hay información'
+                ELSE COALESCE(
+                    pgp_sym_decrypt(u.Primer_Nombre, secret_key)::TEXT,
+                    'Desencriptación fallida'
+                )
+            END, 
+            'Desencriptación fallida'
+        ) AS Primer_Nombre,
 
-        CASE
-            WHEN pgp_sym_decrypt(u.Correo, secret_key) IS NOT NULL
-            THEN pgp_sym_decrypt(u.Correo, secret_key)::TEXT
-            ELSE 'Desencriptación fallida'
-        END AS Correo,
+        COALESCE(
+            CASE
+                WHEN u.Segundo_Nombre IS NULL THEN 'No hay información'
+                ELSE COALESCE(
+                    pgp_sym_decrypt(u.Segundo_Nombre, secret_key)::TEXT,
+                    'Desencriptación fallida'
+                )
+            END, 
+            'Desencriptación fallida'
+        ) AS Segundo_Nombre,
 
-        CASE
-            WHEN pgp_sym_decrypt(u.Telefono, secret_key) IS NOT NULL
-            THEN pgp_sym_decrypt(u.Telefono, secret_key)::TEXT
-            ELSE 'Desencriptación fallida'
-        END AS Telefono,
-        
-        -- Desencriptar direcciones
+        COALESCE(
+            CASE
+                WHEN u.Correo IS NULL THEN 'No hay información'
+                ELSE COALESCE(
+                    pgp_sym_decrypt(u.Correo, secret_key)::TEXT,
+                    'Desencriptación fallida'
+                )
+            END, 
+            'Desencriptación fallida'
+        ) AS Correo,
+
+        COALESCE(
+            CASE
+                WHEN u.Telefono IS NULL THEN 'No hay información'
+                ELSE COALESCE(
+                    pgp_sym_decrypt(u.Telefono, secret_key)::TEXT,
+                    'Desencriptación fallida'
+                )
+            END, 
+            'Desencriptación fallida'
+        ) AS Telefono,
+
         CASE 
-            WHEN d1.DireccionID IS NOT NULL THEN 
+            WHEN d1.DireccionID IS NULL THEN 'No hay información'
+            ELSE COALESCE(
                 pgp_sym_decrypt(d1.Nombre, secret_key)::TEXT || ', ' || 
                 pgp_sym_decrypt(d1.Campo1, secret_key)::TEXT || ', ' || 
                 pgp_sym_decrypt(d1.Campo2, secret_key)::TEXT || ', ' || 
                 pgp_sym_decrypt(d1.Ciudad, secret_key)::TEXT || ', ' || 
-                pgp_sym_decrypt(d1.Departamento, secret_key)::TEXT
-            ELSE 'Dirección no disponible'
+                pgp_sym_decrypt(d1.Departamento, secret_key)::TEXT,
+                'Desencriptación fallida'
+            )
         END AS Direccion1,
 
         CASE 
-            WHEN d2.DireccionID IS NOT NULL THEN 
+            WHEN d2.DireccionID IS NULL THEN 'No hay información'
+            ELSE COALESCE(
                 pgp_sym_decrypt(d2.Nombre, secret_key)::TEXT || ', ' || 
                 pgp_sym_decrypt(d2.Campo1, secret_key)::TEXT || ', ' || 
                 pgp_sym_decrypt(d2.Campo2, secret_key)::TEXT || ', ' || 
                 pgp_sym_decrypt(d2.Ciudad, secret_key)::TEXT || ', ' || 
-                pgp_sym_decrypt(d2.Departamento, secret_key)::TEXT
-            ELSE 'Dirección no disponible'
+                pgp_sym_decrypt(d2.Departamento, secret_key)::TEXT,
+                'Desencriptación fallida'
+            )
         END AS Direccion2,
 
         CASE 
-            WHEN d3.DireccionID IS NOT NULL THEN 
+            WHEN d3.DireccionID IS NULL THEN 'No hay información'
+            ELSE COALESCE(
                 pgp_sym_decrypt(d3.Nombre, secret_key)::TEXT || ', ' || 
                 pgp_sym_decrypt(d3.Campo1, secret_key)::TEXT || ', ' || 
                 pgp_sym_decrypt(d3.Campo2, secret_key)::TEXT || ', ' || 
                 pgp_sym_decrypt(d3.Ciudad, secret_key)::TEXT || ', ' || 
-                pgp_sym_decrypt(d3.Departamento, secret_key)::TEXT
-            ELSE 'Dirección no disponible'
+                pgp_sym_decrypt(d3.Departamento, secret_key)::TEXT,
+                'Desencriptación fallida'
+            )
         END AS Direccion3,
-        
+
         u.Created_at,
         u.Modified_at
     FROM 
@@ -95,6 +123,7 @@ BEGIN
     WHERE u.UsuarioID = u_id;
 END;
 $$;
+
 
 CREATE OR REPLACE FUNCTION insertar_usuario(
     p_rol TEXT,
