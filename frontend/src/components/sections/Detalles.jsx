@@ -150,7 +150,7 @@ return (
           className='bg-buttonPurple text-white py-3 px-6 rounded-lg shadow-lg hover:bg-buttonhoverPurple text-lg'
           onClick={handleAddToCart}
         >
-          Agregar
+          Agregar al carrito
         </button>
 
         <Modal

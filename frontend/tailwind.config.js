@@ -22,9 +22,12 @@ module.exports = {
         sidebarPurple: "#b1b3e2",
         buttonPurple: "#938BC9",
         buttonhoverPurple: "#8273B8",
+        buttonhoverPurple1: "#5C5182",
         mainhoverIndigo: "#7062a0",
         titlesPurple: "#656DCE",
+        titlesPurple1: "#5C5182",
         subtitlesPurple: '#5F65AF',
+        borderPurple: "#BEBEE3",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
