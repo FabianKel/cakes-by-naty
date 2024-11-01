@@ -1,7 +1,16 @@
 import React from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
-function ProductGroup({ products }) {
+function ProductGroup({ products, showViewMore = true, categoryUrl }) {
+    const router = useRouter();
+
+    const handleViewMore = () => {
+        if (categoryUrl) {
+            router.push(`/catalog?filter=${categoryUrl}`);
+        }
+    };
+
     return (
         <div className="my-8 mx-auto w-full">
             <div className="grid grid-cols-4 gap-4">
@@ -17,25 +26,30 @@ function ProductGroup({ products }) {
                         </div>
                     </Link>
                 ))}
-                <div className="flex items-center justify-center">
-                    <button className="flex items-center text-bold text-black-600 hover:scale-105 transition-transform duration-300">
-                        Ver más
-                        <svg
-                            className="ml-2 w-4 h-4"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
+                {showViewMore && (
+                    <div className="flex items-center justify-center">
+                        <button 
+                            onClick={handleViewMore}
+                            className="flex items-center text-bold text-black-600 hover:scale-105 transition-transform duration-300"
                         >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M9 5l7 7-7 7"
-                            />
-                        </svg>
-                    </button>
-                </div>
+                            Ver más
+                            <svg
+                                className="ml-2 w-4 h-4"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M9 5l7 7-7 7"
+                                />
+                            </svg>
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     );
