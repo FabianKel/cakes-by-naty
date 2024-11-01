@@ -39,17 +39,21 @@ function Carrito() {
 
     useEffect(() => {
         if (usuario && usuario.usuarioid) {
+            setLoading(true); 
             fetch(`http://localhost:4000/carts/${usuario.usuarioid}/`)
                 .then((response) => response.json())
                 .then((data) => {
                     if (Array.isArray(data)) {
-                        setDesserts(data); // Almacena los productos del carrito
+                        setDesserts(data);
                     } else {
                         console.error("Formato de datos incorrecto", data);
                     }
                 })
                 .catch((error) => {
                     console.error('Error al cargar el carrito:', error);
+                })
+                .finally(() => {
+                    setLoading(false); 
                 });
         }
     }, [usuario]);
@@ -98,10 +102,14 @@ function Carrito() {
     return (
         <div className="flex flex-col items-center justify-center min-h-screen">
             <div className="flex flex-col min-h-screen w-2/3">
-
-                <div className="flex flex-col justify-center mx-auto p-4 ">
+                <div className="flex flex-col justify-center mx-auto p-4">
                     <h1 className="text-3xl md:text-4xl text-center font-bold mt-6 mb-6">Tu Carrito</h1>
-                    {desserts.length > 0 ? (
+    
+                    {loading ? (
+                        <div className="flex justify-center items-center py-20">
+                            <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-buttonPurple"></div>
+                        </div>
+                    ) : desserts.length > 0 ? (
                         <>
                             <ul className="space-y-6  max-h-screen overflow-y-auto">
                                 {desserts.map((dessert) => (

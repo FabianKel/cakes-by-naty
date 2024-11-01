@@ -3,6 +3,9 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Button from '@/components/common/Button';
+import { getCurrentUser } from '@/utils/functions';
+import Modal from '@/components/common/Modal';
+
 
 function ProductCRUD() {
   const [productData, setProductData] = useState({
@@ -23,6 +26,8 @@ function ProductCRUD() {
     },
   });
 
+
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [productos, setProductos] = useState([]);
 
   const currentUser = getCurrentUser();
@@ -31,10 +36,30 @@ function ProductCRUD() {
     return <Custom404 />;
   }
 
+  const handleCloseSuccessModal = () => {
+    setShowSuccessModal(false);
+    setProductData({
+      nombre: '',
+      descripcion: '',
+      categoria_id: 1,
+      ocasion_id: 1,
+      precio: '',
+      imagen1: null,
+      imagen2: null,
+      imagen3: null,
+      detalles: {
+        relleno_id: 1,
+        masa_id: 1,
+        sabor_galleta_id: 1,
+        cobertura_id: 1,
+        tipo_chocolate_id: 1,
+      },
+    });
+  };
+
   useEffect(() => {
-    // Simulando la carga de productos desde un archivo JSON
     const cargarProductos = async () => {
-      const response = await fetch('http://localhost:4000/productos/6');
+      const response = await fetch('http://localhost:4000/products');
       const data = await response.json();
       setProductos(data.productos);
     };
@@ -92,7 +117,7 @@ function ProductCRUD() {
     };
     console.log('Producto a enviar:', producto);
     try {
-      const response = await fetch('http://localhost:4000/productos', {
+      const response = await fetch('http://localhost:4000/product/new', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -101,7 +126,7 @@ function ProductCRUD() {
       });
       const data = await response.json();
       if (response.ok) {
-        alert('Producto creado con éxito');
+        setShowSuccessModal(true);
       } else {
         console.error('Error al crear el producto:', data.error);
       }
@@ -325,7 +350,7 @@ function ProductCRUD() {
                       className='absolute inset-0 w-full h-full opacity-0 cursor-pointer'
                     />
                     <div className='relative z-10 flex flex-col justify-center items-center'>
-                      <p className='text-gray-500 text-sm mb-4'>Arrastra o selecciona una imagen</p>
+                      <p className='text-gray-500 text-sm mb-4'>Selecciona una imagen</p>
                     </div>
                   </div>
                 </div>
@@ -340,6 +365,37 @@ function ProductCRUD() {
           </div>
         </div>
       </div>
+      <Modal
+        isOpen={showSuccessModal}
+        onCancel={handleCloseSuccessModal}
+        onAgree={handleCloseSuccessModal}
+        msg="¡Producto agregado exitosamente!"
+        type="success"
+      >
+        <div className="flex flex-col items-center justify-center p-6">
+          <div className="mb-4 text-buttonPurple">
+            <svg
+              className="w-16 h-16"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </div>
+          <Button
+            onClick={handleCloseSuccessModal}
+            className="bg-buttonPurple text-white px-8 py-2 rounded-lg hover:bg-buttonhoverPurple transition-colors duration-300 font-semibold text-lg shadow-md"
+          >
+            Entendido
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 }
