@@ -71,7 +71,7 @@ export const register = async (username, email, password) => {
       rol: 'cliente',
       usuario: username,
       correo: email,
-      password
+      password,
     });
 
     return user;
@@ -97,9 +97,9 @@ export const getPedidos = async (estado) => {
 export const getUsuarioPedidos = async (id) => {
   try {
     let pedidos = await getPedidos();
-    pedidos = pedidos.Pedidos.filter((pedido) => pedido.id_usuario === id);
+    // pedidos = pedidos.Pedidos.filter((pedido) => pedido.id_usuario === id);
 
-    return pedidos;
+    return pedidos.Pedidos;
   } catch (error) {
     return [];
   }
