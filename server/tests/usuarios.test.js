@@ -14,12 +14,12 @@ afterAll(async () => {
   await pool.end(); // Cierra la conexión con la base de datos después de las pruebas
 });
 
-describe('GET /users', () => {
+describe('POST /users/all', () => {
   test('should return all users', async () => {
     const client = await pool.connect();
     client.release();
 
-    const response = await request(app).get('/users');
+    const response = await request(app).post('/users/all');
 
     expect(response.statusCode).toBe(200);
   });

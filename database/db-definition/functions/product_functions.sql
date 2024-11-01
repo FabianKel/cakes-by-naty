@@ -1,4 +1,3 @@
---FUNCIONES SQL PARA EL CRUD DE PRODUCTOS
 CREATE OR REPLACE FUNCTION insertar_producto(
     p_nombre VARCHAR,
     p_descripcion TEXT,
@@ -14,7 +13,7 @@ CREATE OR REPLACE FUNCTION insertar_producto(
     p_coberturaid INT,
     p_tipo_chocolateid INT
 ) 
-RETURNS VOID AS $$
+RETURNS INT AS $$
 DECLARE
     v_productoid INT;
 BEGIN
@@ -27,5 +26,20 @@ BEGIN
     INSERT INTO Detalles_Producto (ProductoID, RellenoID, MasaID, Sabor_GalletaID, CoberturaID, Tipo_ChocolateID)
     VALUES (v_productoid, p_rellenoid, p_masaid, p_sabor_galletaid, p_coberturaid, p_tipo_chocolateid);
     
+    -- Retornar el ID del producto insertado
+    RETURN v_productoid;
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+CREATE OR REPLACE FUNCTION eliminar_producto(p_productoid INT)
+RETURNS VOID AS $$
+BEGIN
+    -- Eliminar primero en Detalles_Producto para evitar violaciones de clave foránea
+    DELETE FROM Detalles_Producto WHERE ProductoID = p_productoid;
+    
+    -- Eliminar en la tabla Productos
+    DELETE FROM Productos WHERE ProductoID = p_productoid;
 END;
 $$ LANGUAGE plpgsql;

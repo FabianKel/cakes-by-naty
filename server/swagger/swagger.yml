@@ -1,0 +1,307 @@
+openapi: 3.0.1
+info:
+  title: Cakes By Naty API
+  description:
+    "API for Cakes By Naty.  You can visit our website\
+    \      at [http://cakes-by-naty.com](http://localhost:3000) \ "
+servers:
+  - url: http://localhost:4000
+tags:
+  - name: users
+    description: Login, Register and Users Handling
+  - name: products
+    description: All about product groups
+  - name: product
+    description: Operations about a single product
+  - name: orders
+    description: Operations about orders
+  - name: carts
+    description: Operations about user's carts
+paths:
+  /users/{u_id}:
+    get:
+      tags:
+        - users
+      summary: "Obtener usuario por ID"
+      parameters:
+        - in: path
+          name: u_id
+          required: true
+          schema:
+            type: string
+          description: "ID del usuario a buscar"
+      responses:
+        "200":
+          description: "Usuario obtenido con éxito"
+        "404":
+          description: "Usuario no encontrado"
+
+  /users/all:
+    post:
+      tags:
+        - users
+      summary: "Obtener todos los usuarios"
+      responses:
+        "200":
+          description: "Usuarios obtenidos con éxito"
+
+  /users/register:
+    post:
+      tags:
+        - users
+      summary: "Registrar un nuevo usuario"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                usuario:
+                  type: string
+                correo:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "201":
+          description: "Usuario registrado con éxito"
+
+  /product/{id}:
+    get:
+      tags:
+        - product
+      summary: "Obtener información de un producto por su id"
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: "ID del product"
+      responses:
+        "200":
+          description: "Producto obtenido con éxito"
+
+  /product/new:
+    post:
+      tags:
+        - product
+      summary: "Registrar un nuevo producto"
+      description: "Este endpoint permite agregar un nuevo producto a la base de datos, incluyendo detalles opcionales como imágenes y características adicionales."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre:
+                  type: string
+                  description: "Nombre del producto"
+                descripcion:
+                  type: string
+                  description: "Descripción breve del producto"
+                categoria_id:
+                  type: integer
+                  description: "ID de la categoría del producto"
+                ocasion_id:
+                  type: integer
+                  description: "ID de la ocasión (opcional)"
+                precio:
+                  type: number
+                  format: decimal
+                  description: "Precio del producto"
+                imagen1:
+                  type: string
+                  description: "URL de la primera imagen del producto (opcional)"
+                imagen2:
+                  type: string
+                  description: "URL de la segunda imagen del producto (opcional)"
+                imagen3:
+                  type: string
+                  description: "URL de la tercera imagen del producto (opcional)"
+                detalles:
+                  type: object
+                  description: "Detalles opcionales del producto"
+                  properties:
+                    relleno_id:
+                      type: integer
+                      description: "ID del tipo de relleno"
+                    masa_id:
+                      type: integer
+                      description: "ID del tipo de masa"
+                    sabor_galleta_id:
+                      type: integer
+                      description: "ID del sabor de la galleta"
+                    cobertura_id:
+                      type: integer
+                      description: "ID del tipo de cobertura"
+                    tipo_chocolate_id:
+                      type: integer
+                      description: "ID del tipo de chocolate"
+      responses:
+        "201":
+          description: "Producto registrado con éxito"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Producto creado con éxito"
+                  ProductoID:
+                    type: integer
+                    description: "ID del producto creado"
+        "400":
+          description: "Bad Request: Faltan datos o formato incorrecto"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Bad Request: Faltan datos o formato incorrecto"
+        "500":
+          description: "Error interno del servidor"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Error interno del servidor"
+
+  /products/{limit}:
+    get:
+      tags:
+        - products
+      summary: "Obtener productos"
+      parameters:
+        - in: path
+          name: limit
+          required: false
+          schema:
+            type: integer
+          description: "Límite de productos a devolver"
+      responses:
+        "200":
+          description: "Productos obtenidos con éxito"
+
+  /products/categoria/{categoria_id}/{limit}:
+    get:
+      tags:
+        - products
+      summary: "Obtener productos por categoría"
+      parameters:
+        - in: path
+          name: categoria_id
+          required: true
+          schema:
+            type: string
+          description: "ID de la categoría"
+        - in: path
+          name: limit
+          required: false
+          schema:
+            type: integer
+          description: "Límite de productos a devolver"
+      responses:
+        "200":
+          description: "Productos obtenidos con éxito"
+
+  /orders:
+    get:
+      tags:
+        - orders
+      summary: "Obtener todos los pedidos"
+      parameters:
+        - in: query
+          name: mes
+          required: false
+          schema:
+            type: string
+          description: "Mes de los pedidos a obtener"
+      responses:
+        "200":
+          description: "Pedidos obtenidos con éxito"
+
+  /orders/estado/{estado}:
+    get:
+      tags:
+        - orders
+      summary: "Obtener pedidos por estado"
+      parameters:
+        - in: path
+          name: estado
+          required: true
+          schema:
+            type: string
+          description: "Estado del pedido (e.g., Entregado, Sin Entregar)"
+      responses:
+        "200":
+          description: "Pedidos obtenidos con éxito"
+
+  /carts/{user_id}:
+    get:
+      tags:
+        - carts
+      summary: "Obtener carrito por ID de usuario"
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: string
+          description: "ID del usuario del carrito"
+      responses:
+        "200":
+          description: "Carrito obtenido con éxito"
+
+  /carts/add:
+    post:
+      tags:
+        - carts
+      summary: "Agregar producto al carrito"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                usuarioid:
+                  type: string
+                productoid:
+                  type: string
+                cantidad:
+                  type: integer
+                personalizacionid:
+                  type: string
+      responses:
+        "200":
+          description: "Producto agregado al carrito exitosamente"
+  
+  /carts/{user_id}/producto/{producto_id}:
+    delete:
+      tags:
+        - carts
+      summary: "Eliminar producto del carrito"
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: string
+          description: "ID del usuario"
+        - in: path
+          name: producto_id
+          required: true
+          schema:
+            type: string
+          description: "ID del producto a eliminar"
+      responses:
+        "200":
+          description: "Producto eliminado del carrito con éxito"
+x-original-swagger-version: "2.0"

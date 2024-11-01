@@ -3,6 +3,17 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const dotenv = require('dotenv');
 
+
+//swagger - API DOCS
+const swaggerUI = require('swagger-ui-express');
+const YAML = require('yaml');
+const fs  = require('fs');
+
+
+const file = fs.readFileSync('swagger/swagger.yml', 'utf-8')
+const swaggerDocument = YAML.parse(file)
+
+
 //import de rutas
 const usersRoutes = require('./routes/users');
 const productsRoutes = require('./routes/products');
@@ -17,6 +28,9 @@ const port = process.env.PORT || 4000;
 
 app.use(cors());
 app.use(bodyParser.json());
+
+//Doc Swagger
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 //rutas
 app.use('/users', usersRoutes);
