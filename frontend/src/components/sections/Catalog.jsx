@@ -71,7 +71,7 @@ function Catalogo() {
         </div>
       ) : (
         <div className='container mx-auto p-4'>
-          <h1 className='text-4xl text-center font-bold mt-6 mb-6'>Catálogo</h1>
+          <h1 className='text-4xl text-center font-bold mt-6 mb-16'>Catálogo</h1>
           <h2 className='text-xl font-bold mb-4'>Nuestros Cupcakes</h2>
             <ProductGroup
               products={cupcakes}

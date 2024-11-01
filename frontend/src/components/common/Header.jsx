@@ -50,8 +50,8 @@ function Header() {
               <Icon
                 src='/instagram.svg'
                 alt='Instagram'
-                height='5'
-                width='5'
+                height='8'
+                width='8'
                 className='mr-4 md:mr-8 transition-transform transform hover:scale-110'
               />
             </a>
@@ -87,8 +87,8 @@ function Header() {
               <Icon
                 src='/shopping-cart.svg'
                 alt='Carrito'
-                height='5'
-                width='5'
+                height='8'
+                width='8'
                 className='ml-4 md:ml-6 transition-transform transform hover:scale-110'
               />
             </a>
