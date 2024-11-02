@@ -13,10 +13,37 @@ function Header() {
   const [isAuth, setIsAuth] = useState(null);
   const router = useRouter();
   let currentUser = getCurrentUser();
+  const [productsInMyCart, setProductsInMyCart] = useState(0);
 
   useEffect(() => {
     const user = getCurrentUser();
     setIsAuth(user);
+
+    if (user && user.id) {
+      fetch(`http://localhost:4000/carts/${user.id}/`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (Array.isArray(data)) {
+            console.log('data: ', data);
+            const productsInMyCart = data.reduce((acc, item) => acc + item.cantidad, 0);
+            localStorage.setItem('productsInMyCart', productsInMyCart);
+            window.dispatchEvent(new Event('storage'));
+          } else {
+            console.error('Formato de datos incorrecto', data);
+          }
+        })
+        .catch((error) => {
+          console.error('Error al cargar el carrito:', error);
+        });
+    }
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('storage', () => {
+      const productsInMyCart = localStorage.getItem('productsInMyCart');
+      console.log('productsInMyCart', productsInMyCart);
+      setProductsInMyCart(+productsInMyCart);
+    });
   }, []);
 
   const handleLogout = () => {
@@ -50,12 +77,18 @@ function Header() {
                 className='mr-2 md:mr-16 transition-transform transform hover:scale-125'
               />
             </a>
-            <Link href='/catalog' className='text-sm md:text-lg text-gray-800 hover:text-hoverPink font-navheader'>
+            <Link
+              href='/catalog'
+              className='text-sm md:text-lg text-gray-800 hover:text-hoverPink font-navheader'
+            >
               Catálogo
             </Link>
           </li>
           <li className='flex items-center'>
-            <Link href='/about' className='text-sm md:text-lg text-gray-800 hover:text-hoverPink font-navheader'>
+            <Link
+              href='/about'
+              className='text-sm md:text-lg text-gray-800 hover:text-hoverPink font-navheader'
+            >
               Sobre Nosotros
             </Link>
           </li>
@@ -63,7 +96,10 @@ function Header() {
             {isAuth ? (
               <Popover handleLogout={handleLogout} />
             ) : (
-              <Link href='/login' className='text-sm md:text-lg text-gray-800 hover:text-hoverPink font-navheader ml-2'>
+              <Link
+                href='/login'
+                className='text-sm md:text-lg text-gray-800 hover:text-hoverPink font-navheader ml-2'
+              >
                 Iniciar Sesión
               </Link>
             )}
@@ -73,6 +109,7 @@ function Header() {
                 alt='Carrito'
                 height='6'
                 width='6'
+                counts={productsInMyCart}
                 className='ml-4 md:ml-10 transition-transform transform hover:scale-125'
               />
             </a>
@@ -84,4 +121,3 @@ function Header() {
 }
 
 export default Header;
-

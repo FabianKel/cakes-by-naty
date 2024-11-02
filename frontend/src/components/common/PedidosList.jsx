@@ -14,6 +14,8 @@ const PedidosList = ({ pedidos }) => {
 
   return (
     <div className='bg-white w-full max-h-screen overflow-y-auto mx-auto p-12 py-16 rounded-lg shadow-lg border border-gray-300'>
+      <p>Mis pedidos</p>
+
       <div className=''>
         {pedidos.map((pedido) => {
           const formattedDate = new Date(pedido.created_at).toLocaleDateString();
@@ -69,24 +71,36 @@ const PedidosList = ({ pedidos }) => {
 
             <div className='mt-10'>
               <p>Productos</p>
-              <tabla className='w-full'>
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Nombre</th>
-                    <th>Precio</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {productos.map((producto) => (
+              <div className='flex w-full'>
+                <tabla className='w-full border-collapse mt-3'>
+                  <thead className='bg-slate-200'>
                     <tr>
-                      <td>{producto.id}</td>
-                      <td>{producto.nombre}</td>
-                      <td>{producto.precio}</td>
+                      <th className='w-20 text-left'>ID</th>
+                      <th className='w-60 text-left'>Nombre</th>
+                      <th className='w-40 text-left'>Ocación</th>
+                      <th className='w-40 text-left'>Cantidad</th>
+                      <th className='w-20 text-left'>Precio</th>
                     </tr>
-                  ))}
-                </tbody>
-              </tabla>
+                  </thead>
+                  <tbody>
+                    {productos.map((producto) => (
+                      <tr>
+                        <td className='w-20 text-left'>{producto.id}</td>
+                        <td className='w-60 text-left'>{producto.nombre}</td>
+                        <td className='w-40 text-left'>{producto.ocacion}</td>
+                        <td className='w-40 text-left'>{producto.cantidad}</td>
+                        <td className='w-20 text-left'>Q {producto.precio}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                  <tfoot className='bg-slate-100'>
+                    <tr>
+                      <td colspan='4'>Total</td>
+                      <td colspan='4'>Q {productos.reduce((acc, item) => acc + item.precio, 0)}</td>
+                    </tr>
+                  </tfoot>
+                </tabla>
+              </div>
             </div>
           </div>
         )}

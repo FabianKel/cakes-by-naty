@@ -97,9 +97,9 @@ export const getPedidos = async (estado) => {
 export const getUsuarioPedidos = async (id) => {
   try {
     let pedidos = await getPedidos();
-    // pedidos = pedidos.Pedidos.filter((pedido) => pedido.id_usuario === id);
+    pedidos = pedidos.Pedidos.filter((pedido) => pedido.id_usuario === id);
 
-    return pedidos.Pedidos;
+    return pedidos;
   } catch (error) {
     return [];
   }
