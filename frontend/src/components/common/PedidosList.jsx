@@ -1,15 +1,15 @@
-import useModal from '@/hooks/useModal';
+import useModalPedidos from '@/hooks/useModal';
 import React, { useState } from 'react';
-import Modal from './Modal';
+import ModalPedidos from './ModalPedidos';
 
 const PedidosList = ({ pedidos }) => {
-  const { isOpen, openModal, closeModal, agree } = useModal();
+  const { isOpen, openModalPedidos, closeModalPedidos, agree } = useModalPedidos();
   const [currentPedido, setCurrentPedido] = useState(undefined);
   const [productos, setProductos] = useState([]);
 
   const handleOpenProductDetail = (pedido) => {
     setCurrentPedido(pedido);
-    openModal();
+    openModalPedidos();
   };
 
   return (
@@ -54,7 +54,7 @@ const PedidosList = ({ pedidos }) => {
         })}
       </div>
 
-      <Modal isOpen={isOpen} onCancel={closeModal}>
+      <ModalPedidos isOpen={isOpen} onCancel={closeModalPedidos}>
         {currentPedido && (
           <div>
             <div className='flex align-middle gap-10 justify-around'>
@@ -104,7 +104,7 @@ const PedidosList = ({ pedidos }) => {
             </div>
           </div>
         )}
-      </Modal>
+      </ModalPedidos>
     </div>
   );
 };
