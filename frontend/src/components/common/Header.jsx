@@ -13,10 +13,37 @@ function Header() {
   const [isAuth, setIsAuth] = useState(null);
   const router = useRouter();
   let currentUser = getCurrentUser();
+  const [productsInMyCart, setProductsInMyCart] = useState(0);
 
   useEffect(() => {
     const user = getCurrentUser();
     setIsAuth(user);
+
+    if (user && user.id) {
+      fetch(`http://localhost:4000/carts/${user.id}/`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (Array.isArray(data)) {
+            console.log('data: ', data);
+            const productsInMyCart = data.reduce((acc, item) => acc + item.cantidad, 0);
+            localStorage.setItem('productsInMyCart', productsInMyCart);
+            window.dispatchEvent(new Event('storage'));
+          } else {
+            console.error('Formato de datos incorrecto', data);
+          }
+        })
+        .catch((error) => {
+          console.error('Error al cargar el carrito:', error);
+        });
+    }
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('storage', () => {
+      const productsInMyCart = localStorage.getItem('productsInMyCart');
+      console.log('productsInMyCart', productsInMyCart);
+      setProductsInMyCart(+productsInMyCart);
+    });
   }, []);
 
   const handleLogout = () => {
@@ -89,6 +116,7 @@ function Header() {
                 alt='Carrito'
                 height='8'
                 width='8'
+                counts={productsInMyCart}
                 className='ml-4 md:ml-6 transition-transform transform hover:scale-110'
               />
             </a>
@@ -100,4 +128,3 @@ function Header() {
 }
 
 export default Header;
-

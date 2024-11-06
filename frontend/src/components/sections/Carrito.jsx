@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { getAuthToken, getCurrentUser } from '@/utils/functions';
@@ -7,99 +5,115 @@ import { getUsuario } from '@/utils/https';
 import Image from 'next/image';
 
 function Carrito() {
-    const [usuario, setUsuario] = useState(null);
-    const [desserts, setDesserts] = useState([]);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [loading, setLoading] = useState(true);
+  const [usuario, setUsuario] = useState(null);
+  const [desserts, setDesserts] = useState([]);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
 
+  const router = useRouter();
 
-    const router = useRouter();
+  useEffect(() => {
+    const token = getAuthToken();
+    let currentUser = getCurrentUser();
 
-    useEffect(() => {
-        const token = getAuthToken();
-        let currentUser = getCurrentUser();
-
-        if (token && currentUser) {
-            setIsAuthenticated(true);
-            const fetchData = async () => {
-                try {
-                    const user = await getUsuario(currentUser.id);
-                    setUsuario(user.usuario);
-                } catch (error) {
-                    console.error('Error al obtener los datos del usuario:', error);
-                } finally {
-                    setLoading(false);
-                }
-            };
-            fetchData();
-        } else {
-            setLoading(false);
+    if (token && currentUser) {
+      setIsAuthenticated(true);
+      const fetchData = async () => {
+        try {
+          const user = await getUsuario(currentUser.id);
+          setUsuario(user.usuario);
+        } catch (error) {
+          console.error('Error al obtener los datos del usuario:', error);
+        } finally {
+          setLoading(false);
         }
-    }, []);
+      };
+      fetchData();
+    } else {
+      setLoading(false);
+    }
+  }, []);
 
-    useEffect(() => {
-        if (usuario && usuario.usuarioid) {
-            setLoading(true); 
-            fetch(`http://localhost:4000/carts/${usuario.usuarioid}/`)
-                .then((response) => response.json())
-                .then((data) => {
-                    if (Array.isArray(data)) {
-                        setDesserts(data);
-                    } else {
-                        console.error("Formato de datos incorrecto", data);
-                    }
-                })
-                .catch((error) => {
-                    console.error('Error al cargar el carrito:', error);
-                })
-                .finally(() => {
-                    setLoading(false); 
-                });
-        }
-    }, [usuario]);
-
-
-    const handleGoBack = () => {
-        router.back();
-    };
-
-    const handleRemove = (id) => {
-        fetch(`http://localhost:4000/carts/${usuario.usuarioid}/producto/${id}`, {
-            method: 'DELETE',
+  useEffect(() => {
+    if (usuario && usuario.usuarioid) {
+      fetch(`http://localhost:4000/carts/${usuario.usuarioid}/`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (Array.isArray(data)) {
+            setDesserts(data);
+          } else {
+            console.error('Formato de datos incorrecto', data);
+          }
         })
-            .then((response) => {
-                if (response.ok) {
-                    // Actualizamos el estado para remover el producto del carrito
-                    const updatedDesserts = desserts.filter(dessert => dessert.producto_id !== id);
-                    setDesserts(updatedDesserts);
-                } else {
-                    console.error('Error al eliminar el producto');
-                }
-            })
-            .catch((error) => {
-                console.error('Error en la solicitud DELETE:', error);
-            });
-    };
+        .catch((error) => {
+          console.error('Error al cargar el carrito:', error);
+        })
+        .finally(() => {
+            setLoading(false); 
+        });
+    }
+  }, [usuario]);
 
-    const handleIncrease = (id) => {
-        const updatedDesserts = desserts.map(dessert =>
-            dessert.producto_id === id ? { ...dessert, cantidad: dessert.cantidad + 1 } : dessert
-        );
-        setDesserts(updatedDesserts);
-    };
+  const handleGoBack = () => {
+    router.back();
+  };
 
-    const handleDecrease = (id) => {
-        const updatedDesserts = desserts.map(dessert =>
-            dessert.producto_id === id && dessert.cantidad > 1 ? { ...dessert, cantidad: dessert.cantidad - 1 } : dessert
-        );
-        setDesserts(updatedDesserts);
-    };
+  const handleRemove = (id) => {
+    fetch(`http://localhost:4000/carts/${usuario.usuarioid}/producto/${id}`, {
+      method: 'DELETE',
+    })
+      .then((response) => {
+        if (response.ok) {
+          // Actualizamos el estado para remover el producto del carrito
+          const updatedDesserts = desserts.filter((dessert) => dessert.producto_id !== id);
 
-    const handleConfirm = () => {
-        router.push('/Factura');
-    };
+          const productsInMyCart = updatedDesserts.reduce((acc, item) => acc + item.cantidad, 0);
+          localStorage.setItem('productsInMyCart', productsInMyCart);
+          window.dispatchEvent(new Event('storage'));
 
-    return (
+          setDesserts(updatedDesserts);
+        } else {
+          console.error('Error al eliminar el producto');
+        }
+      })
+      .catch((error) => {
+        console.error('Error en la solicitud DELETE:', error);
+      });
+  };
+
+  const handleIncrease = (id) => {
+    const updatedDesserts = desserts.map((dessert) =>
+      dessert.producto_id === id ? { ...dessert, cantidad: dessert.cantidad + 1 } : dessert
+    );
+
+    const productsInMyCart = updatedDesserts.reduce((acc, item) => acc + item.cantidad, 0);
+    localStorage.setItem('productsInMyCart', productsInMyCart);
+    window.dispatchEvent(new Event('storage'));
+
+    setDesserts(updatedDesserts);
+    // Aquí deberías actualizar la cantidad en el backend
+  };
+
+  const handleDecrease = (id) => {
+    const updatedDesserts = desserts.map((dessert) =>
+      dessert.producto_id === id && dessert.cantidad > 1
+        ? { ...dessert, cantidad: dessert.cantidad - 1 }
+        : dessert
+    );
+
+    const productsInMyCart = updatedDesserts.reduce((acc, item) => acc + item.cantidad, 0);
+    localStorage.setItem('productsInMyCart', productsInMyCart);
+    window.dispatchEvent(new Event('storage'));
+
+    setDesserts(updatedDesserts);
+    // Aquí deberías actualizar la cantidad en el backend
+  };
+
+  const handleConfirm = () => {
+    router.push('/Factura');
+  };
+
+return (
         <div className="flex flex-col items-center justify-center min-h-screen">
             <div className="flex flex-col min-h-screen w-2/3">
                 <div className="flex flex-col justify-center mx-auto p-4">
@@ -179,7 +193,7 @@ function Carrito() {
                 </div>
             </div>
         </div>
-    );
+  );
 }
 
 export default Carrito;
