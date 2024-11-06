@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { getAuthToken, getCurrentUser } from '@/utils/functions';
@@ -42,13 +40,16 @@ function Carrito() {
         .then((response) => response.json())
         .then((data) => {
           if (Array.isArray(data)) {
-            setDesserts(data); // Almacena los productos del carrito
+            setDesserts(data);
           } else {
             console.error('Formato de datos incorrecto', data);
           }
         })
         .catch((error) => {
           console.error('Error al cargar el carrito:', error);
+        })
+        .finally(() => {
+            setLoading(false); 
         });
     }
   }, [usuario]);
@@ -112,88 +113,86 @@ function Carrito() {
     router.push('/Factura');
   };
 
-  return (
-    <div className='flex flex-col items-center justify-center min-h-screen'>
-      <div className='flex flex-col min-h-screen w-2/3'>
-        <div className='flex flex-col justify-center mx-auto p-4 '>
-          <h1 className='text-3xl md:text-4xl text-center font-bold mt-6 mb-6'>Tu Carrito</h1>
-          {desserts.length > 0 ? (
-            <>
-              <ul className='space-y-6  max-h-screen overflow-y-auto'>
-                {desserts.map((dessert) => (
-                  <li
-                    key={dessert.producto_id}
-                    className='flex flex-col sm:flex-row items-start bg-[#e2c2c4] shadow-lg rounded-lg p-6'
-                  >
-                    <div className='flex-shrink-0 w-full sm:w-40 h-40 relative mb-4 sm:mb-0'>
-                      <Image
-                        src={dessert.imagen1_producto}
-                        alt={dessert.nombre_producto}
-                        layout='fill'
-                        objectFit='cover'
-                        className='rounded-lg'
-                      />
-                    </div>
-                    <div className='flex-1 sm:ml-6'>
-                      <h3 className='text-2xl font-bold text-[#000000] mb-2'>{dessert.nombre_producto}</h3>
-                      <p className='text-lg text-[#000000]'>
-                        Precio: Q{parseFloat(dessert.precio).toFixed(2)}
-                      </p>
-                      <div className='flex items-center mt-2'>
-                        <span className='text-lg text-[#000000] mr-2'>Cantidad:</span>
-                        <button
-                          className='bg-[#FEE4E5] text-black py-1 px-3 border border-gray-400 hover:bg-[#fdb5b5]'
-                          onClick={() => handleDecrease(dessert.producto_id)}
-                        >
-                          -
-                        </button>
-                        <div className='bg-[#ffffff] border-t border-b border-gray-400 py-1 px-3 text-lg text-[#000000] text-center'>
-                          {dessert.cantidad}
+return (
+        <div className="flex flex-col items-center justify-center min-h-screen">
+            <div className="flex flex-col min-h-screen w-2/3">
+                <div className="flex flex-col justify-center mx-auto p-4">
+                    <h1 className="text-3xl md:text-4xl text-center font-bold mt-6 mb-6">Tu Carrito</h1>
+    
+                    {loading ? (
+                        <div className="flex justify-center items-center py-20">
+                            <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-buttonPurple"></div>
                         </div>
-                        <button
-                          className='bg-[#FEE4E5] text-black py-1 px-3 border border-gray-400 hover:bg-[#fdb5b5]'
-                          onClick={() => handleIncrease(dessert.producto_id)}
-                        >
-                          +
-                        </button>
-                      </div>
-                    </div>
-                    <div className='flex flex-col items-center sm:ml-4 mt-4 sm:mt-0'>
-                      <button
-                        className='bg-[#FEE4E5] text-black py-2 px-4 rounded-lg shadow-lg hover:bg-hoverPink'
-                        onClick={() => handleRemove(dessert.producto_id)}
-                      >
-                        Quitar
-                      </button>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-              <div className='p-4 flex justify-end'>
-                <button
-                  className='bg-[#FEE4E5] text-black py-3 px-6 rounded-lg shadow-lg hover:bg-hoverPink'
-                  onClick={handleConfirm}
-                >
-                  Recibo
-                </button>
-              </div>
-            </>
-          ) : (
-            <div className='flex flex-col justify-center'>
-              <p className='w-72 text-xl text-gray-700 py-11 self-center'>
-                Vaya... Parece que no tienes ningún postre en tu carrito 😓
-              </p>
-              <a
-                href='/catalog'
-                className=' text-center text-blue-900 text-3xl  hover:text-gray-700 self-center'
-              >
-                Navegar
-              </a>
+                    ) : desserts.length > 0 ? (
+                        <>
+                            <ul className="space-y-6  max-h-screen overflow-y-auto">
+                                {desserts.map((dessert) => (
+                                    <li key={dessert.producto_id} className="flex flex-col sm:flex-row items-start bg-white border border-gray-300 shadow-lg rounded-lg p-6">
+                                        <div className="flex-shrink-0 w-full sm:w-40 h-40 relative mb-4 sm:mb-0">
+                                            <Image
+                                                src={dessert.imagen1_producto}
+                                                alt={dessert.nombre_producto}
+                                                layout="fill"
+                                                objectFit="cover"
+                                                className="rounded-lg"
+                                            />
+                                        </div>
+                                        <div className="flex-1 sm:ml-6">
+                                            <h3 className="text-2xl font-bold text-[#000000] mb-2">{dessert.nombre_producto}</h3>
+                                            <p className="text-lg text-[#000000]">Precio: Q{parseFloat(dessert.precio).toFixed(2)}</p>
+                                            <div className="flex items-center mt-2">
+                                                <span className="text-lg text-[#000000] mr-2">Cantidad:</span>
+                                                <button
+                                                    className="bg-baseLilac text-black py-1 px-3 border border-gray-400 hover:bg-[#fdb5b5]"
+                                                    onClick={() => handleDecrease(dessert.producto_id)}
+                                                >
+                                                    -
+                                                </button>
+                                                <div className="bg-white border-t border-b border-gray-400 py-1 px-3 text-lg text-[#000000] text-center">
+                                                    {dessert.cantidad}
+                                                </div>
+                                                <button
+                                                    className="bg-baseLilac text-black py-1 px-3 border border-gray-400 hover:bg-[#fdb5b5]"
+                                                    onClick={() => handleIncrease(dessert.producto_id)}
+                                                >
+                                                    +
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-col items-center sm:ml-4 mt-4 sm:mt-0">
+                                            <button
+                                                className="bg-buttonPurple text-white py-2 px-4 rounded-lg shadow-lg hover:bg-buttonhoverPurple"
+                                                onClick={() => handleRemove(dessert.producto_id)}
+                                            >
+                                                Quitar
+                                            </button>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                            <div className="p-4 flex justify-end">
+                                <button
+                                    className="bg-buttonPurple text-white py-3 px-6 mt-4 rounded-lg shadow-lg hover:bg-buttonhoverPurple"
+                                    onClick={handleConfirm}
+                                >
+                                    Generar recibo
+                                </button>
+                            </div>
+                        </>
+                    ) : (
+                        <div className='flex flex-col justify-center'>
+                            <p className="w-72 text-xl text-gray-700 py-11 self-center">Vaya... Parece que no tienes ningún postre en tu carrito 😓</p>
+                            <a
+                                href='/catalog'
+                                className=" text-center text-blue-900 text-3xl  hover:text-gray-700 self-center"
+                            >
+                                Navegar
+                            </a>
+                        </div>
+                    )}
+                </div>
             </div>
-          )}
         </div>
-      </div>
-    </div>
   );
 }
 

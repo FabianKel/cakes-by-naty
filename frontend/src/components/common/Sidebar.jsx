@@ -39,12 +39,12 @@ function Sidebar() {
       </button>
 
       <div
-        className={`fixed top-0 left-0 w-64 h-full bg-otherPink z-40 shadow-lg transform transition-transform duration-300 ease-in-out ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        className={`fixed top-0 left-0 w-64 h-full bg-sidebarPurple z-40 shadow-lg transform transition-transform duration-300 ease-in-out ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
       >
         <div className="flex justify-center py-6">
           <Link href="/">
-            <img src="Logos/cbn.png" alt="Cakes by Naty" className="h-24 w-auto mt-6 hover:scale-105 transition-transform duration-300" />
+            <img src="Logos/cbnlogo.png" alt="Cakes by Naty" className="h-24 w-auto mt-6 hover:scale-105 transition-transform duration-300" />
           </Link>
         </div>
 
@@ -64,9 +64,6 @@ function Sidebar() {
                 {isProductsOpen && (
                   <ul className="pl-4 space-y-2 text-gray-700 mt-2">
                     <li className="font-normal text-base">
-                      <Link href="/catalog/novedades" className="block w-full font-navheader hover:text-hoverPink">
-                        Novedades
-                      </Link>
                     </li>
                     <li>
                       <button onClick={togglePostres} className="flex items-center w-full hover:scale-105 transition-transform duration-300">
@@ -140,11 +137,6 @@ function Sidebar() {
                     </li>
                   </ul>
                 )}
-              </li>
-              <li className="font-bold text-lg text-gray-800">
-                <Link href="/personalizar" className="block w-full  hover:text-customPink1 hover:scale-105 transition-transform duration-300">
-                  Personalizar
-                </Link>
               </li>
               <li className="font-bold text-lg text-gray-800">
                 <Link href="/account" className="block w-full hover:text-customPink1 hover:scale-105 transition-transform duration-300">

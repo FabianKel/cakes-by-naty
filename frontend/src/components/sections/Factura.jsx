@@ -35,10 +35,10 @@ function OrderSummary() {
                 >
                     &larr; 
                 </button>
-                <div className="bg-[#e2c2c4] shadow-lg rounded-lg p-8 w-full md:w-1/2 mx-auto">
+                <div className="bg-white shadow-lg rounded-lg p-8 w-full md:w-1/2 mx-auto">
                     <h2 className="text-3xl font-bold text-center mb-6 text-[#000000]">Resumen del Pedido</h2>
                     <div className="space-y-4">
-                        <div className="border-b border-black pb-4 mb-4">
+                        <div className="border-b border-black pb-4 mt-8 mb-4">
                             <p className="text-lg font-semibold">Número de Pedido: <span className="font-normal">#00001</span></p>
                             <ul className="space-y-2">
                                 {desserts.map((item, index) => (
@@ -58,7 +58,7 @@ function OrderSummary() {
             </main>
             <div className="absolute bottom-8 right-8">
                 <button
-                    className="bg-[#e2c2c4] text-black text-lg font-bold py-3 px-6 rounded-lg shadow-lg hover:bg-[#d1a7a9] transition-colors"
+                    className="bg-buttonPurple text-white text-lg py-3 px-6 rounded-lg shadow-lg hover:bg-buttonhoverPurple transition-colors"
                     onClick={handlePayment}
                 >
                     Confirmar Pedido

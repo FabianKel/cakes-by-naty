@@ -9,7 +9,7 @@ function Catalogo() {
 
   const [cakes, setCakes] = useState([]);
   const [cupcakes, setCupcakes] = useState([]);
-  const [products, setProducts] = useState([]);
+  const [galletas, setGalletas] = useState([]);
 
   const categories = {
     cupcakes: { nombre: 'Nuestos Cupcakes', id: 1 },
@@ -31,17 +31,24 @@ function Catalogo() {
         })
         .catch((error) => console.error('Error fetching cakes:', error));
     } else {
-      fetch('http://localhost:4000/products/categoria/3/3')
+      fetch('http://localhost:4000/products/categoria/1/3')
+        .then((response) => response.json())
+        .then((data) => {
+          setCupcakes(data.productos || []);
+        })
+        .catch((error) => console.error('Error fetching cupcakes:', error));
+      
+        fetch('http://localhost:4000/products/categoria/3/3')
         .then((response) => response.json())
         .then((data) => {
           setCakes(data.productos || []);
         })
         .catch((error) => console.error('Error fetching cakes:', error));
 
-      fetch('http://localhost:4000/products/categoria/1/3')
+        fetch('http://localhost:4000/products/categoria/4/3')
         .then((response) => response.json())
         .then((data) => {
-          setCupcakes(data.productos || []);
+          setGalletas(data.productos || []);
         })
         .catch((error) => console.error('Error fetching cupcakes:', error));
     }
@@ -57,15 +64,29 @@ function Catalogo() {
         <div className='container mx-auto p-4'>
           <h1 className='text-4xl text-center font-bold mt-6 mb-6'>Catálogo</h1>
           <h2 className='text-xl font-bold mb-4'>{categories[filter].nombre}</h2>
-          <ProductGroup products={cakes} />
+          <ProductGroup
+            products={cakes}
+            showViewMore={false} 
+          />
         </div>
       ) : (
         <div className='container mx-auto p-4'>
-          <h1 className='text-4xl text-center font-bold mt-6 mb-6'>Catálogo</h1>
-          <h2 className='text-xl font-bold mb-4'>Nuestros Pasteles</h2>
-          <ProductGroup products={cakes} />
+          <h1 className='text-4xl text-center font-bold mt-6 mb-16'>Catálogo</h1>
           <h2 className='text-xl font-bold mb-4'>Nuestros Cupcakes</h2>
-          <ProductGroup products={cupcakes} />
+            <ProductGroup
+              products={cupcakes}
+              showViewMore={true} 
+              categoryUrl="cupcakes" />
+            <h2 className='text-xl font-bold mb-4'>Nuestros Pasteles</h2>
+            <ProductGroup
+              products={cakes}
+              showViewMore={true} 
+              categoryUrl="pasteles" />
+            <h2 className='text-xl font-bold mb-4'>Nuestras Galletas</h2>
+            <ProductGroup
+              products={galletas}
+              showViewMore={true} 
+              categoryUrl="galletas" />
         </div>
       )}
     </div>
