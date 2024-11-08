@@ -25,16 +25,18 @@ SELECT insertar_usuario('cliente', 'Tony40', 'Antonio', 'Santos', 'tony40@gmail.
 SELECT insertar_usuario('admin', 'Admin', NULL, NULL, 'admin@gmail.com', NULL, 'admin123', NULL);
 
 
-SELECT create_and_assign_address(1,'Casa Principal','6ta calle, casa 3-14','Plaza Sésamo, Zona 1','Guatemala','Guatemala','Casa de dos pisos, portón verde.');
-SELECT create_and_assign_address(2,'Casa Principal', '6ta calle, casa 3-14', 'Plaza Sésamo, Zona 1', 'Guatemala', 'Guatemala', 'Casa de dos pisos, portón verde.');
-SELECT create_and_assign_address(3,'Oficina', 'Av. Reforma, Edificio Torre Viva', 'Nivel 10, Oficina 101', 'Guatemala', 'Guatemala', 'Oficina corporativa, solicitar acceso en recepción.');
-SELECT create_and_assign_address(4,'Apartamento', '12 Calle, Edificio Central Park', 'Apto. 5B, Zona 10', 'Guatemala', 'Guatemala', 'Apartamento con vista al parque, timbre en la entrada principal.');
-SELECT create_and_assign_address(5,'Casa Principal', '6ta calle, casa 3-14', 'Plaza Sésamo, Zona 1', 'Guatemala', 'Guatemala', 'Casa de dos pisos, portón verde.');
-SELECT create_and_assign_address(6,'Oficina', 'Av. Reforma, Edificio Torre Viva', 'Nivel 10, Oficina 101', 'Guatemala', 'Guatemala', 'Oficina corporativa, solicitar acceso en recepción.');
-SELECT create_and_assign_address(7,'Apartamento', '12 Calle, Edificio Central Park', 'Apto. 5B, Zona 10', 'Guatemala', 'Guatemala', 'Apartamento con vista al parque, timbre en la entrada principal.');
-SELECT create_and_assign_address(8,'Casa Principal', '6ta calle, casa 3-14', 'Plaza Sésamo, Zona 1', 'Guatemala', 'Guatemala', 'Casa de dos pisos, portón verde.');
-SELECT create_and_assign_address(9,'Oficina', 'Av. Reforma, Edificio Torre Viva', 'Nivel 10, Oficina 101', 'Guatemala', 'Guatemala', 'Oficina corporativa, solicitar acceso en recepción.');
-SELECT create_and_assign_address(10,'Apartamento', '12 Calle, Edificio Central Park', 'Apto. 5B, Zona 10', 'Guatemala', 'Guatemala', 'Apartamento con vista al parque, timbre en la entrada principal.');
-SELECT create_and_assign_address(11,'Casa Principal', '6ta calle, casa 3-14', 'Plaza Sésamo, Zona 1', 'Guatemala', 'Guatemala', 'Casa de dos pisos, portón verde.');
-SELECT create_and_assign_address(12,'Oficina', 'Av. Reforma, Edificio Torre Viva', 'Nivel 10, Oficina 101', 'Guatemala', 'Guatemala', 'Oficina corporativa, solicitar acceso en recepción.');
-SELECT create_and_assign_address(13,'Apartamento', '12 Calle, Edificio Central Park', 'Apto. 5B, Zona 10', 'Guatemala', 'Guatemala', 'Apartamento con vista al parque, timbre en la entrada principal.');
+SELECT create_and_assign_address(1,'Casa Principal','6ta calle, casa 3-14','Plaza Sésamo, Zona 1','Guatemala','Guatemala','Casa de dos pisos, portón verde.', 1);
+SELECT create_and_assign_address(1,'Casa Secundaria','6ta calle, casa 3-14','Plaza Sésamo, Zona 1','Guatemala','Guatemala','Casa de dos pisos, portón verde.', 2);
+SELECT create_and_assign_address(1,'Casa Terciaria','6ta calle, casa 3-14','Plaza Sésamo, Zona 1','Guatemala','Guatemala','Casa de dos pisos, portón verde.', 3);
+SELECT create_and_assign_address(2,'Casa Principal', '6ta calle, casa 3-14', 'Plaza Sésamo, Zona 1', 'Guatemala', 'Guatemala', 'Casa de dos pisos, portón verde.', 1);
+SELECT create_and_assign_address(3,'Oficina', 'Av. Reforma, Edificio Torre Viva', 'Nivel 10, Oficina 101', 'Guatemala', 'Guatemala', 'Oficina corporativa, solicitar acceso en recepción.', 1);
+SELECT create_and_assign_address(4,'Apartamento', '12 Calle, Edificio Central Park', 'Apto. 5B, Zona 10', 'Guatemala', 'Guatemala', 'Apartamento con vista al parque, timbre en la entrada principal.', 1);
+SELECT create_and_assign_address(5,'Casa Principal', '6ta calle, casa 3-14', 'Plaza Sésamo, Zona 1', 'Guatemala', 'Guatemala', 'Casa de dos pisos, portón verde.', 1);
+SELECT create_and_assign_address(6,'Oficina', 'Av. Reforma, Edificio Torre Viva', 'Nivel 10, Oficina 101', 'Guatemala', 'Guatemala', 'Oficina corporativa, solicitar acceso en recepción.', 1);
+SELECT create_and_assign_address(7,'Apartamento', '12 Calle, Edificio Central Park', 'Apto. 5B, Zona 10', 'Guatemala', 'Guatemala', 'Apartamento con vista al parque, timbre en la entrada principal.', 1);
+SELECT create_and_assign_address(8,'Casa Principal', '6ta calle, casa 3-14', 'Plaza Sésamo, Zona 1', 'Guatemala', 'Guatemala', 'Casa de dos pisos, portón verde.', 1);
+SELECT create_and_assign_address(9,'Oficina', 'Av. Reforma, Edificio Torre Viva', 'Nivel 10, Oficina 101', 'Guatemala', 'Guatemala', 'Oficina corporativa, solicitar acceso en recepción.', 1);
+SELECT create_and_assign_address(10,'Apartamento', '12 Calle, Edificio Central Park', 'Apto. 5B, Zona 10', 'Guatemala', 'Guatemala', 'Apartamento con vista al parque, timbre en la entrada principal.', 1);
+SELECT create_and_assign_address(11,'Casa Principal', '6ta calle, casa 3-14', 'Plaza Sésamo, Zona 1', 'Guatemala', 'Guatemala', 'Casa de dos pisos, portón verde.', 1);
+SELECT create_and_assign_address(12,'Oficina', 'Av. Reforma, Edificio Torre Viva', 'Nivel 10, Oficina 101', 'Guatemala', 'Guatemala', 'Oficina corporativa, solicitar acceso en recepción.', 1);
+SELECT create_and_assign_address(13,'Apartamento', '12 Calle, Edificio Central Park', 'Apto. 5B, Zona 10', 'Guatemala', 'Guatemala', 'Apartamento con vista al parque, timbre en la entrada principal.', 1);

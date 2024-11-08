@@ -10,6 +10,7 @@ import LoginSection from './LoginSection';
 function UserSection() {
   const [usuario, setUsuario] = useState(null);
   const [pedidos, setPedidos] = useState([]);
+  const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -19,6 +20,7 @@ function UserSection() {
 
   useEffect(() => {
     const token = getAuthToken();
+    setToken(token)
     let currentUser = getCurrentUser();
 
     if (token && currentUser) {
@@ -107,7 +109,7 @@ function UserSection() {
       <hr />
 
       <div ref={sectionRef} className="md:ml-16 md:border-l-[1px] md:border-gray-700 px-6 md:px-0 md:mx-0 flex flex-col self-center w-full bg-white">
-        {option === 'general' && <UserDataSection usuario={usuario} />}
+        {option === 'general' && <UserDataSection usuario={usuario} token={token} />}
         {option === 'pedidos' && <PedidosList pedidos={pedidos} />}
       </div>
     </div>

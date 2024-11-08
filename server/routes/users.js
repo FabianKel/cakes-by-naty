@@ -6,6 +6,6 @@ router.get('/:u_id', getUserById);
 router.post('/all', getAllUsers);
 router.post('/register', register);
 router.post('/login', login);
-router.put('/edit', editUser)
+router.put('/edit/u_id', editUser)
 
 module.exports = router;

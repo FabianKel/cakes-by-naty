@@ -3,19 +3,38 @@ import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
-const UserDataSection = ({ usuario }) => {
+const UserDataSection = ({ usuario, token }) => {
+  console.log(token)
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      usuario: usuario?.usuario || '',
-      primer_nombre: usuario?.primer_nombre || '',
-      segundo_nombre: usuario?.segundo_nombre || '',
-      correo: usuario?.correo || '',
-      telefono: usuario?.telefono || '',
+      usuario: usuario?.usuario === "No hay información" ? "" : usuario?.usuario || "",
+      primer_nombre: usuario?.primer_nombre === "No hay información" ? "" : usuario?.primer_nombre || "",
+      segundo_nombre: usuario?.segundo_nombre === "No hay información" ? "" : usuario?.segundo_nombre || "",
+      correo: usuario?.correo === "No hay información" ? "" : usuario?.correo || "",
+      telefono: usuario?.telefono === "No hay información" ? "" : usuario?.telefono || "",
     },
-    onSubmit: (values) => {
-      console.log('Información actualizada:', values);
+    onSubmit: async (values) => {
+      try {
+        console.log(JSON.stringify(values))
+        const response = await fetch(`http://localhost:4000/users/edit/${usuario.usuarioid}/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
+          body: JSON.stringify(values),
+        });
+
+        if (response.ok) {
+          console.log("Información actualizada con éxito");
+        } else {
+          console.error("Error al actualizar la información", response);
+        }
+      } catch (error) {
+        console.error("Error en la solicitud:", error);
+      }
     },
     validationSchema: yup.object({
       usuario: yup.string().required('Usuario es requerido'),
@@ -24,6 +43,8 @@ const UserDataSection = ({ usuario }) => {
       telefono: yup.string().required('Número de teléfono es requerido'),
     }),
   });
+
+  
 
   return (
     <section className='flex flex-row w-full justify-center md:justify-end'>
