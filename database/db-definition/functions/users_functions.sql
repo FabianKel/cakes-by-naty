@@ -359,20 +359,32 @@ $$;
 
 CREATE OR REPLACE FUNCTION edit_password(
     p_usuario_id INT,
-    p_password TEXT
+    p_password_actual TEXT,
+    p_nueva_password TEXT
 )
 RETURNS VOID
 LANGUAGE plpgsql
 AS $$
+DECLARE
+    password_correcta BOOLEAN;
 BEGIN
-    -- Actualizar la contraseña cifrada
+    SELECT Password = crypt(p_password_actual, Password)
+    INTO password_correcta
+    FROM Usuarios
+    WHERE UsuarioID = p_usuario_id;
+
+    IF NOT password_correcta THEN
+        RAISE EXCEPTION 'La contraseña actual no es correcta';
+    END IF;
+
     UPDATE Usuarios
     SET 
-        Password = crypt(p_password, gen_salt('bf')),
+        Password = crypt(p_nueva_password, gen_salt('bf')),
         Modified_at = CURRENT_TIMESTAMP
     WHERE UsuarioID = p_usuario_id;
 END;
 $$;
+
 
 CREATE OR REPLACE FUNCTION edit_user_admin(
     p_usuario_id INT,
