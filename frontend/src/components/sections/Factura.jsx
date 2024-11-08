@@ -23,7 +23,7 @@ function OrderSummary() {
     };
 
     const calculateTotal = () => {
-        return desserts.reduce((total, dessert) => total + dessert.price * dessert.quantity, 0).toFixed(2);
+        return desserts.reduce((total, dessert) => total + dessert.price * dessert.quantity, 0);
     };
 
     return (
@@ -43,8 +43,8 @@ function OrderSummary() {
                             <ul className="space-y-2">
                                 {desserts.map((item, index) => (
                                     <li key={index} className="flex justify-between">
-                                        <span>{item.title} (x{item.quantity})</span>
-                                        <span>Q{item.price.toFixed(2)}</span>
+                                        <span>{item.productonombre} (x{item.quantity})</span>
+                                        <span>Q{item.price}</span>
                                     </li>
                                 ))}
                             </ul>
