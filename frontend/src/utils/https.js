@@ -71,7 +71,7 @@ export const register = async (username, email, password) => {
       rol: 'cliente',
       usuario: username,
       correo: email,
-      password
+      password,
     });
 
     return user;

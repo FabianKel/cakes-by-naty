@@ -9,7 +9,7 @@ function HeroSection() {
   const [postresTemporada, setPostresTemporada] = useState([]);
   const novedadesRef = useRef(null);
   const postresTemporadaRef = useRef(null);
-  const catalogRef = useRef(null); 
+  //const catalogRef = useRef(null); 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,14 +36,14 @@ function HeroSection() {
     const observerOptions = {
       root: null,
       rootMargin: '0px',
-      threshold: 0.2, 
+      threshold: 0.2,
     };
 
     const observerCallback = (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('animate-fadeInUp'); 
-          entry.target.classList.remove('opacity-0'); 
+          entry.target.classList.add('animate-fadeInUp');
+          entry.target.classList.remove('opacity-0');
         }
       });
     };
@@ -52,15 +52,15 @@ function HeroSection() {
 
     const novedadesSection = novedadesRef.current;
     const postresTemporadaSection = postresTemporadaRef.current;
-    const catalogSection = catalogRef.current; 
+    //const catalogSection = catalogRef.current;
     if (novedadesSection) observer.observe(novedadesSection);
     if (postresTemporadaSection) observer.observe(postresTemporadaSection);
-    if (catalogSection) observer.observe(catalogSection); 
+    //if (catalogSection) observer.observe(catalogSection);
 
     return () => {
       if (novedadesSection) observer.unobserve(novedadesSection);
       if (postresTemporadaSection) observer.unobserve(postresTemporadaSection);
-      if (catalogSection) observer.unobserve(catalogSection); 
+      //if (catalogSection) observer.unobserve(catalogSection);
     };
   }, []);
 
@@ -71,11 +71,13 @@ function HeroSection() {
         <p className="text-md md:text-lg mb-8 animate-fadeInUp">
           ¡Disfruta de nuestros deliciosos postres hechos con amor y los mejores ingredientes!
         </p>
-        <div ref={catalogRef} className="opacity-0 mt-16"> 
-          <CatalogGallery />
-        </div>
+        {
+          /* <div ref={catalogRef} className="opacity-0 mt-16"> 
+              <CatalogGallery />
+            </div> */
+        }
         <div ref={novedadesRef} className="opacity-0">
-          <h2 className="text-xl md:text-2xl font-bold mt-32 mb-8 text-left text-gray-600 font-hsubtitles">
+          <h2 className="text-xl md:text-2xl font-bold mt-16 mb-8 text-left text-gray-600 font-hsubtitles">
             ¡Novedades!
           </h2>
           <div className="flex flex-wrap justify-center gap-6">

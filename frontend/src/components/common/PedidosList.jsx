@@ -1,16 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { CiDeliveryTruck } from 'react-icons/ci';
 import { AiOutlineCheckCircle } from 'react-icons/ai';
-
+import useModal from '@/hooks/useModal';
+import ModalPedidos from './ModalPedidos';
 
 const PedidosList = ({ pedidos }) => {
+  const { isOpen, openModal, closeModal, agree } = useModal();
+  const [currentPedido, setCurrent] = useState(undefined);
+  const [productos, setProductos] = useState([]);
+
+  const handleOpenProductDetail = (pedido) => {
+    setCurrent(pedido);
+    openModal();
+  };
+
   return (
     <section className='flex flex-row w-full justify-center md:justify-end'>
       <div className='max-h-screen w-full overflow-y-auto  md:w-10/12 rounded-lg shadow-lg border border-gray-300'>
         <div className='flex flex-col gap-1 md:gap-2'>
           {pedidos.map((pedido) => {
             const formattedDate = new Date(pedido.created_at).toLocaleDateString();
-
             return (
               <div key={pedido.pedidoid} className='flex flex-col gap-2 bg-white px-4 py-2 md:px-10 md:py-10 border-b-2 w-full'>
                 <div className='flex justify-between'>
@@ -54,7 +63,9 @@ const PedidosList = ({ pedidos }) => {
                 </a>
                 </div>
                 <div className='flex justify-center my-2'>
-                  <button className='w-40 px-4 py-2  bg-green-500 text-white rounded-md hover:bg-green-600 transition duration-300'>
+                  <button className='w-40 px-4 py-2  bg-green-500 text-white rounded-md hover:bg-green-600 transition duration-300'
+                  onClick={() => handleOpenProductDetail(pedido)}
+                  >
                     Ver Pedido
                   </button>
                 </div>
@@ -63,7 +74,58 @@ const PedidosList = ({ pedidos }) => {
           })}
         </div>
       </div>
-      </section>
+      <ModalPedidos isOpen={isOpen} onCancel={closeModal}>
+        {currentPedido && (
+          <div>
+            <div className='flex align-middle gap-10 justify-around'>
+              <p>Orden #{currentPedido.pedidoid}</p>
+              <p className='font-semibold'>
+                Fecha de Orden: {new Date(currentPedido.created_at).toLocaleDateString()}
+              </p>
+              <p>👤{currentPedido.usuario}</p>
+              <p>
+                Estado:{' '}
+                {currentPedido.estado_orden === 'Sin-Entregar' ? 'Sin Entregar' : currentPedido.estado_orden}
+              </p>
+            </div>
+
+            <div className='mt-10'>
+              <p>Productos</p>
+              <div className='flex w-full'>
+                <tabla className='w-full border-collapse mt-3'>
+                  <thead className='bg-slate-200'>
+                    <tr>
+                      <th className='w-20 text-left'>ID</th>
+                      <th className='w-60 text-left'>Nombre</th>
+                      <th className='w-40 text-left'>Ocación</th>
+                      <th className='w-40 text-left'>Cantidad</th>
+                      <th className='w-20 text-left'>Precio</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {productos.map((producto) => (
+                      <tr>
+                        <td className='w-20 text-left'>{producto.id}</td>
+                        <td className='w-60 text-left'>{producto.nombre}</td>
+                        <td className='w-40 text-left'>{producto.ocacion}</td>
+                        <td className='w-40 text-left'>{producto.cantidad}</td>
+                        <td className='w-20 text-left'>Q {producto.precio}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                  <tfoot className='bg-slate-100'>
+                    <tr>
+                      <td colspan='4'>Total</td>
+                      <td colspan='4'>Q {productos.reduce((acc, item) => acc + item.precio, 0)}</td>
+                    </tr>
+                  </tfoot>
+                </tabla>
+              </div>
+            </div>
+          </div>
+        )}
+      </ModalPedidos>
+</section>   
   );
 };
 
