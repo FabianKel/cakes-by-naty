@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Button from '@/components/common/Button';
-import { getCurrentUser } from '@/utils/functions';
+import { getAuthToken, getCurrentUser } from '@/utils/functions';
 import Modal from '@/components/common/Modal';
 
 
@@ -60,6 +60,7 @@ function ProductCRUD() {
   useEffect(() => {
     const cargarProductos = async () => {
       const response = await fetch('http://localhost:4000/products');
+
       const data = await response.json();
       setProductos(data.productos);
     };

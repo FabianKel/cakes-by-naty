@@ -11,7 +11,7 @@ const pool = new Pool({
 });
 
 afterAll(async () => {
-  await pool.end(); // Cierra la conexión con la base de datos después de las pruebas
+  await pool.end();
 });
 
 describe('Recrear el proceso de login', () => {
@@ -20,7 +20,7 @@ describe('Recrear el proceso de login', () => {
     client.release();
 
     const response = await request(app)
-      .post('/user/login')
+      .post('/users/login')
       .send({ username: 'Aleee26', password: 'miab2024' })
 
       .set('Accept', 'application/json');

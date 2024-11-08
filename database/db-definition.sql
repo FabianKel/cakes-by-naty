@@ -59,6 +59,8 @@ ALTER DATABASE cakes_by_naty SET "app.jwt_double_auth"
 
 \i ../database/db-definition/functions/carrito_functions.sql
 
+\i ../database/db-definition/functions/product_functions.sql
+
 
 -------------------------------------------------------------------------------
 ---------------------------------- PRINT END ----------------------------------

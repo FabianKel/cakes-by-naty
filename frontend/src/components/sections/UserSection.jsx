@@ -1,21 +1,26 @@
 'use client';
+import React, { useEffect, useRef, useState } from 'react';
 
-import Button from '../common/Button';
-import PedidosList from '../common/PedidosList';
-import React, { useEffect, useState } from 'react';
+import UserDataSection from '@/components/sections/UserDataSection';
+import PedidosList from '@/components/common/PedidosList';
 import { getUsuario, getUsuarioPedidos } from '@/utils/https';
 import { getAuthToken, getCurrentUser } from '@/utils/functions';
-import Custom404 from '../Custom404';
 import LoginSection from './LoginSection';
 
 function UserSection() {
   const [usuario, setUsuario] = useState(null);
   const [pedidos, setPedidos] = useState([]);
-  const [loading, setLoading] = useState(true); // Nuevo estado para manejar la carga
-  const [isAuthenticated, setIsAuthenticated] = useState(false); // Estado para manejar la autenticación
+  const [token, setToken] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const [option, setOption] = useState('general');
+
+  const sectionRef = useRef(null); // Referencia para la sección seleccionada
 
   useEffect(() => {
     const token = getAuthToken();
+    setToken(token)
     let currentUser = getCurrentUser();
 
     if (token && currentUser) {
@@ -39,81 +44,73 @@ function UserSection() {
     }
   }, []);
 
+  useEffect(() => {
+    if (sectionRef.current && window.innerWidth <= 768) { // Solo en dispositivos móviles
+      sectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [option]);
+
   if (loading) {
-    return <div>Cargando...</div>; // Mostramos esto mientras carga
+    return <div>Cargando...</div>;
   }
 
   if (!isAuthenticated) {
     return <LoginSection />;
   }
-  
+
   return (
-    <div className='flex items-start justify-center min-h-screen bg-white w-full pt-20'>
-      <div className='flex flex-row gap-5 sm:flex-col md:flex-row '>
-        <div className='bg-white w-full max-w-lg mx-auto p-12 py-16 rounded-lg shadow-lg border border-gray-300'>
-          <h1 className='text-3xl font-semibold font-poppins text-center'>{usuario.usuario}</h1>
-          <div className='mt-6 flex flex-col text-left mb-8 gap-6'>
-            <div className='flex flex-col'>
-              <a className=' font-bold text-xl'>Nombre:</a>
-              <div className='flex flex-row justify-between'>
-                <p className='text-lg '>
-                  {usuario.primer_nombre} {usuario.segundo_nombre}
-                </p>
-                <Button
-                  className='p-2 bg-gray-100 text-gray-800 border-black border-2 rounded-3xl hover:bg-gray-300 transition duration-300 font-navheader w-32 h-8 align-bottom'
-                  onClick={() => console.log('Editar clicked')}
-                >
-                  Editar
-                </Button>
-              </div>
-            </div>
-            <div className='flex flex-col'>
-              <a className=' font-bold text-xl'>Dirección de Correo:</a>
-              <div className='flex flex-row justify-between'>
-                <p className='text-lg '>{usuario.correo}</p>
-                <Button
-                  className='p-2 bg-gray-100 text-gray-800 border-black border-2 rounded-3xl hover:bg-gray-300 transition duration-300 font-navheader w-32 h-8 align-bottom'
-                  onClick={() => console.log('Editar clicked')}
-                >
-                  Editar
-                </Button>
-              </div>
-            </div>
-            <div className='flex flex-col'>
-              <a className=' font-bold text-xl'>Número de Celular:</a>
-              <div className='flex flex-row justify-between'>
-                <p className='text-lg '>{usuario.telefono}</p>
-                <Button
-                  className='p-2 bg-gray-100 text-gray-800 border-black border-2 rounded-3xl hover:bg-gray-300 transition duration-300 font-navheader w-32 h-8 align-bottom'
-                  onClick={() => console.log('Editar clicked')}
-                >
-                  Editar
-                </Button>
-              </div>
-            </div>
-            <div className='flex flex-col'>
-              <a className=' font-extrabold text-xl'>Contraseña:</a>
-              <div className='flex flex-row justify-between'>
-                <p className='text-lg '>{usuario.password}</p>
-                <Button
-                  className='p-2 bg-gray-100 text-gray-800 border-black border-2 rounded-3xl hover:bg-gray-300 transition duration-300 font-navheader w-32 h-8 align-bottom'
-                  onClick={() => console.log('Editar clicked')}
-                >
-                  Editar
-                </Button>
-              </div>
-            </div>
-            <div>
-              <a
-                className='text-lg font-semibold text-blue-600 hover:text-blue-900 justify-normal'
-                href='/user/direcciones'
-              >
-                Ver mis direcciones
-              </a>
-            </div>
-          </div>
+    <div className="flex flex-col mb-20 md:flex-row md:mx-32 lg:mx-52 md:mt-20">
+      <div className="flex flex-col self-center md:self-auto w-64 h-fit my-8 md:my-0 bg-white p-6 rounded-lg shadow-lg border border-gray-300">
+        <a className="px-4 pb-4">{usuario.usuario}</a>
+        <hr />
+        <div className="flex flex-col self-center md:self-auto w-full h-auto">
+          <button
+            className={`bg-white hover:bg-neutral-100 text-left px-4 py-2 rounded-lg ${
+              option === 'general' && 'font-semibold'
+            }`}
+            onClick={() => setOption('general')}
+          >
+          General
+          </button>
+          <button
+            className={`bg-white hover:bg-neutral-100 text-left px-4 py-2 rounded-lg ${
+              option === 'direcciones' && 'font-semibold'
+            }`}
+            onClick={() => setOption('direcciones')}
+          >
+            Direcciones
+          </button>
+          <button
+            className={`bg-white hover:bg-neutral-100 text-left px-4 py-2 rounded-lg ${
+              option === 'pedidos' && 'font-semibold'
+            }`}
+            onClick={() => setOption('pedidos')}
+          >
+            Ver Pedidos
+          </button>
+          <button
+            className={`bg-white hover:bg-neutral-100 text-left px-4 py-2 mb-2 rounded-lg ${
+              option === 'contraseña' && 'font-semibold'
+            }`}
+            onClick={() => setOption('contraseña')}
+          >
+            Contraseña
+          </button>
+          <hr />
+          <button className="bg-white hover:bg-neutral-100 text-center px-4 py-2 mt-2 rounded-lg">
+            Cerrar Sesión
+          </button>
+          <button className="bg-red-500 hover:bg-red-600 text-white text-center px-4 py-2 mt-2 md:my-4 rounded-lg">
+            Borrar Cuenta
+          </button>
         </div>
-        <PedidosList pedidos={pedidos} />
+      </div>
+
+      <hr />
+
+      <div ref={sectionRef} className="md:ml-16 md:border-l-[1px] md:border-gray-700 px-6 md:px-0 md:mx-0 flex flex-col self-center w-full bg-white">
+        {option === 'general' && <UserDataSection usuario={usuario} token={token} />}
+        {option === 'pedidos' && <PedidosList pedidos={pedidos} />}
       </div>
     </div>
   );
