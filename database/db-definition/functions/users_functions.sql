@@ -1,4 +1,3 @@
--- READ USER BY ID
 CREATE OR REPLACE FUNCTION obtener_usuario_por_id(u_id INT)
 RETURNS TABLE (
     UsuarioID INT,
@@ -8,8 +7,11 @@ RETURNS TABLE (
     Segundo_Nombre TEXT,
     Correo TEXT,
     Telefono TEXT,
+    Direccion1ID INT,
     Direccion1 TEXT,
+    Direccion2ID INT,
     Direccion2 TEXT,
+    Direccion3ID INT,
     Direccion3 TEXT,
     Created_at TIMESTAMP,
     Modified_at TIMESTAMP
@@ -23,68 +25,100 @@ BEGIN
     SELECT 
         u.UsuarioID,
         u.Rol,
-        -- Desencriptar Usuario y otros campos con manejo de errores
-        CASE
-            WHEN pgp_sym_decrypt(u.Usuario, secret_key) IS NOT NULL
-            THEN pgp_sym_decrypt(u.Usuario, secret_key)::TEXT
-            ELSE 'Desencriptación fallida'
-        END AS Usuario,
-        
-        CASE
-            WHEN pgp_sym_decrypt(u.Primer_Nombre, secret_key) IS NOT NULL
-            THEN pgp_sym_decrypt(u.Primer_Nombre, secret_key)::TEXT
-            ELSE 'Desencriptación fallida'
-        END AS Primer_Nombre,
+        COALESCE(
+            CASE
+                WHEN u.Usuario IS NULL THEN 'No hay información'
+                ELSE COALESCE(
+                    pgp_sym_decrypt(u.Usuario, secret_key)::TEXT,
+                    'Desencriptación fallida'
+                )
+            END, 
+            'Desencriptación fallida'
+        ) AS Usuario,
 
-        CASE
-            WHEN pgp_sym_decrypt(u.Segundo_Nombre, secret_key) IS NOT NULL
-            THEN pgp_sym_decrypt(u.Segundo_Nombre, secret_key)::TEXT
-            ELSE 'Desencriptación fallida'
-        END AS Segundo_Nombre,
+        COALESCE(
+            CASE
+                WHEN u.Primer_Nombre IS NULL THEN 'No hay información'
+                ELSE COALESCE(
+                    pgp_sym_decrypt(u.Primer_Nombre, secret_key)::TEXT,
+                    'Desencriptación fallida'
+                )
+            END, 
+            'Desencriptación fallida'
+        ) AS Primer_Nombre,
 
-        CASE
-            WHEN pgp_sym_decrypt(u.Correo, secret_key) IS NOT NULL
-            THEN pgp_sym_decrypt(u.Correo, secret_key)::TEXT
-            ELSE 'Desencriptación fallida'
-        END AS Correo,
+        COALESCE(
+            CASE
+                WHEN u.Segundo_Nombre IS NULL THEN 'No hay información'
+                ELSE COALESCE(
+                    pgp_sym_decrypt(u.Segundo_Nombre, secret_key)::TEXT,
+                    'Desencriptación fallida'
+                )
+            END, 
+            'Desencriptación fallida'
+        ) AS Segundo_Nombre,
 
-        CASE
-            WHEN pgp_sym_decrypt(u.Telefono, secret_key) IS NOT NULL
-            THEN pgp_sym_decrypt(u.Telefono, secret_key)::TEXT
-            ELSE 'Desencriptación fallida'
-        END AS Telefono,
-        
-        -- Desencriptar direcciones
+        COALESCE(
+            CASE
+                WHEN u.Correo IS NULL THEN 'No hay información'
+                ELSE COALESCE(
+                    pgp_sym_decrypt(u.Correo, secret_key)::TEXT,
+                    'Desencriptación fallida'
+                )
+            END, 
+            'Desencriptación fallida'
+        ) AS Correo,
+
+        COALESCE(
+            CASE
+                WHEN u.Telefono IS NULL THEN 'No hay información'
+                ELSE COALESCE(
+                    pgp_sym_decrypt(u.Telefono, secret_key)::TEXT,
+                    'Desencriptación fallida'
+                )
+            END, 
+            'Desencriptación fallida'
+        ) AS Telefono,
+
+        d1.DireccionID AS Direccion1ID,
         CASE 
-            WHEN d1.DireccionID IS NOT NULL THEN 
+            WHEN d1.DireccionID IS NULL THEN 'No hay información'
+            ELSE COALESCE(
                 pgp_sym_decrypt(d1.Nombre, secret_key)::TEXT || ', ' || 
                 pgp_sym_decrypt(d1.Campo1, secret_key)::TEXT || ', ' || 
                 pgp_sym_decrypt(d1.Campo2, secret_key)::TEXT || ', ' || 
                 pgp_sym_decrypt(d1.Ciudad, secret_key)::TEXT || ', ' || 
-                pgp_sym_decrypt(d1.Departamento, secret_key)::TEXT
-            ELSE 'Dirección no disponible'
+                pgp_sym_decrypt(d1.Departamento, secret_key)::TEXT,
+                'Desencriptación fallida'
+            )
         END AS Direccion1,
 
+        d2.DireccionID AS Direccion2ID,
         CASE 
-            WHEN d2.DireccionID IS NOT NULL THEN 
+            WHEN d2.DireccionID IS NULL THEN 'No hay información'
+            ELSE COALESCE(
                 pgp_sym_decrypt(d2.Nombre, secret_key)::TEXT || ', ' || 
                 pgp_sym_decrypt(d2.Campo1, secret_key)::TEXT || ', ' || 
                 pgp_sym_decrypt(d2.Campo2, secret_key)::TEXT || ', ' || 
                 pgp_sym_decrypt(d2.Ciudad, secret_key)::TEXT || ', ' || 
-                pgp_sym_decrypt(d2.Departamento, secret_key)::TEXT
-            ELSE 'Dirección no disponible'
+                pgp_sym_decrypt(d2.Departamento, secret_key)::TEXT,
+                'Desencriptación fallida'
+            )
         END AS Direccion2,
 
+        d3.DireccionID AS Direccion3ID,
         CASE 
-            WHEN d3.DireccionID IS NOT NULL THEN 
+            WHEN d3.DireccionID IS NULL THEN 'No hay información'
+            ELSE COALESCE(
                 pgp_sym_decrypt(d3.Nombre, secret_key)::TEXT || ', ' || 
                 pgp_sym_decrypt(d3.Campo1, secret_key)::TEXT || ', ' || 
                 pgp_sym_decrypt(d3.Campo2, secret_key)::TEXT || ', ' || 
                 pgp_sym_decrypt(d3.Ciudad, secret_key)::TEXT || ', ' || 
-                pgp_sym_decrypt(d3.Departamento, secret_key)::TEXT
-            ELSE 'Dirección no disponible'
+                pgp_sym_decrypt(d3.Departamento, secret_key)::TEXT,
+                'Desencriptación fallida'
+            )
         END AS Direccion3,
-        
+
         u.Created_at,
         u.Modified_at
     FROM 
@@ -95,6 +129,8 @@ BEGIN
     WHERE u.UsuarioID = u_id;
 END;
 $$;
+
+
 
 CREATE OR REPLACE FUNCTION insertar_usuario(
     p_rol TEXT,
@@ -160,63 +196,105 @@ BEGIN
 END;
 $$;
 
-CREATE OR REPLACE FUNCTION update_user(
-    p_user_id INTEGER,
-    p_rol TEXT,
+
+
+--EDITAR USUARIO
+
+CREATE OR REPLACE FUNCTION edit_user(
+    p_usuario_id INT,
     p_usuario TEXT,
     p_primer_nombre TEXT,
     p_segundo_nombre TEXT,
     p_correo TEXT,
-    p_telefono TEXT,
-    p_password TEXT DEFAULT NULL,
-    p_direccion1id INT DEFAULT NULL,
-    p_direccion2id INT DEFAULT NULL,
-    p_direccion3id INT DEFAULT NULL
+    p_telefono TEXT
 )
-RETURNS INTEGER
+RETURNS VOID
 LANGUAGE plpgsql
 AS $$
-
 DECLARE
-    secret_key TEXT := 'my_secret_key';  -- La clave de cifrado
+    secret_key TEXT := 'my_secret_key';
     encrypted_usuario BYTEA;
+    encrypted_primer_nombre BYTEA;
+    encrypted_segundo_nombre BYTEA;
     encrypted_correo BYTEA;
     encrypted_telefono BYTEA;
-
 BEGIN
-    -- Cifrar los valores de usuario, correo y teléfono
+    -- Cifrar los valores
     encrypted_usuario := pgp_sym_encrypt(p_usuario, secret_key);
+    encrypted_primer_nombre := pgp_sym_encrypt(p_primer_nombre, secret_key);
+    encrypted_segundo_nombre := pgp_sym_encrypt(p_segundo_nombre, secret_key);
     encrypted_correo := pgp_sym_encrypt(p_correo, secret_key);
     encrypted_telefono := pgp_sym_encrypt(p_telefono, secret_key);
 
     -- Actualizar el usuario
     UPDATE Usuarios
-    SET
-        Rol = p_rol,
+    SET 
         Usuario = encrypted_usuario,
-        Primer_Nombre = p_primer_nombre,
-        Segundo_Nombre = p_segundo_nombre,
+        Primer_Nombre = encrypted_primer_nombre,
+        Segundo_Nombre = encrypted_segundo_nombre,
         Correo = encrypted_correo,
         Telefono = encrypted_telefono,
-        Direccion1ID = p_direccion1id,
-        Direccion2ID = p_direccion2id,
-        Direccion3ID = p_direccion3id,
         Modified_at = CURRENT_TIMESTAMP
-    WHERE UsuarioID = p_user_id;
-
-    -- Actualizar la contraseña si se proporciona
-    IF p_password IS NOT NULL THEN
-        UPDATE Usuarios
-        SET Password = crypt(p_password, gen_salt('bf'))
-        WHERE UsuarioID = p_user_id;
-    END IF;
-
-    RETURN p_user_id;
+    WHERE UsuarioID = p_usuario_id;
 END;
 $$;
 
+
 CREATE OR REPLACE FUNCTION create_and_assign_address(
     p_user_id INT,
+    p_nombre TEXT,
+    p_campo1 TEXT,
+    p_campo2 TEXT,
+    p_ciudad TEXT,
+    p_departamento TEXT,
+    p_detalles TEXT,
+    p_direccion_numero INT  -- 1, 2 o 3 para determinar cuál campo de dirección se va a actualizar
+)
+RETURNS VOID
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    new_address_id INT;
+    secret_key TEXT := 'my_secret_key';
+    encrypted_nombre BYTEA;
+    encrypted_campo1 BYTEA;
+    encrypted_campo2 BYTEA;
+    encrypted_ciudad BYTEA;
+    encrypted_departamento BYTEA;
+    encrypted_detalles BYTEA;
+    direccion_field TEXT;
+BEGIN
+    -- Cifrar los valores de la dirección
+    encrypted_nombre := pgp_sym_encrypt(p_nombre, secret_key);
+    encrypted_campo1 := pgp_sym_encrypt(p_campo1, secret_key);
+    encrypted_campo2 := pgp_sym_encrypt(p_campo2, secret_key);
+    encrypted_ciudad := pgp_sym_encrypt(p_ciudad, secret_key);
+    encrypted_departamento := pgp_sym_encrypt(p_departamento, secret_key);
+    encrypted_detalles := pgp_sym_encrypt(p_detalles, secret_key);
+
+    -- Insertar la nueva dirección
+    INSERT INTO Direcciones (Nombre, Campo1, Campo2, Ciudad, Departamento, Detalles)
+    VALUES (encrypted_nombre, encrypted_campo1, encrypted_campo2, encrypted_ciudad, encrypted_departamento, encrypted_detalles)
+    RETURNING DireccionID INTO new_address_id;
+
+    -- Determinar el campo de dirección a actualizar en Usuarios
+    IF p_direccion_numero = 1 THEN
+        direccion_field := 'direccion1id';
+    ELSIF p_direccion_numero = 2 THEN
+        direccion_field := 'direccion2id';
+    ELSE
+        direccion_field := 'direccion3id';
+    END IF;
+
+    -- Actualizar el campo de dirección especificado
+    EXECUTE format('UPDATE Usuarios SET %I = $1 WHERE UsuarioID = $2', direccion_field)
+    USING new_address_id, p_user_id;
+
+END;
+$$;
+
+CREATE OR REPLACE FUNCTION edit_dir(
+    p_direccion_id INT,
     p_nombre TEXT,
     p_campo1 TEXT,
     p_campo2 TEXT,
@@ -228,7 +306,6 @@ RETURNS VOID
 LANGUAGE plpgsql
 AS $$
 DECLARE
-    new_address_id INT;
     secret_key TEXT := 'my_secret_key';
     encrypted_nombre BYTEA;
     encrypted_campo1 BYTEA;
@@ -245,29 +322,116 @@ BEGIN
     encrypted_departamento := pgp_sym_encrypt(p_departamento, secret_key);
     encrypted_detalles := pgp_sym_encrypt(p_detalles, secret_key);
 
-    -- Insertar la nueva dirección
-    INSERT INTO Direcciones (
-        Nombre,
-        Campo1,
-        Campo2,
-        Ciudad,
-        Departamento,
-        Detalles
-    )
-    VALUES (
-        encrypted_nombre,
-        encrypted_campo1,
-        encrypted_campo2,
-        encrypted_ciudad,
-        encrypted_departamento,
-        encrypted_detalles
-    )
-    RETURNING DireccionID INTO new_address_id;
+    -- Actualizar la dirección
+    UPDATE Direcciones
+    SET 
+        Nombre = encrypted_nombre,
+        Campo1 = encrypted_campo1,
+        Campo2 = encrypted_campo2,
+        Ciudad = encrypted_ciudad,
+        Departamento = encrypted_departamento,
+        Detalles = encrypted_detalles
+    WHERE DireccionID = p_direccion_id;
+END;
+$$;
 
-    -- Actualizar el usuario con la nueva dirección
+CREATE OR REPLACE FUNCTION delete_dir(
+    p_usuario_id INT,
+    p_direccion_id INT
+)
+RETURNS VOID
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    direccion_field TEXT;
+BEGIN
+    -- Determinar cuál campo de dirección en la tabla Usuarios tiene la dirección a eliminar
+    IF EXISTS (SELECT 1 FROM Usuarios WHERE UsuarioID = p_usuario_id AND Direccion1ID = p_direccion_id) THEN
+        direccion_field := 'direccion1id';
+    ELSIF EXISTS (SELECT 1 FROM Usuarios WHERE UsuarioID = p_usuario_id AND Direccion2ID = p_direccion_id) THEN
+        direccion_field := 'direccion2id';
+    ELSE
+        direccion_field := 'direccion3id';
+    END IF;
+
+    -- Establecer el campo correspondiente en NULL en la tabla Usuarios
+    EXECUTE format('UPDATE Usuarios SET %I = NULL WHERE UsuarioID = $1', direccion_field)
+    USING p_usuario_id;
+
+    -- Eliminar la dirección
+    DELETE FROM Direcciones WHERE DireccionID = p_direccion_id;
+END;
+$$;
+
+
+CREATE OR REPLACE FUNCTION edit_password(
+    p_usuario_id INT,
+    p_password_actual TEXT,
+    p_nueva_password TEXT
+)
+RETURNS VOID
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    password_correcta BOOLEAN;
+BEGIN
+    SELECT Password = crypt(p_password_actual, Password)
+    INTO password_correcta
+    FROM Usuarios
+    WHERE UsuarioID = p_usuario_id;
+
+    IF NOT password_correcta THEN
+        RAISE EXCEPTION 'La contraseña actual no es correcta';
+    END IF;
+
     UPDATE Usuarios
-    SET Direccion1ID = new_address_id
-    WHERE UsuarioID = p_user_id;
+    SET 
+        Password = crypt(p_nueva_password, gen_salt('bf')),
+        Modified_at = CURRENT_TIMESTAMP
+    WHERE UsuarioID = p_usuario_id;
+END;
+$$;
 
+
+CREATE OR REPLACE FUNCTION edit_user_admin(
+    p_usuario_id INT,
+    p_rol TEXT,
+    p_usuario TEXT,
+    p_primer_nombre TEXT,
+    p_segundo_nombre TEXT,
+    p_correo TEXT,
+    p_telefono TEXT,
+    p_password TEXT DEFAULT NULL
+)
+RETURNS VOID
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    secret_key TEXT := 'my_secret_key';
+    encrypted_usuario BYTEA;
+    encrypted_primer_nombre BYTEA;
+    encrypted_segundo_nombre BYTEA;
+    encrypted_correo BYTEA;
+    encrypted_telefono BYTEA;
+BEGIN
+    -- Cifrar los valores
+    encrypted_usuario := pgp_sym_encrypt(p_usuario, secret_key);
+    encrypted_primer_nombre := pgp_sym_encrypt(p_primer_nombre, secret_key);
+    encrypted_segundo_nombre := pgp_sym_encrypt(p_segundo_nombre, secret_key);
+    encrypted_correo := pgp_sym_encrypt(p_correo, secret_key);
+    encrypted_telefono := pgp_sym_encrypt(p_telefono, secret_key);
+
+    -- Actualizar los datos del usuario
+    UPDATE Usuarios
+    SET 
+        Rol = p_rol,
+        Usuario = encrypted_usuario,
+        Primer_Nombre = encrypted_primer_nombre,
+        Segundo_Nombre = encrypted_segundo_nombre,
+        Correo = encrypted_correo,
+        Telefono = encrypted_telefono,
+        Modified_at = CURRENT_TIMESTAMP,
+        Password = COALESCE(crypt(p_password, gen_salt('bf')), Password)
+    WHERE UsuarioID = p_usuario_id;
 END;
 $$;

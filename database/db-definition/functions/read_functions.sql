@@ -378,6 +378,44 @@ BEGIN
 END;
 $$;
 
+
+CREATE OR REPLACE FUNCTION obtener_productos_por_pedido(pedido_id INT)
+RETURNS TABLE(
+    productoid INT,
+    nombre VARCHAR,
+    descripcion TEXT,
+    categoriaid INT,
+    ocasion TEXT,
+    precio DECIMAL(10, 2),
+    imagen1 VARCHAR,
+    imagen2 VARCHAR,
+    imagen3 VARCHAR,
+    cantidad INT
+) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT
+        pr.ProductoID,
+        pr.Nombre,
+        pr.Descripcion,
+        pr.CategoriaID,
+        (SELECT Ocasiones.Nombre::TEXT FROM Ocasiones WHERE Ocasiones.OcasionID = pr.OcasionID LIMIT 1) AS ocasion,
+        pr.Precio,
+        pr.Imagen1,
+        pr.Imagen2,
+        pr.Imagen3,
+        cp.cantidad
+    FROM
+        productos pr
+    JOIN
+        carrito_producto cp ON pr.ProductoID = cp.productoid
+    JOIN
+        pedidos p ON cp.carritoid = p.carritoid
+    WHERE
+        p.pedidoid = pedido_id;
+END;
+$$ LANGUAGE plpgsql;
+
 --POR MES--
 CREATE OR REPLACE FUNCTION obtener_pedidos_por_mes(mes INT)
 RETURNS TABLE (

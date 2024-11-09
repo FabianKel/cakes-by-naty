@@ -77,10 +77,9 @@ const login = async (req, res) => {
   }
 };
 
-//Editar Usuario
 const editUser = async (req, res) => {
-    try {
-    const usuario_id = parseInt(req.params.usuario_id);
+  try {
+    const u_id = parseInt(req.params.u_id);
     const { authorization } = req.headers;
 
     if (authorization) {
@@ -89,37 +88,33 @@ const editUser = async (req, res) => {
 
       if (isValidToken) {
         const {
-          rol,
-          nickname,
+          usuario,
           primer_nombre,
           segundo_nombre,
           correo,
-          telefono,
-          password,
-          direccion1,
-          direccion2,
-          direccion3,
+          telefono
         } = req.body;
 
         const client = await pool.connect();
-        await client.query('SELECT * FROM update_user($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)', [
-          usuario_id,
-          rol,
-          nickname,
-          primer_nombre,
-          segundo_nombre,
-          correo,
-          telefono,
-          password,
-          direccion1,
-          direccion2,
-          direccion3,
-        ]);
+        await client.query(
+          'SELECT edit_user($1, $2, $3, $4, $5, $6)',
+          [
+            u_id,
+            usuario,
+            primer_nombre,
+            segundo_nombre,
+            correo,
+            telefono
+          ]
+        );
 
         client.release();
-
         res.status(200).json({ message: 'Usuario actualizado con éxito' });
+      } else {
+        res.status(401).json({ message: 'Token inválido' });
       }
+    } else {
+      res.status(401).json({ message: 'Autenticación requerida' });
     }
   } catch (error) {
     ErrorHandler.handleError(error, res);
