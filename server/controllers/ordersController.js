@@ -31,12 +31,10 @@ const getAllOrders = async (req, res) => {
 const getOrderProducts = async (req, res) => {
   try {
     const { pedido_id } = req.params;
-    console.log('pedioid: ', pedido_id);
 
     const client = await pool.connect();
     let query = `SELECT * FROM obtener_productos_por_pedido(${pedido_id})`;
     const result = await client.query(query);
-    console.log('result: ', result);
     const Productos = result.rows;
     client.release();
     res.status(200).json({ message: 'Productos obtenidos con éxito', Productos });
