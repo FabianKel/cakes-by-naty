@@ -79,7 +79,7 @@ const login = async (req, res) => {
 
 const editUser = async (req, res) => {
   try {
-    const usuario_id = parseInt(req.params.u_id);
+    const u_id = parseInt(req.params.u_id);
     const { authorization } = req.headers;
 
     if (authorization) {
@@ -88,34 +88,23 @@ const editUser = async (req, res) => {
 
       if (isValidToken) {
         const {
-          UsuarioID = usuario_id,
-          rol = null,
-          nickname = null,
-          primer_nombre = null,
-          segundo_nombre = null,
-          correo = null,
-          telefono = null,
-          password = null,
-          direccion1 = null,
-          direccion2 = null,
-          direccion3 = null,
+          usuario,
+          primer_nombre,
+          segundo_nombre,
+          correo,
+          telefono
         } = req.body;
 
         const client = await pool.connect();
         await client.query(
-          'SELECT * FROM update_user($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)',
+          'SELECT edit_user($1, $2, $3, $4, $5, $6)',
           [
-            UsuarioID,
-            rol,
-            nickname,
+            u_id,
+            usuario,
             primer_nombre,
             segundo_nombre,
             correo,
-            telefono,
-            password,
-            direccion1,
-            direccion2,
-            direccion3,
+            telefono
           ]
         );
 
