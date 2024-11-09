@@ -7,8 +7,11 @@ RETURNS TABLE (
     Segundo_Nombre TEXT,
     Correo TEXT,
     Telefono TEXT,
+    Direccion1ID INT,
     Direccion1 TEXT,
+    Direccion2ID INT,
     Direccion2 TEXT,
+    Direccion3ID INT,
     Direccion3 TEXT,
     Created_at TIMESTAMP,
     Modified_at TIMESTAMP
@@ -77,6 +80,7 @@ BEGIN
             'Desencriptación fallida'
         ) AS Telefono,
 
+        d1.DireccionID AS Direccion1ID,
         CASE 
             WHEN d1.DireccionID IS NULL THEN 'No hay información'
             ELSE COALESCE(
@@ -89,6 +93,7 @@ BEGIN
             )
         END AS Direccion1,
 
+        d2.DireccionID AS Direccion2ID,
         CASE 
             WHEN d2.DireccionID IS NULL THEN 'No hay información'
             ELSE COALESCE(
@@ -101,6 +106,7 @@ BEGIN
             )
         END AS Direccion2,
 
+        d3.DireccionID AS Direccion3ID,
         CASE 
             WHEN d3.DireccionID IS NULL THEN 'No hay información'
             ELSE COALESCE(
@@ -123,6 +129,7 @@ BEGIN
     WHERE u.UsuarioID = u_id;
 END;
 $$;
+
 
 
 CREATE OR REPLACE FUNCTION insertar_usuario(
