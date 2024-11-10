@@ -8,11 +8,26 @@ RETURNS TABLE (
     Correo TEXT,
     Telefono TEXT,
     Direccion1ID INT,
-    Direccion1 TEXT,
+    Direccion1_Nombre TEXT,
+    Direccion1_Campo1 TEXT,
+    Direccion1_Campo2 TEXT,
+    Direccion1_Ciudad TEXT,
+    Direccion1_Departamento TEXT,
+    Direccion1_Detalles TEXT,
     Direccion2ID INT,
-    Direccion2 TEXT,
+    Direccion2_Nombre TEXT,
+    Direccion2_Campo1 TEXT,
+    Direccion2_Campo2 TEXT,
+    Direccion2_Ciudad TEXT,
+    Direccion2_Departamento TEXT,
+    Direccion2_Detalles TEXT,
     Direccion3ID INT,
-    Direccion3 TEXT,
+    Direccion3_Nombre TEXT,
+    Direccion3_Campo1 TEXT,
+    Direccion3_Campo2 TEXT,
+    Direccion3_Ciudad TEXT,
+    Direccion3_Departamento TEXT,
+    Direccion3_Detalles TEXT,
     Created_at TIMESTAMP,
     Modified_at TIMESTAMP
 )
@@ -81,43 +96,28 @@ BEGIN
         ) AS Telefono,
 
         d1.DireccionID AS Direccion1ID,
-        CASE 
-            WHEN d1.DireccionID IS NULL THEN 'No hay información'
-            ELSE COALESCE(
-                pgp_sym_decrypt(d1.Nombre, secret_key)::TEXT || ', ' || 
-                pgp_sym_decrypt(d1.Campo1, secret_key)::TEXT || ', ' || 
-                pgp_sym_decrypt(d1.Campo2, secret_key)::TEXT || ', ' || 
-                pgp_sym_decrypt(d1.Ciudad, secret_key)::TEXT || ', ' || 
-                pgp_sym_decrypt(d1.Departamento, secret_key)::TEXT,
-                'Desencriptación fallida'
-            )
-        END AS Direccion1,
+        pgp_sym_decrypt(d1.Nombre, secret_key)::TEXT AS Direccion1_Nombre,
+        pgp_sym_decrypt(d1.Campo1, secret_key)::TEXT AS Direccion1_Campo1,
+        pgp_sym_decrypt(d1.Campo2, secret_key)::TEXT AS Direccion1_Campo2,
+        pgp_sym_decrypt(d1.Ciudad, secret_key)::TEXT AS Direccion1_Ciudad,
+        pgp_sym_decrypt(d1.Departamento, secret_key)::TEXT AS Direccion1_Departamento,
+        pgp_sym_decrypt(d1.Detalles, secret_key)::TEXT AS Direccion1_Detalles,
 
         d2.DireccionID AS Direccion2ID,
-        CASE 
-            WHEN d2.DireccionID IS NULL THEN 'No hay información'
-            ELSE COALESCE(
-                pgp_sym_decrypt(d2.Nombre, secret_key)::TEXT || ', ' || 
-                pgp_sym_decrypt(d2.Campo1, secret_key)::TEXT || ', ' || 
-                pgp_sym_decrypt(d2.Campo2, secret_key)::TEXT || ', ' || 
-                pgp_sym_decrypt(d2.Ciudad, secret_key)::TEXT || ', ' || 
-                pgp_sym_decrypt(d2.Departamento, secret_key)::TEXT,
-                'Desencriptación fallida'
-            )
-        END AS Direccion2,
+        pgp_sym_decrypt(d2.Nombre, secret_key)::TEXT AS Direccion2_Nombre,
+        pgp_sym_decrypt(d2.Campo1, secret_key)::TEXT AS Direccion2_Campo1,
+        pgp_sym_decrypt(d2.Campo2, secret_key)::TEXT AS Direccion2_Campo2,
+        pgp_sym_decrypt(d2.Ciudad, secret_key)::TEXT AS Direccion2_Ciudad,
+        pgp_sym_decrypt(d2.Departamento, secret_key)::TEXT AS Direccion2_Departamento,
+        pgp_sym_decrypt(d2.Detalles, secret_key)::TEXT AS Direccion2_Detalles,
 
         d3.DireccionID AS Direccion3ID,
-        CASE 
-            WHEN d3.DireccionID IS NULL THEN 'No hay información'
-            ELSE COALESCE(
-                pgp_sym_decrypt(d3.Nombre, secret_key)::TEXT || ', ' || 
-                pgp_sym_decrypt(d3.Campo1, secret_key)::TEXT || ', ' || 
-                pgp_sym_decrypt(d3.Campo2, secret_key)::TEXT || ', ' || 
-                pgp_sym_decrypt(d3.Ciudad, secret_key)::TEXT || ', ' || 
-                pgp_sym_decrypt(d3.Departamento, secret_key)::TEXT,
-                'Desencriptación fallida'
-            )
-        END AS Direccion3,
+        pgp_sym_decrypt(d3.Nombre, secret_key)::TEXT AS Direccion3_Nombre,
+        pgp_sym_decrypt(d3.Campo1, secret_key)::TEXT AS Direccion3_Campo1,
+        pgp_sym_decrypt(d3.Campo2, secret_key)::TEXT AS Direccion3_Campo2,
+        pgp_sym_decrypt(d3.Ciudad, secret_key)::TEXT AS Direccion3_Ciudad,
+        pgp_sym_decrypt(d3.Departamento, secret_key)::TEXT AS Direccion3_Departamento,
+        pgp_sym_decrypt(d3.Detalles, secret_key)::TEXT AS Direccion3_Detalles,
 
         u.Created_at,
         u.Modified_at
@@ -129,6 +129,7 @@ BEGIN
     WHERE u.UsuarioID = u_id;
 END;
 $$;
+
 
 
 
