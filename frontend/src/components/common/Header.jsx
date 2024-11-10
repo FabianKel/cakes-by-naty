@@ -55,19 +55,19 @@ function Header() {
   };
 
   return (
-    <header className='flex flex-col md:flex-row justify-between items-center p-4 md:p-6 bg-baseLilac'>
+    <header className='flex flex-col md:flex-row justify-between items-center p-2 sm:p-4 md:p-6 bg-baseLilac'>
       <div className='flex justify-center md:justify-start w-full md:w-auto'>
         <Link href='/'>
           <img
             src='Logos/cbnlogo.png'
             alt='Cakes by Naty'
-            className='h-16 w-16 md:h-16 md:w-16 hover:scale-105 transition-transform duration-300'
+            className='h-10 w-10 sm:h-12 sm:w-12 md:h-16 md:w-16 hover:scale-105 transition-transform duration-300'
           />
         </Link>
       </div>
       
-      <nav className='flex flex-wrap justify-center md:justify-end w-full md:w-auto mt-4 md:mt-0'>
-        <ul className='flex flex-wrap space-x-4 md:space-x-6 items-center'>
+      <nav className='flex flex-wrap justify-center md:justify-end w-full md:w-auto mt-2 sm:mt-4 md:mt-0'>
+        <ul className='flex flex-wrap space-x-2 sm:space-x-4 md:space-x-6 items-center'>
           <li className='flex items-center'>
             <a 
               href='https://www.instagram.com/cakes.bynaty/' 
@@ -77,14 +77,14 @@ function Header() {
               <Icon
                 src='/instagram.svg'
                 alt='Instagram'
-                height='8'
-                width='8'
-                className='mr-4 md:mr-8 transition-transform transform hover:scale-110'
+                height='6'
+                width='6'
+                className='mr-2 sm:mr-3 md:mr-8 transition-transform transform hover:scale-110'
               />
             </a>
             <Link 
               href='/catalog' 
-              className='text-sm md:text-base text-gray-800 hover:text-mainhoverIndigo transition-transform transform hover:scale-105 font-navheader'
+              className='text-xs sm:text-sm md:text-base text-gray-800 hover:text-mainhoverIndigo transition-transform transform hover:scale-105 font-navheader'
             >
               Catálogo
             </Link>
@@ -93,7 +93,7 @@ function Header() {
           <li className='flex items-center'>
             <Link 
               href='/about' 
-              className='text-sm md:text-base text-gray-800 hover:text-mainhoverIndigo hover:scale-105 font-navheader'
+              className='text-xs sm:text-sm md:text-base text-gray-800 hover:text-mainhoverIndigo hover:scale-105 font-navheader'
             >
               Sobre Nosotros
             </Link>
@@ -105,7 +105,7 @@ function Header() {
             ) : (
               <Link 
                 href='/login' 
-                className='text-sm md:text-base text-gray-800 hover:text-mainhoverIndigo font-navheader ml-2'
+                className='text-xs sm:text-sm md:text-base text-gray-800 hover:text-mainhoverIndigo font-navheader ml-1 sm:ml-2'
               >
                 Iniciar Sesión
               </Link>
@@ -114,10 +114,10 @@ function Header() {
               <Icon
                 src='/shopping-cart.svg'
                 alt='Carrito'
-                height='8'
-                width='8'
+                height='6'
+                width='6'
                 counts={productsInMyCart}
-                className='ml-4 md:ml-6 transition-transform transform hover:scale-110'
+                className='ml-2 sm:ml-3 md:ml-6 transition-transform transform hover:scale-110'
               />
             </a>
           </li>
@@ -128,3 +128,4 @@ function Header() {
 }
 
 export default Header;
+
