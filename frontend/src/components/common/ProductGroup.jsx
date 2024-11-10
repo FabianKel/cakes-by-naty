@@ -17,18 +17,17 @@ function ProductGroup({ products, showViewMore = true, categoryUrl }) {
                 {products.map((product, index) => (
                     <Link href={`/productos/${product.productoid}`} key={index}>
                         <div className="border p-4 rounded-lg shadow-lg flex flex-col items-center">
-                            <h3 className="text-lg font-bold mb-2">{product.productonombre}</h3>
                             <img
                                 src={product.imagen1}
                                 alt={product.productonombre}
                                 className="rounded-md object-cover w-full h-48"
                             />
+                            <h3 className="text-lg font-bold mt-4 mb-2">{product.productonombre}</h3>
                         </div>
                     </Link>
                 ))}
                 {showViewMore && (
                     <>
-                        {/* Versión móvil */}
                         <div className="flex items-center justify-end w-full col-span-1 mt-4 md:hidden">
                             <button 
                                 onClick={handleViewMore}
@@ -51,8 +50,6 @@ function ProductGroup({ products, showViewMore = true, categoryUrl }) {
                                 </svg>
                             </button>
                         </div>
-                        
-                        {/* Versión desktop (original) */}
                         <div className="hidden md:flex items-center justify-center">
                             <button 
                                 onClick={handleViewMore}
