@@ -7,6 +7,7 @@ function Sidebar() {
   const [isProductsOpen, setIsProductsOpen] = useState(false);
   const [isPostresOpen, setIsPostresOpen] = useState(false);
   const [isOcasionesOpen, setIsOcasionesOpen] = useState(false);
+  const [isContactOpen, setIsContactOpen] = useState(false);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -23,6 +24,11 @@ function Sidebar() {
   const toggleOcasiones = () => {
     setIsOcasionesOpen(!isOcasionesOpen);
   };
+
+  const toggleContact = () => { 
+    setIsContactOpen(!isContactOpen);
+  };
+
 
   return (
     <>
@@ -76,34 +82,34 @@ function Sidebar() {
                         Tipos de Postres
                       </button>
                       {isPostresOpen && (
-                        <ul className="pl-4 space-y-2 text-gray-700">
+                        <ul className="mt-2 pl-4 space-y-2 text-gray-700">
                           <li className="font-normal text-base">
-                            <Link href="/catalog/pasteles" className="block w-full hover:text-hoverPink">
+                            <Link href="/catalog/pasteles" className="block w-full hover:text-mainhoverIndigo">
                               Pasteles
                             </Link>
                           </li>
                           <li className="font-normal text-base">
-                            <Link href="/catalog/cupcakes" className="block w-full hover:text-hoverPink">
+                            <Link href="/catalog/cupcakes" className="block w-full hover:text-mainhoverIndigo">
                               Cupcakes
                             </Link>
                           </li>
                           <li className="font-normal text-base ">
-                            <Link href="/catalog/cakepops" className="block w-full hover:text-hoverPink">
+                            <Link href="/catalog/cakepops" className="block w-full hover:text-mainhoverIndigo">
                               Cakepops
                             </Link>
                           </li>
                           <li className="font-normal text-base ">
-                            <Link href="/catalog/chocolates" className="block w-full hover:text-hoverPink">
+                            <Link href="/catalog/chocolates" className="block w-full hover:text-mainhoverIndigo">
                               Chocolates
                             </Link>
                           </li>
                           <li className="font-normal text-base ">
-                            <Link href="/catalog/galletas" className="block w-full hover:text-hoverPink">
+                            <Link href="/catalog/galletas" className="block w-full hover:text-mainhoverIndigo">
                               Galletas
                             </Link>
                           </li>
                           <li className="font-normal text-base ">
-                            <Link href="/catalog/espumillas" className="block w-full hover:text-hoverPink">
+                            <Link href="/catalog/espumillas" className="block w-full hover:text-mainhoverIndigo">
                               Espumillas
                             </Link>
                           </li>
@@ -121,13 +127,13 @@ function Sidebar() {
                         Ocasiones
                       </button>
                       {isOcasionesOpen && (
-                        <ul className="pl-4 space-y-2 text-gray-700">
-                          <li className="font-normal text-base hover:text-hoverPink">
+                        <ul className=" mt-2 pl-4 space-y-2 text-gray-700">
+                          <li className="font-normal text-base hover:text-mainhoverIndigo">
                             <Link href="/catalog/cumpleanos" className="block w-full">
                               Cumpleaños
                             </Link>
                           </li>
-                          <li className="font-normal text-base hover:text-hoverPink">
+                          <li className="font-normal text-base hover:text-mainhoverIndigo">
                             <Link href="/catalog/navidad" className="block w-full">
                               Navidad
                             </Link>
@@ -138,19 +144,41 @@ function Sidebar() {
                   </ul>
                 )}
               </li>
+              <li className="font-bold text-lg">
+                <button onClick={toggleContact} className="flex items-center w-full hover:scale-105 transition-transform duration-300">
+                  <span className={`mr-2 text-gray-800 transition-transform duration-300 ${isContactOpen ? 'rotate-90' : 'rotate-0'}`}>
+                    ▶
+                  </span>
+                  Contáctanos
+                </button>
+                {isContactOpen && (
+                  <ul className="pl-4 space-y-2 text-gray-700 mt-2">
+                    <li className="font-normal text-base">
+                      <Link href="https://www.instagram.com/cakes.bynaty/" className="block w-full hover:text-mainhoverIndigo" target="_blank">
+                        Instagram
+                      </Link>
+                    </li>
+                    <li className="font-normal text-base">
+                      <Link href="mailto:tu_correo@ejemplo.com" className="block w-full hover:text-mainhoverIndigo">
+                        Correo
+                      </Link>
+                    </li>
+                    <li className="font-normal text-base">
+                      <Link href="https://wa.me/tu_numero_whatsapp" className="block w-full hover:text-mainhoverIndigo" target="_blank">
+                        WhatsApp
+                      </Link>
+                    </li>
+                  </ul>
+                )}
+              </li>
               <li className="font-bold text-lg text-gray-800">
-                <Link href="/account" className="block w-full hover:text-customPink1 hover:scale-105 transition-transform duration-300">
+                <Link href="/account" className="block w-full hover:text-mainhoverIndigo hover:scale-105 transition-transform duration-300">
                   Tu Cuenta
                 </Link>
               </li>
               <li className="font-bold text-lg text-gray-800">
-                <Link href="/about" className="block w-full hover:text-customPink1 hover:scale-105 transition-transform duration-300">
+                <Link href="/about" className="block w-full hover:text-mainhoverIndigo hover:scale-105 transition-transform duration-300">
                   Sobre Nosotros
-                </Link>
-              </li>
-              <li className="font-bold text-lg text-gray-800">
-                <Link href="/contact" className="block w-full hover:text-customPink1 hover:scale-105 transition-transform duration-300">
-                  Contáctanos
                 </Link>
               </li>
             </ul>
