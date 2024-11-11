@@ -124,3 +124,85 @@ export const getUsuario = async (id) => {
     return null;
   }
 };
+
+export const editAddress = async (id, addressData) => {
+  const token = getAuthToken();
+  
+  try {
+    const response = await fetch(links.address.edit(id), {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(addressData),
+    });
+    
+    const data = await response.json();
+    
+    if (!response.ok) {
+      throw new Error(data.message || 'Error al actualizar la dirección');
+    }
+    
+    return { status: "success", ...data };
+  } catch (error) {
+    console.error('Error en editAddress:', error);
+    throw error;
+  }
+};
+
+export const addAddress = async (addressData, userId, slotNumber) => {
+  try {
+    const response = await fetch(links.address.add(slotNumber), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${getAuthToken()}`,
+      },
+      body: JSON.stringify({
+        user_id: userId,
+        nombre: addressData.nombre,
+        campo1: addressData.campo1,
+        campo2: addressData.campo2,
+        ciudad: addressData.ciudad,
+        departamento: addressData.departamento,
+        detalles: addressData.detalles
+      }),
+    });
+
+    const data = await response.json();
+    
+    if (!response.ok) {
+      throw new Error(data.message || 'Error al agregar la dirección');
+    }
+    
+    return {
+      status: "success",
+      data
+    };
+  } catch (error) {
+    console.error('Error en addAddress:', error);
+    throw error;
+  }
+};
+
+export const deleteAddress = async (id) => {
+  const token = getAuthToken();
+  
+  try {
+    await fetch(links.address.delete(id), {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return true;
+  } catch (error) {
+    if (error.message && error.message.includes('Dirección eliminada exitosamente')) {
+      return true;
+    }
+    console.error('Error real al eliminar dirección:', error);
+    throw error;
+  }
+};

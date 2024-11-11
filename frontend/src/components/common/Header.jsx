@@ -77,8 +77,8 @@ function Header() {
               <Icon
                 src='/instagram.svg'
                 alt='Instagram'
-                height='6'
-                width='6'
+                height='8'
+                width='8'
                 className='mr-2 sm:mr-3 md:mr-8 transition-transform transform hover:scale-110'
               />
             </a>
@@ -114,8 +114,8 @@ function Header() {
               <Icon
                 src='/shopping-cart.svg'
                 alt='Carrito'
-                height='6'
-                width='6'
+                height='8'
+                width='8'
                 counts={productsInMyCart}
                 className='ml-2 sm:ml-3 md:ml-6 transition-transform transform hover:scale-110'
               />
