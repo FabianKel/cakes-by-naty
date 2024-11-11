@@ -7,11 +7,13 @@ import { getUsuario, getUsuarioPedidos, addAddress, editAddress, deleteAddress }
 import { getAuthToken, getCurrentUser } from '@/utils/functions';
 import LoginSection from './LoginSection';
 import AddressSection from '@/components/sections/AddressSection';
+import ChangePassword from '@/components/sections/ChangePassword';
 
 function UserSection() {
   const [usuario, setUsuario] = useState(null);
   const [pedidos, setPedidos] = useState([]);
   const [direcciones, setDirecciones] = useState([]); 
+  const [contraseña, setContraseña] = useState(null);
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -162,7 +164,11 @@ function UserSection() {
   }, [option]);
 
   if (loading) {
-    return <div>Cargando...</div>;
+    return (
+      <div className="flex justify-center items-center min-h-[80vh]">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-baseLavender"></div>
+      </div>
+    );
   }
 
   if (!isAuthenticated) {
@@ -231,6 +237,7 @@ function UserSection() {
           />
         )}
         {option === 'pedidos' && <PedidosList pedidos={pedidos} />}
+        {option === 'contraseña' && <ChangePassword contraseña={contraseña} />}
       </div>
     </div>
   );
