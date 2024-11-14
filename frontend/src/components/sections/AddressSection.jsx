@@ -113,7 +113,16 @@ const AddressSection = ({ direcciones, onAddAddress, onEditAddress, onDeleteAddr
                     onClick={() => setShowForm(!showForm)}
                     className="mt-4 flex items-center justify-center p-3 bg-purple-200 rounded-full hover:bg-purple-300 w-full md:w-auto transition-colors"
                 >
-                    <svg className="h-6 w-6 text-purple-600" /* ... */ />
+                    <svg
+                        className="h-6 w-6 text-purple-600"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
+                        <path d="M12 8v8m-4-4h8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
                     <span className="ml-2 text-purple-600 font-semibold">
                         Agregar dirección
                     </span>
