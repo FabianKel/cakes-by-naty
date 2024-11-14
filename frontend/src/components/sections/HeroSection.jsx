@@ -82,7 +82,11 @@ function HeroSection() {
           </h2>
           <div className="flex flex-wrap justify-center gap-6">
             {novedades.map((product) => (
-              <Card key={product.productoid} product={product} />
+              <Card
+                key={product.productoid}
+                product={product}
+                isNew={true} 
+              />
             ))}
           </div>
         </div>
@@ -92,7 +96,11 @@ function HeroSection() {
           </h2>
           <div className="flex flex-wrap justify-center gap-6">
             {postresTemporada.map((product) => (
-              <Card key={product.productoid} product={product} />
+              <Card
+                key={product.productoid}
+                product={product}
+                isNew={false} 
+              />
             ))}
           </div>
         </div>

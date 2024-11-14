@@ -23,12 +23,30 @@ function Footer() {
                         <p className="text-gray-700 italic">Hechos con los mejores ingredientes y mucho cariño.</p>
                     </div>
                     <div className="flex flex-col items-center justify-center">
-                        <h2 className="text-xl md:text-2xl font-bold mb-4 font-subtitles">Síguenos</h2>
+                        <h2 className="text-xl md:text-2xl font-bold mb-4 font-subtitles">Contáctanos</h2>
                         <div className="flex space-x-4">
                             <a href="https://www.instagram.com/cakes.bynaty/" target="_blank" rel="noopener noreferrer">
                                 <Icon
                                     src="/instagram.svg"
                                     alt="Instagram"
+                                    height="6"
+                                    width="6"
+                                    className="transition-transform transform hover:scale-125"
+                                />
+                            </a>
+                            <a href="" target="_blank" rel="noopener noreferrer">
+                                <Icon
+                                    src="/mail.png"
+                                    alt="Mail"
+                                    height="6"
+                                    width="6"
+                                    className="transition-transform transform hover:scale-125"
+                                />
+                            </a>
+                            <a href="" target="_blank" rel="noopener noreferrer">
+                                <Icon
+                                    src="/whatsapp.svg"
+                                    alt="Whatsapp"
                                     height="6"
                                     width="6"
                                     className="transition-transform transform hover:scale-125"
