@@ -79,6 +79,10 @@ function UserSection() {
     }
   }, []);
 
+  const handleUserUpdate = useCallback(async () => {
+    await fetchUserData(); 
+  }, [fetchUserData]);
+
   useEffect(() => {
     const token = getAuthToken();
     setToken(token);
@@ -226,7 +230,7 @@ function UserSection() {
       <hr />
 
       <div ref={sectionRef} className="md:ml-16 md:border-l-[1px] md:border-gray-700 px-6 md:px-0 md:mx-0 flex flex-col self-center w-full bg-white">
-        {option === 'general' && <UserDataSection usuario={usuario} token={token} />}
+        {option === 'general' && <UserDataSection usuario={usuario} token={token} onUserUpdate={handleUserUpdate} />}
         {option === 'direcciones' && (
           <AddressSection
             key={key}

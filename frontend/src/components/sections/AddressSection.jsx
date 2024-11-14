@@ -1,65 +1,53 @@
 import React, { useState } from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
 
 const AddressSection = ({ direcciones, onAddAddress, onEditAddress, onDeleteAddress }) => {
     const [showForm, setShowForm] = useState(false);
     const [editingAddressId, setEditingAddressId] = useState(null);
-    const [newAddress, setNewAddress] = useState({
+
+    // Schema de validación
+    const AddressSchema = Yup.object().shape({
+        nombre: Yup.string()
+            .required('El nombre es requerido'),
+        campo1: Yup.string()
+            .required('La dirección es requerida'),
+        campo2: Yup.string(),
+        ciudad: Yup.string()
+            .required('La ciudad es requerida'),
+        departamento: Yup.string(),
+        detalles: Yup.string()
+    });
+
+    const initialValues = {
         nombre: '',
         campo1: '',
         campo2: '',
         ciudad: '',
         departamento: '',
         detalles: ''
-    });
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setNewAddress({
-            ...newAddress,
-            [name]: value
-        });
-        console.log('Nuevo valor de dirección:', newAddress);
-    };
-
-    const handleAddAddress = () => {
-        const requiredFields = ['nombre', 'campo1', 'ciudad'];
-        const missingFields = requiredFields.filter(field => !newAddress[field]);
-
-        if (missingFields.length > 0) {
-            alert(`Por favor completa los siguientes campos: ${missingFields.join(', ')}`);
-            return;
-        }
-
-        onAddAddress(newAddress);
-        resetForm();
-    };
-
-    const handleEditAddress = () => {
-        if (newAddress.nombre && newAddress.campo1 && newAddress.ciudad) {
-            onEditAddress(editingAddressId, newAddress);
-            resetForm();
-        } else {
-            alert("Por favor, completa todos los campos requeridos.");
-        }
     };
 
     const startEditing = (direccion) => {
         setShowForm(true);
         setEditingAddressId(direccion.id);
-        setNewAddress({
-            nombre: direccion.nombre,
-            campo1: direccion.campo1,
-            campo2: direccion.campo2,
-            ciudad: direccion.ciudad,
-            departamento: direccion.departamento,
-            detalles: direccion.detalles
-        });
     };
 
-    const resetForm = () => {
-        setShowForm(false);
-        setEditingAddressId(null);
-        setNewAddress({ nombre: '', campo1: '', campo2: '', ciudad: '', departamento: '', detalles: '' });
+    const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+        try {
+            if (editingAddressId) {
+                await onEditAddress(editingAddressId, values);
+            } else {
+                await onAddAddress(values);
+            }
+            resetForm();
+            setShowForm(false);
+            setEditingAddressId(null);
+        } catch (error) {
+            console.error('Error:', error);
+        } finally {
+            setSubmitting(false);
+        }
     };
 
     return (
@@ -125,16 +113,7 @@ const AddressSection = ({ direcciones, onAddAddress, onEditAddress, onDeleteAddr
                     onClick={() => setShowForm(!showForm)}
                     className="mt-4 flex items-center justify-center p-3 bg-purple-200 rounded-full hover:bg-purple-300 w-full md:w-auto transition-colors"
                 >
-                    <svg
-                        className="h-6 w-6 text-purple-600"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
-                        <path d="M12 8v8m-4-4h8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
+                    <svg className="h-6 w-6 text-purple-600" /* ... */ />
                     <span className="ml-2 text-purple-600 font-semibold">
                         Agregar dirección
                     </span>
@@ -145,75 +124,95 @@ const AddressSection = ({ direcciones, onAddAddress, onEditAddress, onDeleteAddr
                     <h3 className="text-md font-semibold mb-4">
                         {editingAddressId ? "Editar Dirección" : "Nueva Dirección"}
                     </h3>
-                    <div className="space-y-3">
-                        <input
-                            type="text"
-                            name="nombre"
-                            value={newAddress.nombre}
-                            onChange={handleInputChange}
-                            placeholder="Nombre de la dirección (ej: Casa, Trabajo)"
-                            className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
-                            required
-                        />
-                        <input
-                            type="text"
-                            name="campo1"
-                            value={newAddress.campo1}
-                            onChange={handleInputChange}
-                            placeholder="Dirección línea 1"
-                            className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
-                            required
-                        />
-                        <input
-                            type="text"
-                            name="campo2"
-                            value={newAddress.campo2}
-                            onChange={handleInputChange}
-                            placeholder="Dirección línea 2 (opcional)"
-                            className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
-                        />
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <input
-                                type="text"
-                                name="ciudad"
-                                value={newAddress.ciudad}
-                                onChange={handleInputChange}
-                                placeholder="Ciudad"
-                                className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
-                                required
-                            />
-                            <input
-                                type="text"
-                                name="departamento"
-                                value={newAddress.departamento}
-                                onChange={handleInputChange}
-                                placeholder="Departamento"
-                                className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-300 focus:border-purple-300"
-                            />
-                        </div>
-                        <input
-                            type="text"
-                            name="detalles"
-                            value={newAddress.detalles}
-                            onChange={handleInputChange}
-                            placeholder="Detalles adicionales (ej: código de acceso, referencias)"
-                            className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-300"
-                        />
-                        <div className="flex gap-2 mt-4">
-                            <button
-                                onClick={editingAddressId ? handleEditAddress : handleAddAddress}
-                                className="flex-1 p-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
-                            >
-                                {editingAddressId ? "Guardar cambios" : "Guardar dirección"}
-                            </button>
-                            <button
-                                onClick={resetForm}
-                                className="flex-1 p-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
-                            >
-                                Cancelar
-                            </button>
-                        </div>
-                    </div>
+                    <Formik
+                        initialValues={editingAddressId ? direcciones.find(d => d.id === editingAddressId) : initialValues}
+                        validationSchema={AddressSchema}
+                        onSubmit={handleSubmit}
+                        enableReinitialize={true}
+                    >
+                        {({ errors, touched, isSubmitting, dirty, isValid }) => (
+                            <Form className="space-y-3">
+                                <div>
+                                    <Field
+                                        name="nombre"
+                                        type="text"
+                                        placeholder="Nombre de la dirección (ej: Casa, Trabajo)"
+                                        className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                    />
+                                    {errors.nombre && touched.nombre && (
+                                        <div className="text-red-500 text-sm mt-1">{errors.nombre}</div>
+                                    )}
+                                </div>
+
+                                <div>
+                                    <Field
+                                        name="campo1"
+                                        type="text"
+                                        placeholder="Dirección línea 1"
+                                        className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                    />
+                                    {errors.campo1 && touched.campo1 && (
+                                        <div className="text-red-500 text-sm mt-1">{errors.campo1}</div>
+                                    )}
+                                </div>
+
+                                <Field
+                                    name="campo2"
+                                    type="text"
+                                    placeholder="Dirección línea 2 (opcional)"
+                                    className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                />
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    <div>
+                                        <Field
+                                            name="ciudad"
+                                            type="text"
+                                            placeholder="Ciudad"
+                                            className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                        />
+                                        {errors.ciudad && touched.ciudad && (
+                                            <div className="text-red-500 text-sm mt-1">{errors.ciudad}</div>
+                                        )}
+                                    </div>
+
+                                    <Field
+                                        name="departamento"
+                                        type="text"
+                                        placeholder="Departamento"
+                                        className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                    />
+                                </div>
+
+                                <Field
+                                    name="detalles"
+                                    type="text"
+                                    placeholder="Detalles adicionales (ej: código de acceso, referencias)"
+                                    className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                                />
+
+                                <div className="flex gap-2 mt-4">
+                                    <button
+                                        type="submit"
+                                        disabled={editingAddressId ? (!dirty || isSubmitting || !isValid) : (isSubmitting || !isValid)}
+                                        className="flex-1 p-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors disabled:opacity-50"
+                                    >
+                                        {editingAddressId ? "Guardar cambios" : "Guardar dirección"}
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            setShowForm(false);
+                                            setEditingAddressId(null);
+                                        }}
+                                        className="flex-1 p-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition-colors"
+                                    >
+                                        Cancelar
+                                    </button>
+                                </div>
+                            </Form>
+                        )}
+                    </Formik>
                 </div>
             )}
         </div>
