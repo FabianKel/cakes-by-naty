@@ -14,7 +14,7 @@ function Catalogo() {
   const categories = {
     cupcakes: { nombre: 'Nuestos Cupcakes', id: 1 },
     cakepops: { nombre: 'Nuestros Cakepops', id: 2 },
-    pasteles: { nombre: 'Nuestros Pastel', id: 3 },
+    pasteles: { nombre: 'Nuestros Pasteles', id: 3 },
     galletas: { nombre: 'Nuestras Galletas', id: 4 },
     chocolates: { nombre: 'Nuestros Chocolates', id: 5 },
     espumillas: { nombre: 'Nuestras Espumillas', id: 6 },
