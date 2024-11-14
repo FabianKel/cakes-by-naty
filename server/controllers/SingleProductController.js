@@ -73,8 +73,8 @@ const editProduct = async (req, res) => {
       rellenoid,
       masaid,
       saborgalletaid,
-      coberturatipo,
-      tipochocolate,
+      coberturaid,
+      tipochocolateid,
     } = req.body;
 
     if (Object.keys(req.body).length === 0) {
@@ -97,8 +97,8 @@ const editProduct = async (req, res) => {
         rellenoid,
         masaid,
         saborgalletaid,
-        coberturatipo,
-        tipochocolate,
+        coberturaid,
+        tipochocolateid,
       ]
     );
 
