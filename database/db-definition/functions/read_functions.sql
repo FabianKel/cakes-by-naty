@@ -4,6 +4,7 @@ RETURNS TABLE (
     ProductoID INT,
     ProductoNombre VARCHAR,
     Descripcion TEXT,
+    Categoria VARCHAR,
     Ocasion VARCHAR,
     Precio DECIMAL,
     Imagen1 VARCHAR,
@@ -24,6 +25,7 @@ BEGIN
             p.ProductoID, 
             p.Nombre AS ProductoNombre, 
             p.Descripcion,
+            c.Nombre AS Categoria,
             o.Nombre AS Ocasion, 
             p.Precio, 
             p.Imagen1, 
@@ -36,6 +38,8 @@ BEGIN
             tc.Tipo AS TipoChocolate
         FROM 
             Productos p
+        LEFT JOIN
+            Categorias c ON p.CategoriaID = c.CategoriaID
         LEFT JOIN 
             Ocasiones o ON p.OcasionID = o.OcasionID
         LEFT JOIN 
@@ -58,6 +62,7 @@ BEGIN
             p.ProductoID, 
             p.Nombre AS ProductoNombre, 
             p.Descripcion,
+            c.Nombre AS Categoria,
             o.Nombre AS Ocasion, 
             p.Precio, 
             p.Imagen1, 
@@ -70,6 +75,8 @@ BEGIN
             tc.Tipo AS TipoChocolate
         FROM 
             Productos p
+        LEFT JOIN
+            Categorias c ON p.CategoriaID = c.CategoriaID
         LEFT JOIN 
             Ocasiones o ON p.OcasionID = o.OcasionID
         LEFT JOIN 
