@@ -110,3 +110,40 @@ BEGIN
     WHERE c.UsuarioID = p_carrito_id;
 END;
 $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION update_product_count_in_chart(
+    p_usuarioid INT,
+    p_productoid INT,
+    p_cantidad INT,
+    p_personalizacionid INT DEFAULT NULL
+) 
+
+RETURNS VOID AS $$
+
+DECLARE
+    v_carritoid INT;
+BEGIN
+    -- 1. Buscar si el usuario ya tiene un carrito abierto
+    SELECT CarritoID INTO v_carritoid
+    FROM Carritos
+    WHERE UsuarioID = p_usuarioid
+    FOR UPDATE;  -- Bloquea el carrito para evitar condiciones de carrera
+
+    -- 2. Actualizar la cantidad del producto
+    UPDATE Carrito_Producto
+    SET Cantidad = p_cantidad
+    WHERE CarritoID = v_carritoid
+        AND ProductoID = p_productoid
+        AND COALESCE(PersonalizacionID, -1) = COALESCE(p_personalizacionid, -1);
+
+    -- 3. Actualizar el total del carrito
+    UPDATE Carritos
+    SET Total = Total + (SELECT Precio FROM Productos WHERE ProductoID = p_productoid) * p_cantidad
+    WHERE CarritoID = v_carritoid;
+
+    -- Opcional: Manejar errores con EXCEPTION
+    EXCEPTION
+        WHEN OTHERS THEN
+            RAISE EXCEPTION 'Error al agregar producto al carrito para el usuario %', p_usuarioid;
+END;
+$$ LANGUAGE plpgsql;

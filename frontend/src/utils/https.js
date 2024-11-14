@@ -49,6 +49,7 @@ export const login = async (username, password) => {
 
     if (user) {
       window.localStorage.setItem('auth_token', user.token);
+      window.dispatchEvent(new Event('storage'));
     }
 
     return user;
@@ -127,7 +128,7 @@ export const getUsuario = async (id) => {
 
 export const editAddress = async (id, addressData) => {
   const token = getAuthToken();
-  
+
   try {
     const response = await fetch(links.address.edit(id), {
       method: 'PUT',
@@ -137,14 +138,14 @@ export const editAddress = async (id, addressData) => {
       },
       body: JSON.stringify(addressData),
     });
-    
+
     const data = await response.json();
-    
+
     if (!response.ok) {
       throw new Error(data.message || 'Error al actualizar la dirección');
     }
-    
-    return { status: "success", ...data };
+
+    return { status: 'success', ...data };
   } catch (error) {
     console.error('Error en editAddress:', error);
     throw error;
@@ -166,19 +167,19 @@ export const addAddress = async (addressData, userId, slotNumber) => {
         campo2: addressData.campo2,
         ciudad: addressData.ciudad,
         departamento: addressData.departamento,
-        detalles: addressData.detalles
+        detalles: addressData.detalles,
       }),
     });
 
     const data = await response.json();
-    
+
     if (!response.ok) {
       throw new Error(data.message || 'Error al agregar la dirección');
     }
-    
+
     return {
-      status: "success",
-      data
+      status: 'success',
+      data,
     };
   } catch (error) {
     console.error('Error en addAddress:', error);
@@ -188,7 +189,7 @@ export const addAddress = async (addressData, userId, slotNumber) => {
 
 export const deleteAddress = async (id) => {
   const token = getAuthToken();
-  
+
   try {
     await fetch(links.address.delete(id), {
       method: 'DELETE',
