@@ -15,7 +15,6 @@ function Header() {
   const [productsInMyCart, setProductsInMyCart] = useState(0);
 
   useEffect(() => {
-    console.log('curretnUser: ', currentUser);
     if (currentUser) {
       fetch(`http://localhost:4000/carts/${currentUser.id}/`)
         .then((response) => response.json())
