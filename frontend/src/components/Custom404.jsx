@@ -6,8 +6,9 @@ const Custom404 = () => {
   return (
     <div style={{ textAlign: 'center', padding: '50px' }}>
       <h1>404 - Página No Encontrada</h1>
-      <p>No tienes acceso a esta página o la página no existe.</p>
-      <a onClick={() => router.push('/')}>Regresar a la Página Principal</a>
+      <p>Oops... esta página no existe 😢</p>
+      <br/>
+      <a onClick={() => router.push('/')} className=' text-xl text-blue-600 hover:text-blue-900 hover:cursor-pointer'>Regresar a la Página Principal</a>
     </div>
   );
 };
