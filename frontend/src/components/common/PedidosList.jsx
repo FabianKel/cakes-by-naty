@@ -92,85 +92,73 @@ const PedidosList = ({ pedidos }) => {
           })}
         </div>
       </div>
-      <ModalPedidos isOpen={isOpen} onCancel={closeModal}>
-        {currentPedido && (
-          <div>
-            <div className='flex items-center gap-10 justify-around'>
-              <h2 className='text-base font-bold'>Orden #{currentPedido.pedidoid}</h2>
+      <ModalPedidos isOpen={isOpen} onCancel={closeModal} singleButton={true}>
+  {currentPedido && (
+    <div className="p-6">
+      <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
+        <h2 className="text-xl font-bold text-gray-800">Detalles del Pedido #{currentPedido.pedidoid}</h2>
+        <div className="flex items-center gap-4">
+          <span
+            className={`px-3 py-1 rounded-full text-sm font-medium ${
+              currentPedido.estado_orden === 'Sin-Entregar'
+                ? 'bg-gray-100 text-gray-700'
+                : 'bg-green-100 text-green-700'
+            }`}
+          >
+            {currentPedido.estado_orden === 'Sin-Entregar' ? 'Sin Entregar' : 'Entregado'}
+          </span>
+          <span
+            className={`px-3 py-1 rounded-full text-sm font-medium ${
+              currentPedido.pago_completo === 'Pago Completo No Realizado'
+                ? 'bg-red-100 text-red-700'
+                : 'bg-green-100 text-green-700'
+            }`}
+          >
+            {currentPedido.pago_completo === 'Pago Completo No Realizado' ? 'Pendiente' : 'Pagado'}
+          </span>
+        </div>
+      </div>
 
-              <p className='font-semibold'>
-                Fecha de Orden: {new Date(currentPedido.created_at).toLocaleDateString()}
-              </p>
+      <div className="mb-6">
+        <p className="text-sm text-gray-600">Fecha de Orden: {new Date(currentPedido.created_at).toLocaleDateString()}</p>
+        <p className="text-sm text-gray-600">{productos.length} artículos</p>
+      </div>
 
-              <p className='flex flex-col text-gray-700 text-sm md:text-base '>
-                <span
-                  className={`inline-block py-1 px-3 rounded-full text-sm font-semibold ${
-                    currentPedido.pago_completo === 'Pago Completo No Realizado'
-                      ? currentPedido.pago_anticipado === 'Pago Anticipado No Realizado'
-                        ? 'bg-red-200 text-red-800'
-                        : 'bg-yellow-200 text-yellow-800'
-                      : 'bg-green-200 text-green-800'
-                  }`}
-                >
-                  {currentPedido.pago_completo === 'Pago Completo No Realizado'
-                    ? currentPedido.pago_anticipado === 'Pago Anticipado No Realizado'
-                      ? 'Pago Pendiente'
-                      : 'Pago Incompleto'
-                    : 'Pagado'}
-                </span>
-              </p>
-
-              <a className='flex items-center justify-end text-sm md:text-base space-x-2 text-gray-700'>
-                {currentPedido.estado_orden === 'Sin-Entregar' ? (
-                  <>
-                    <CiDeliveryTruck className='size-5 md:size-7 text-gray-500' aria-hidden='true' />
-                    <span>Sin Entregar</span>
-                  </>
-                ) : (
-                  <>
-                    <AiOutlineCheckCircle className='size-5 md:size-7 text-green-500' aria-hidden='true' />
-                    <span>Entregado</span>
-                  </>
-                )}
-              </a>
-            </div>
-
-            <div className='mt-10'>
-              <p>{productos.length} artículos</p>
-              <div className='w-full '>
-                <tabla className='w-full border-collapse mt-3 '>
-                  <thead className='w-full bg-slate-200'>
-                    <tr>
-                      <th className='w-20 text-left'>ID</th>
-                      <th className='w-80 text-left'>Nombre</th>
-                      <th className='w-40 text-left'>Ocación</th>
-                      <th className='w-40 text-left'>Cantidad</th>
-                      <th className='w-20 text-left'>Precio</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {productos.map((producto) => (
-                      <tr>
-                        <td className='w-20 text-left'>{producto.productoid}</td>
-                        <td className='w-80 text-left'>{producto.nombre}</td>
-                        <td className='w-40 text-left'>{producto.ocasion}</td>
-                        <td className='w-40 text-left'>{producto.cantidad}</td>
-                        <td className='w-20 text-left'>Q {+producto.precio}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                  <tfoot className='bg-slate-100'>
-                    <tr>
-                      <td colspan='4'>Total</td>
-                      <td colspan='4'>Q {productos.reduce((acc, item) => acc + Number(item.precio), 0)}</td>
-                    </tr>
-                  </tfoot>
-                </tabla>
-              </div>
-            </div>
-          </div>
-        )}
-      </ModalPedidos>
+      <div className="overflow-x-auto">
+        <table className="w-full">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">ID</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Nombre</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Ocasión</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Cantidad</th>
+              <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Precio</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-200">
+            {productos.map((producto) => (
+              <tr key={producto.productoid} className="hover:bg-gray-50">
+                <td className="px-4 py-3 text-sm text-gray-900">{producto.productoid}</td>
+                <td className="px-4 py-3 text-sm text-gray-900">{producto.nombre}</td>
+                <td className="px-4 py-3 text-sm text-gray-500">{producto.ocasion}</td>
+                <td className="px-4 py-3 text-sm text-gray-900">{producto.cantidad}</td>
+                <td className="px-4 py-3 text-sm text-gray-900 text-right">Q {Number(producto.precio).toFixed(2)}</td>
+              </tr>
+            ))}
+          </tbody>
+          <tfoot className="bg-gray-50">
+            <tr>
+              <td colSpan="4" className="px-4 py-3 text-sm font-medium text-gray-900">Total</td>
+              <td className="px-4 py-3 text-sm font-medium text-gray-900 text-right">
+                Q {productos.reduce((acc, item) => acc + Number(item.precio), 0).toFixed(2)}
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  )}
+</ModalPedidos>
     </section>
   );
 };
