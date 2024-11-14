@@ -1,57 +1,178 @@
-'use client';
-import React, { useEffect, useRef, useState } from 'react';
+"use client"
 
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import UserDataSection from '@/components/sections/UserDataSection';
 import PedidosList from '@/components/common/PedidosList';
-import { getUsuario, getUsuarioPedidos } from '@/utils/https';
+import { getUsuario, getUsuarioPedidos, addAddress, editAddress, deleteAddress } from '@/utils/https';
 import { getAuthToken, getCurrentUser } from '@/utils/functions';
 import LoginSection from './LoginSection';
+import AddressSection from '@/components/sections/AddressSection';
+import ChangePassword from '@/components/sections/ChangePassword';
 
 function UserSection() {
   const [usuario, setUsuario] = useState(null);
   const [pedidos, setPedidos] = useState([]);
+  const [direcciones, setDirecciones] = useState([]); 
+  const [contraseña, setContraseña] = useState(null);
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
   const [option, setOption] = useState('general');
+  const [key, setKey] = useState(0); 
+  const sectionRef = useRef(null);
 
-  const sectionRef = useRef(null); // Referencia para la sección seleccionada
+  const fetchUserData = useCallback(async () => {
+    const currentUser = getCurrentUser();
+    if (!currentUser) return;
 
-  useEffect(() => {
-    const token = getAuthToken();
-    setToken(token)
-    let currentUser = getCurrentUser();
+    try {
+      const user = await getUsuario(currentUser.id);
+      const pedidosData = await getUsuarioPedidos(currentUser.id);
+      
+      const direccionesArray = [];
+      
+      if (user.usuario.direccion1_nombre) {
+        direccionesArray.push({
+          id: user.usuario.direccion1id,
+          slot: 1,
+          nombre: user.usuario.direccion1_nombre,
+          campo1: user.usuario.direccion1_campo1,
+          campo2: user.usuario.direccion1_campo2,
+          ciudad: user.usuario.direccion1_ciudad,
+          departamento: user.usuario.direccion1_departamento,
+          detalles: user.usuario.direccion1_detalles
+        });
+      }
+      
+      if (user.usuario.direccion2_nombre) {
+        direccionesArray.push({
+          id: user.usuario.direccion2id,
+          slot: 2,
+          nombre: user.usuario.direccion2_nombre,
+          campo1: user.usuario.direccion2_campo1,
+          campo2: user.usuario.direccion2_campo2,
+          ciudad: user.usuario.direccion2_ciudad,
+          departamento: user.usuario.direccion2_departamento,
+          detalles: user.usuario.direccion2_detalles
+        });
+      }
+      
+      if (user.usuario.direccion3_nombre) {
+        direccionesArray.push({
+          id: user.usuario.direccion3id,
+          slot: 3,
+          nombre: user.usuario.direccion3_nombre,
+          campo1: user.usuario.direccion3_campo1,
+          campo2: user.usuario.direccion3_campo2,
+          ciudad: user.usuario.direccion3_ciudad,
+          departamento: user.usuario.direccion3_departamento,
+          detalles: user.usuario.direccion3_detalles
+        });
+      }
 
-    if (token && currentUser) {
-      setIsAuthenticated(true); // Usuario autenticado
-      const fetchData = async () => {
-        try {
-          const user = await getUsuario(currentUser.id);
-          const pedidos = await getUsuarioPedidos(currentUser.id);
-
-          setUsuario(user.usuario);
-          setPedidos(pedidos);
-        } catch (error) {
-          console.error('Error al obtener los datos del usuario:', error);
-        } finally {
-          setLoading(false);
-        }
-      };
-      fetchData();
-    } else {
-      setLoading(false);
+      setUsuario(user.usuario);
+      setPedidos(pedidosData);
+      setDirecciones(direccionesArray);
+      setKey(prevKey => prevKey + 1);
+    } catch (error) {
+      console.error('Error al obtener los datos:', error);
     }
   }, []);
 
+  const handleUserUpdate = useCallback(async () => {
+    await fetchUserData(); 
+  }, [fetchUserData]);
+
   useEffect(() => {
-    if (sectionRef.current && window.innerWidth <= 768) { // Solo en dispositivos móviles
+    const token = getAuthToken();
+    setToken(token);
+    let currentUser = getCurrentUser();
+
+    if (token && currentUser) {
+      setIsAuthenticated(true);
+      fetchUserData().finally(() => setLoading(false));
+    } else {
+      setLoading(false);
+    }
+  }, [fetchUserData]);
+
+  const handleDeleteAddress = async (id) => {
+    try {
+      const deleted = await deleteAddress(id);
+      if (deleted) {
+        setDirecciones(prevDirecciones => 
+          prevDirecciones.filter(direccion => direccion.id !== id)
+        );
+        await fetchUserData(); 
+      }
+    } catch (error) {
+      console.error('Error al borrar dirección:', error);
+    }
+  };
+
+  const handleAddAddress = async (newAddressData) => {
+    if (direcciones.length >= 3) {
+      alert('No puedes agregar más de 3 direcciones.');
+      return;
+    }
+
+    try {
+      const currentUser = getCurrentUser();
+      if (!currentUser) {
+        throw new Error('Usuario no autenticado');
+      }
+
+      const user = await getUsuario(currentUser.id);
+      
+      const slotsOcupados = [];
+      if (user.usuario.direccion1_nombre) slotsOcupados.push(1);
+      if (user.usuario.direccion2_nombre) slotsOcupados.push(2);
+      if (user.usuario.direccion3_nombre) slotsOcupados.push(3);
+
+      console.log('Slots ocupados:', slotsOcupados); 
+
+      let availableSlot = 1;
+      while (slotsOcupados.includes(availableSlot) && availableSlot <= 3) {
+        availableSlot++;
+      }
+
+      console.log('Slot seleccionado para nueva dirección:', availableSlot); 
+
+      if (availableSlot > 3) {
+        alert('No hay slots disponibles para nuevas direcciones.');
+        return;
+      }
+
+      await addAddress(newAddressData, currentUser.id, availableSlot);
+      await fetchUserData(); 
+    } catch (error) {
+      console.error('Error al agregar la dirección:', error.message);
+      alert('Hubo un problema al agregar la dirección. Inténtalo de nuevo.');
+    }
+  };
+
+  const handleEditAddress = async (id, updatedAddress) => {
+    try {
+      await editAddress(id, updatedAddress);
+      await fetchUserData(); 
+    } catch (error) {
+      console.error('Error al actualizar la dirección:', error);
+      alert('Hubo un problema al actualizar la dirección. Inténtalo de nuevo.');
+    }
+  };
+
+  useEffect(() => {
+    if (sectionRef.current && window.innerWidth <= 768) {
       sectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }, [option]);
 
   if (loading) {
-    return <div>Cargando...</div>;
+    return (
+      <div className="flex justify-center items-center min-h-[80vh]">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-baseLavender"></div>
+      </div>
+    );
   }
 
   if (!isAuthenticated) {
@@ -70,7 +191,7 @@ function UserSection() {
             }`}
             onClick={() => setOption('general')}
           >
-          General
+            General
           </button>
           <button
             className={`bg-white hover:bg-neutral-100 text-left px-4 py-2 rounded-lg ${
@@ -109,8 +230,18 @@ function UserSection() {
       <hr />
 
       <div ref={sectionRef} className="md:ml-16 md:border-l-[1px] md:border-gray-700 px-6 md:px-0 md:mx-0 flex flex-col self-center w-full bg-white">
-        {option === 'general' && <UserDataSection usuario={usuario} token={token} />}
+        {option === 'general' && <UserDataSection usuario={usuario} token={token} onUserUpdate={handleUserUpdate} />}
+        {option === 'direcciones' && (
+          <AddressSection
+            key={key}
+            direcciones={direcciones}
+            onAddAddress={handleAddAddress}
+            onEditAddress={handleEditAddress}
+            onDeleteAddress={handleDeleteAddress}
+          />
+        )}
         {option === 'pedidos' && <PedidosList pedidos={pedidos} />}
+        {option === 'contraseña' && <ChangePassword contraseña={contraseña} />}
       </div>
     </div>
   );

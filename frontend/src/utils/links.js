@@ -14,6 +14,12 @@ const links = {
   producto: `${root}/product`,
   usuarios: `${root}/users`,
   carts: `${root}/carts`,
+  address: {
+    add: (num) => `${root}/address/add/${num}`,  
+    edit: (id) => `${root}/address/edit/${id}`,        
+    delete: (id) => `${root}/address/delete/${id}`     
+  }
 };
+
 
 export default links;
