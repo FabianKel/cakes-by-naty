@@ -10,21 +10,17 @@ import { useRouter } from 'next/navigation';
 import Popover from './Popover';
 
 function Header() {
-  const [isAuth, setIsAuth] = useState(null);
   const router = useRouter();
   let currentUser = getCurrentUser();
   const [productsInMyCart, setProductsInMyCart] = useState(0);
 
   useEffect(() => {
-    const user = getCurrentUser();
-    setIsAuth(user);
-
-    if (user && user.id) {
-      fetch(`http://localhost:4000/carts/${user.id}/`)
+    console.log('curretnUser: ', currentUser);
+    if (currentUser) {
+      fetch(`http://localhost:4000/carts/${currentUser.id}/`)
         .then((response) => response.json())
         .then((data) => {
           if (Array.isArray(data)) {
-            console.log('data: ', data);
             const productsInMyCart = data.reduce((acc, item) => acc + item.cantidad, 0);
             localStorage.setItem('productsInMyCart', productsInMyCart);
             window.dispatchEvent(new Event('storage'));
@@ -36,12 +32,11 @@ function Header() {
           console.error('Error al cargar el carrito:', error);
         });
     }
-  }, []);
+  }, [currentUser]);
 
   useEffect(() => {
     window.addEventListener('storage', () => {
       const productsInMyCart = localStorage.getItem('productsInMyCart');
-      console.log('productsInMyCart', productsInMyCart);
       setProductsInMyCart(+productsInMyCart);
     });
   }, []);
@@ -49,7 +44,10 @@ function Header() {
   const handleLogout = () => {
     const result = logout();
     if (result) {
-      setIsAuth(null);
+      // Limpiamos los datos del usuario guardado en localstorage
+      localStorage.setItem('productsInMyCart', 0);
+      window.dispatchEvent(new Event('storage'));
+
       router.push('/');
     }
   };
@@ -65,15 +63,11 @@ function Header() {
           />
         </Link>
       </div>
-      
+
       <nav className='flex flex-wrap justify-center md:justify-end w-full md:w-auto mt-2 sm:mt-4 md:mt-0'>
         <ul className='flex flex-wrap space-x-2 sm:space-x-4 md:space-x-6 items-center'>
           <li className='flex items-center'>
-            <a 
-              href='https://www.instagram.com/cakes.bynaty/' 
-              target='_blank' 
-              rel='noopener noreferrer'
-            >
+            <a href='https://www.instagram.com/cakes.bynaty/' target='_blank' rel='noopener noreferrer'>
               <Icon
                 src='/instagram.svg'
                 alt='Instagram'
@@ -82,29 +76,29 @@ function Header() {
                 className='mr-2 sm:mr-3 md:mr-8 transition-transform transform hover:scale-110'
               />
             </a>
-            <Link 
-              href='/catalog' 
+            <Link
+              href='/catalog'
               className='text-xs sm:text-sm md:text-base text-gray-800 hover:text-mainhoverIndigo transition-transform transform hover:scale-105 font-navheader'
             >
               Catálogo
             </Link>
           </li>
-          
+
           <li className='flex items-center'>
-            <Link 
-              href='/about' 
+            <Link
+              href='/about'
               className='text-xs sm:text-sm md:text-base text-gray-800 hover:text-mainhoverIndigo hover:scale-105 font-navheader'
             >
               Sobre Nosotros
             </Link>
           </li>
-          
+
           <li className='flex items-center'>
-            {isAuth ? (
+            {currentUser?.id ? (
               <Popover handleLogout={handleLogout} />
             ) : (
-              <Link 
-                href='/login' 
+              <Link
+                href='/login'
                 className='text-xs sm:text-sm md:text-base text-gray-800 hover:text-mainhoverIndigo font-navheader ml-1 sm:ml-2'
               >
                 Iniciar Sesión
@@ -128,4 +122,3 @@ function Header() {
 }
 
 export default Header;
-
