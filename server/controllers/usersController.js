@@ -121,7 +121,44 @@ const editUser = async (req, res) => {
   }
 };
 
+const editPassword = async (req, res) => {
+  try {
+    const u_id = parseInt(req.params.u_id);
+    const { authorization } = req.headers;
+
+    if (authorization) {
+      const auth_token = authorization.substring(7);
+      const isValidToken = decodeToken(auth_token);
+
+      if (isValidToken) {
+        const {
+          current_pasword,
+          new_password
+        } = req.body;
+
+        const client = await pool.connect();
+        await client.query(
+          'SELECT edit_password($1, $2, $3)',
+          [
+            u_id,
+            current_pasword,
+            new_password
+          ]
+        );
+
+        client.release();
+        res.status(200).json({ message: 'Contraseña actualizada con éxito' });
+      } else {
+        res.status(401).json({ message: 'Token inválido' });
+      }
+    } else {
+      res.status(401).json({ message: 'Autenticación requerida' });
+    }
+  } catch (error) {
+    ErrorHandler.handleError(error, res);
+  }
+};
 
 module.exports = {
-  getUserById, getAllUsers, register, login, editUser
+  getUserById, getAllUsers, register, login, editUser, editPassword
 };

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Button from '@/components/common/Button';
 import { getAuthToken, getCurrentUser } from '@/utils/functions';
 import Modal from '@/components/common/Modal';
+import Custom404 from '../Custom404';
 
 
 function ProductCRUD() {
@@ -32,8 +33,10 @@ function ProductCRUD() {
 
   const currentUser = getCurrentUser();
 
-  if (currentUser.rol !== 'admin') {
-    return <Custom404 />;
+  if(currentUser){
+    if (currentUser.rol !== 'admin') {
+      return <Custom404 />;
+    }
   }
 
   const handleCloseSuccessModal = () => {
