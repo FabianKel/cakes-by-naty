@@ -4,12 +4,14 @@ import { useRouter } from 'next/navigation';
 import { getAuthToken, getCurrentUser } from '@/utils/functions';
 import { getUsuario } from '@/utils/https';
 import Image from 'next/image';
+import Modal from '@/components/common/Modal';
 
 function Carrito() {
   const [usuario, setUsuario] = useState(null);
   const [desserts, setDesserts] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const router = useRouter();
 
@@ -42,6 +44,7 @@ function Carrito() {
         .then((data) => {
           if (Array.isArray(data)) {
             setDesserts(data);
+            console.log(data)
           } else {
             console.error('Formato de datos incorrecto', data);
           }
@@ -135,9 +138,29 @@ function Carrito() {
     }
   };
 
-  const handleConfirm = () => {
-    router.push('/Factura');
+
+  const handleRedirect = () => {
+    window.location.href = '/user';
+    router.push('/user');
   };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+
+  const handleConfirm = () => {
+
+    if (usuario.direccion1id == null && usuario.direccion2id == null && usuario.direccion3id == null){
+      setModalOpen(true);
+    } else {
+      window.location.href = "/Resumen-de-Pedido";
+      localStorage.setItem('desserts', JSON.stringify(desserts));
+      router.push('/Resumen-de-Pedido');
+    }
+
+    
+  };
+  
 
   return (
     <div className='flex flex-col items-center justify-center min-h-screen'>
@@ -206,7 +229,7 @@ function Carrito() {
                   className='bg-buttonPurple text-white py-3 px-6 mt-4 rounded-lg shadow-lg hover:bg-buttonhoverPurple'
                   onClick={handleConfirm}
                 >
-                  Generar recibo
+                  Continuar con el pedido
                 </button>
               </div>
             </>
@@ -225,6 +248,35 @@ function Carrito() {
           )}
         </div>
       </div>
+
+      <Modal
+        isOpen={modalOpen}
+        onCancel={handleCloseModal}
+        onAgree={handleRedirect}
+        msg=  {'Vaya... parece que aún no tienes una dirección'}
+
+      >
+        <div className='flex flex-col items-center justify-center'>
+          <p className='text-lg text-gray-700 py-4 self-center'>
+            ¿Quieres agregar una dirección?
+          </p>
+          <div className='grid grid-cols-1 gap-4 mt-4 md:mt-0 md:grid-cols-2 items-center'>
+            <button
+              className='bg-buttonPurple text-white py-2 px-4 rounded-lg shadow-lg hover:bg-buttonhoverPurple'
+              onClick={handleRedirect}
+            >
+              Sí, agregar dirección
+            </button>
+            <button
+              className='bg-red-400 text-white py-2 px-4 rounded-lg shadow-lg hover:bg-red-600'
+              onClick={handleCloseModal}
+            >
+              Cancelar
+            </button>
+          </div>
+        </div>
+      </Modal>
+
     </div>
   );
 }

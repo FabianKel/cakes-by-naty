@@ -12,7 +12,7 @@ BEGIN
     SELECT CarritoID INTO v_carritoid
     FROM Carritos
     WHERE UsuarioID = p_usuarioid
-    FOR UPDATE;  -- Bloquea el carrito para evitar condiciones de carrera
+    FOR UPDATE;
 
     -- 2. Si no existe un carrito para este usuario, crearlo
     IF v_carritoid IS NULL THEN
@@ -26,7 +26,7 @@ BEGIN
     FROM Carrito_Producto
     WHERE CarritoID = v_carritoid
       AND ProductoID = p_productoid
-      AND COALESCE(PersonalizacionID, -1) = COALESCE(p_personalizacionid, -1);  -- Maneja el NULL correctamente
+      AND COALESCE(PersonalizacionID, -1) = COALESCE(p_personalizacionid, -1);
 
     -- 4. Si el producto ya está en el carrito, actualizar la cantidad
     IF FOUND THEN
@@ -36,22 +36,121 @@ BEGIN
           AND ProductoID = p_productoid
           AND COALESCE(PersonalizacionID, -1) = COALESCE(p_personalizacionid, -1);
     ELSE
-        -- 5. Si el producto no está en el carrito, agregarlo
+        -- Si el producto no está en el carrito, agregarlo
         INSERT INTO Carrito_Producto (CarritoID, ProductoID, PersonalizacionID, Cantidad)
         VALUES (v_carritoid, p_productoid, p_personalizacionid, p_cantidad);
     END IF;
 
-    -- 6. Actualizar el total del carrito
-    UPDATE Carritos
-    SET Total = Total + (SELECT Precio FROM Productos WHERE ProductoID = p_productoid) * p_cantidad
-    WHERE CarritoID = v_carritoid;
-
-    -- Opcional: Manejar errores con EXCEPTION
-    EXCEPTION
-        WHEN OTHERS THEN
-            RAISE EXCEPTION 'Error al agregar producto al carrito para el usuario %', p_usuarioid;
+EXCEPTION
+    WHEN OTHERS THEN
+        RAISE EXCEPTION 'Error al agregar producto al carrito para el usuario %', p_usuarioid;
 END;
 $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION eliminar_producto_carrito(c_id INT, p_id INT)
+RETURNS VOID LANGUAGE plpgsql
+AS $$
+DECLARE
+    v_nuevo_total DECIMAL(10, 2);
+BEGIN
+    -- 1. Eliminar el producto del carrito
+    DELETE FROM Carrito_Producto
+    WHERE CarritoID = c_id AND ProductoID = p_id;
+
+    -- 2. Recalcular el total del carrito
+    SELECT COALESCE(SUM(cp.Cantidad * p.Precio), 0)
+    INTO v_nuevo_total
+    FROM Carrito_Producto cp
+    JOIN Productos p ON cp.ProductoID = p.ProductoID
+    WHERE cp.CarritoID = c_id;
+
+    -- 3. Actualizar el total en la tabla Carritos
+    UPDATE Carritos
+    SET Total = v_nuevo_total
+    WHERE CarritoID = c_id;
+
+EXCEPTION
+    WHEN OTHERS THEN
+        RAISE EXCEPTION 'Error al eliminar producto del carrito para el carrito %', c_id;
+END;
+$$;
+
+
+
+CREATE OR REPLACE FUNCTION update_product_count_in_chart(
+    p_usuarioid INT,
+    p_productoid INT,
+    p_cantidad INT,
+    p_personalizacionid INT DEFAULT NULL
+) RETURNS VOID AS $$
+DECLARE
+    v_carritoid INT;
+BEGIN
+    -- 1. Buscar si el usuario ya tiene un carrito abierto
+    SELECT CarritoID INTO v_carritoid
+    FROM Carritos
+    WHERE UsuarioID = p_usuarioid
+    FOR UPDATE;
+
+    -- 2. Actualizar la cantidad del producto en Carrito_Producto
+    UPDATE Carrito_Producto
+    SET Cantidad = p_cantidad
+    WHERE CarritoID = v_carritoid
+      AND ProductoID = p_productoid
+      AND COALESCE(PersonalizacionID, -1) = COALESCE(p_personalizacionid, -1);
+
+EXCEPTION
+    WHEN OTHERS THEN
+        RAISE EXCEPTION 'Error al actualizar la cantidad de producto en el carrito para el usuario %', p_usuarioid;
+END;
+$$ LANGUAGE plpgsql;
+
+
+--FUNCION DE ACTUALIZAR TOTAL DE CARRITO
+CREATE OR REPLACE FUNCTION actualizar_total_carrito()
+RETURNS TRIGGER AS $$
+DECLARE
+    v_nuevo_total DECIMAL(10, 2);
+BEGIN
+    -- Recalcular el total sumando (Cantidad * Precio) para todos los productos del carrito actual
+    SELECT COALESCE(SUM(cp.Cantidad * p.Precio), 0)
+    INTO v_nuevo_total
+    FROM Carrito_Producto cp
+    JOIN Productos p ON cp.ProductoID = p.ProductoID
+    WHERE cp.CarritoID = NEW.CarritoID;
+
+    -- Actualizar el total en la tabla Carritos
+    UPDATE Carritos
+    SET Total = v_nuevo_total
+    WHERE CarritoID = NEW.CarritoID;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
+--TRIGGER al cambiar las tablas
+-- Verificar y eliminar el trigger si ya existe
+DO $$
+BEGIN
+    IF EXISTS (
+        SELECT 1
+        FROM pg_trigger
+        WHERE tgname = 'recalcular_total_carrito'
+    ) THEN
+        DROP TRIGGER recalcular_total_carrito ON Carrito_Producto;
+    END IF;
+END $$;
+
+-- Crear el trigger después de eliminarlo (si existía)
+CREATE TRIGGER recalcular_total_carrito
+AFTER INSERT OR UPDATE OR DELETE ON Carrito_Producto
+FOR EACH ROW
+EXECUTE FUNCTION actualizar_total_carrito();
+
+
+
+
 
 
 CREATE OR REPLACE FUNCTION ver_carrito(p_carrito_id INT)
@@ -108,42 +207,5 @@ BEGIN
     LEFT JOIN Sabores_Galletas sg ON pc.Sabor_GalletaID = sg.Sabor_GalletaID
     LEFT JOIN Coberturas co ON pc.CoberturaID = co.CoberturaID
     WHERE c.UsuarioID = p_carrito_id;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE OR REPLACE FUNCTION update_product_count_in_chart(
-    p_usuarioid INT,
-    p_productoid INT,
-    p_cantidad INT,
-    p_personalizacionid INT DEFAULT NULL
-) 
-
-RETURNS VOID AS $$
-
-DECLARE
-    v_carritoid INT;
-BEGIN
-    -- 1. Buscar si el usuario ya tiene un carrito abierto
-    SELECT CarritoID INTO v_carritoid
-    FROM Carritos
-    WHERE UsuarioID = p_usuarioid
-    FOR UPDATE;  -- Bloquea el carrito para evitar condiciones de carrera
-
-    -- 2. Actualizar la cantidad del producto
-    UPDATE Carrito_Producto
-    SET Cantidad = p_cantidad
-    WHERE CarritoID = v_carritoid
-        AND ProductoID = p_productoid
-        AND COALESCE(PersonalizacionID, -1) = COALESCE(p_personalizacionid, -1);
-
-    -- 3. Actualizar el total del carrito
-    UPDATE Carritos
-    SET Total = Total + (SELECT Precio FROM Productos WHERE ProductoID = p_productoid) * p_cantidad
-    WHERE CarritoID = v_carritoid;
-
-    -- Opcional: Manejar errores con EXCEPTION
-    EXCEPTION
-        WHEN OTHERS THEN
-            RAISE EXCEPTION 'Error al agregar producto al carrito para el usuario %', p_usuarioid;
 END;
 $$ LANGUAGE plpgsql;
