@@ -50,11 +50,11 @@ const updateProductCountInCart = async (req, res) => {
     ]);
 
     res.status(200).json({
-      message: 'Cantidad de producto incrementado exitosamente',
+      message: 'Cantidad de producto modificado exitosamente',
       carrito_id: result.rows[0].carritoid,
     });
   } catch (err) {
-    res.status(500).json({ error: 'Error en encrementar producto en el carrito' });
+    res.status(500).json({ error: 'Error en modificar la cantidad del producto en el carrito' });
   }
 };
 
