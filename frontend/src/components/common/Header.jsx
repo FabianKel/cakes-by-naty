@@ -6,13 +6,18 @@ import Icon from '@/components/common/Icon';
 import { getCurrentUser } from '@/utils/functions';
 import { logout } from '@/utils/https';
 import { useRouter } from 'next/navigation';
-
 import Popover from './Popover';
 
 function Header() {
   const router = useRouter();
-  let currentUser = getCurrentUser();
   const [productsInMyCart, setProductsInMyCart] = useState(0);
+  const [isMounted, setIsMounted] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    setIsMounted(true);
+    setCurrentUser(getCurrentUser());
+  }, []);
 
   useEffect(() => {
     if (currentUser) {
@@ -43,13 +48,13 @@ function Header() {
   const handleLogout = () => {
     const result = logout();
     if (result) {
-      // Limpiamos los datos del usuario guardado en localstorage
       localStorage.setItem('productsInMyCart', 0);
       window.dispatchEvent(new Event('storage'));
-
       router.push('/');
     }
   };
+
+  if (!isMounted) return null;
 
   return (
     <header className='flex flex-col md:flex-row justify-between items-center p-2 sm:p-4 md:p-6 bg-baseLilac'>

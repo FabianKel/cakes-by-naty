@@ -1,6 +1,12 @@
 const Badge = ({ counts }) => {
   return (
-    <span className='pr-6 absolute  right-0 top-6 bottom-0  font-semibold block text-center'>{counts}</span>
+    <span className='absolute -top-2 -right-2 min-w-4 h-4 px-1.5
+      sm:min-w-5 sm:h-5 sm:px-2
+      bg-red-500 rounded-full 
+      text-[10px] sm:text-xs text-white font-bold
+      flex items-center justify-center'>
+      {counts}
+    </span>
   );
 };
 
