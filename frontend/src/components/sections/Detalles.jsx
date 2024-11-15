@@ -14,7 +14,7 @@ import LoginSection from './LoginSection';
 const ProductDetails = ({ id }) => {
   const router = useRouter();
 
-  const { isOpen, closeModal, agree } = useModal();
+  const {isOpen, closeModal, agree } = useModal();
   const [product, setProduct] = useState(undefined);
   const [usuario, setUsuario] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -126,7 +126,7 @@ const ProductDetails = ({ id }) => {
               &larr;
             </button>
           </div>
-
+  
           <div className='flex flex-col md:flex-row items-center justify-center gap-8 w-full mt-6 md:w-3/4'>
             <div className='bg-baseLilac p-4 rounded shadow-lg flex justify-center items-center w-full md:w-1/2'>
               <div className='relative w-full h-0' style={{ paddingBottom: '100%' }}>
@@ -139,25 +139,49 @@ const ProductDetails = ({ id }) => {
                 />
               </div>
             </div>
-
+  
             <div className='w-full md:w-1/2 text-center md:text-left'>
               <h1 className='text-3xl font-bold mb-10 text-center text-black'>{product.productonombre}</h1>
-              <p className='text-lg mb-6'>{product.descripcion}</p>
-              {product.ocasion !== 'Indefinida' && (
+              <p className='text-lg mb-6 text-wrap'>{product.descripcion}</p>
+              {product.ocasion !== 'Indefinida' && product.ocasion && (
                 <span className='inline-block bg-baseLavender text-white py-1 px-3 rounded-full text-sm font-semibold mb-8'>
                   {product.ocasion}
                 </span>
               )}
-              <p className='text-lg mb-4'>
-                <span className='font-bold mr-2'>Tipo de masa:</span>
-                {product.masanombre}
-              </p>
-              <p className='text-lg mb-4'>
-                <span className='font-bold mr-2'>Cobertura:</span> {product.coberturatipo}
-              </p>
-              <p className='text-lg mt-4 mb-8'>
-                <span className='font-bold mr-2'>Precio: </span> Q. {parseFloat(product.precio).toFixed(2)}
-              </p>
+              {product.masanombre && (
+                <p className='text-lg mb-4'>
+                  <span className='font-bold mr-2'>Tipo de masa:</span>
+                  {product.masanombre}
+                </p>
+              )}
+              {product.coberturatipo && (
+                <p className='text-lg mb-4'>
+                  <span className='font-bold mr-2'>Cobertura:</span> {product.coberturatipo}
+                </p>
+              )}
+              {product.saborgalletatipo && (
+                <p className='text-lg mb-4'>
+                  <span className='font-bold mr-2'>Sabor:</span>
+                  {product.saborgalletatipo}
+                </p>
+              )}
+              {product.rellenonombre && (
+                <p className='text-lg mb-4'>
+                  <span className='font-bold mr-2'>Relleno:</span>
+                  {product.rellenonombre}
+                </p>
+              )}
+              {product.tipochocolate && (
+                <p className='text-lg mb-4'>
+                  <span className='font-bold mr-2'>Tipo de Chocolate:</span>
+                  {product.tipochocolate}
+                </p>
+              )}
+              {product.precio !== null && (
+                <p className='text-lg mt-4 mb-8'>
+                  <span className='font-bold mr-2'>Precio: </span> Q. {parseFloat(product.precio).toFixed(2)}
+                </p>
+              )}
             </div>
           </div>
           <div className='flex justify-center mt-8 w-full md:justify-end md:absolute md:bottom-8 md:right-8'>
@@ -170,7 +194,7 @@ const ProductDetails = ({ id }) => {
           </div>
         </div>
       )}
-
+  
       <Modal
         isOpen={showSuccessModal}
         onCancel={handleCloseSuccessModal}
@@ -189,7 +213,7 @@ const ProductDetails = ({ id }) => {
               />
             </svg>
           </div>
-
+  
           <Button
             onClick={handleCloseSuccessModal}
             className='bg-buttonPurple text-white px-8 py-2 rounded-lg hover:bg-buttonhoverPurple transition-colors duration-300 font-semibold text-lg shadow-md'
@@ -198,7 +222,7 @@ const ProductDetails = ({ id }) => {
           </Button>
         </div>
       </Modal>
-
+  
       <Modal
         isOpen={isOpen}
         onCancel={closeModal}
