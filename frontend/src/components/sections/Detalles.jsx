@@ -14,7 +14,7 @@ import LoginSection from './LoginSection';
 const ProductDetails = ({ id }) => {
   const router = useRouter();
 
-  const { isOpen, closeModal, agree } = useModal();
+  const {isOpen, closeModal, agree } = useModal();
   const [product, setProduct] = useState(undefined);
   const [usuario, setUsuario] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);

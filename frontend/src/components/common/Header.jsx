@@ -151,7 +151,7 @@ function Header() {
             ) : (
               <Link
                 href='/login'
-                className='text-xs sm:text-sm md:text-base text-gray-800 hover:text-mainhoverIndigo font-navheader ml-1 sm:ml-2'
+                className='relative text-xs sm:text-sm md:text-base text-gray-800 hover:text-mainhoverIndigo font-navheader ml-1 sm:ml-2 after:content-[""] after:absolute after:w-0 after:h-0.5 after:bg-mainhoverIndigo after:left-0 after:-bottom-0.5 hover:after:w-full after:transition-all after:duration-300'
               >
                 Iniciar Sesión
               </Link>
