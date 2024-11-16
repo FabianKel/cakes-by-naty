@@ -21,6 +21,7 @@ const SingleProductRoutes = require('./routes/singleProduct')
 const ordersRoutes = require('./routes/orders')
 const cartsRoutes = require('./routes/carts')
 const addressRoutes = require('./routes/address')
+const sendRoutes = require('./routes/send')
 
 dotenv.config();
 
@@ -40,7 +41,7 @@ app.use('/product', SingleProductRoutes);
 app.use('/orders', ordersRoutes);
 app.use('/carts', cartsRoutes);
 app.use('/address', addressRoutes);
-
+app.use('/send', sendRoutes);
 
 
 

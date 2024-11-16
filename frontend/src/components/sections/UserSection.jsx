@@ -3,8 +3,11 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import UserDataSection from '@/components/sections/UserDataSection';
 import PedidosList from '@/components/common/PedidosList';
-import { getUsuario, getUsuarioPedidos, addAddress, editAddress, deleteAddress } from '@/utils/https';
+import { getUsuario, getUsuarioPedidos, addAddress, editAddress, deleteAddress, logout } from '@/utils/https';
 import { getAuthToken, getCurrentUser } from '@/utils/functions';
+import { useRouter } from 'next/navigation';
+
+
 import LoginSection from './LoginSection';
 import AddressSection from '@/components/sections/AddressSection';
 import ChangePassword from '@/components/sections/ChangePassword';
@@ -178,6 +181,25 @@ function UserSection() {
   if (!isAuthenticated) {
     return <LoginSection />;
   }
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      const result = await logout();
+      if (result) {
+        localStorage.removeItem('currentUser');
+        localStorage.setItem('productsInMyCart', '0');
+        window.dispatchEvent(new Event('storage'));
+        router.push('/');
+      }
+    } catch (error) {
+      console.error('Error durante el logout:', error);
+    }
+  };
+
+  const handleLogoutClick = () => {
+    handleLogout();
+  };
 
   return (
     <div className="flex flex-col mb-20 md:flex-row md:mx-32 lg:mx-52 md:mt-20">
@@ -218,12 +240,20 @@ function UserSection() {
             Contraseña
           </button>
           <hr />
-          <button className="bg-white hover:bg-neutral-100 text-center px-4 py-2 mt-2 rounded-lg">
-            Cerrar Sesión
-          </button>
-          <button className="bg-red-500 hover:bg-red-600 text-white text-center px-4 py-2 mt-2 md:my-4 rounded-lg">
-            Borrar Cuenta
-          </button>
+          <button
+                  onClick={handleLogoutClick}
+                  className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                >
+                  <svg 
+                    className="mr-3 h-5 w-5 text-red-500" 
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke="currentColor"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                  </svg>
+                  Cerrar sesión
+                </button>
         </div>
       </div>
 

@@ -65,7 +65,7 @@ const OrderForm = ({ usuario, token, onUserUpdate }) => {
         </div>
 
         <div className="p-8 space-y-6">
-          <div className="grid gap-6 md:grid-cols-2">
+          <div className="grid gap-6 md:grid-cols-1">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Nombre

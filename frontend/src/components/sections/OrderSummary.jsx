@@ -70,22 +70,54 @@ function OrderSummary() {
         ].filter(Boolean)
         : [];
 
-    const formik = useFormik({
-        initialValues: {
-            direccion_seleccionada: direcciones.length > 0 ? direcciones[0].id : '',
-        },
-        enableReinitialize: true,
-        onSubmit: (values) => {
-            try {
-                console.log({ ...usuario, ...values });
-            } catch (error) {
-                console.error('Error en la solicitud:', error);
-            }
-        },
-        validationSchema: yup.object({
-            direccion_seleccionada: yup.string().required('Debe seleccionar una dirección'),
-        }),
-    });
+        const formik = useFormik({
+            initialValues: {
+                direccion_seleccionada: direcciones.length > 0 ? direcciones[0].id : '',
+            },
+            enableReinitialize: true,
+            onSubmit: async (values) => {
+                try {
+                    // Buscar la dirección seleccionada
+                    const direccion = direcciones.find((direccion) => direccion.id === values.direccion_seleccionada);
+        
+                    // Estructurar el cuerpo del correo
+                    const EstructuraEmail = {
+                        titulo: "Nuevo Pedido",
+                        cuerpo: "Se ha realizado un nuevo pedido.",
+                        productos: desserts,
+                        total: calculateTotal().toFixed(2),
+                        usuario_nombre: usuario.primer_nombre,
+                        usuario_apellido: usuario.segundo_nombre,
+                        usuario_correo: usuario.correo,
+                        usuario_telefono: usuario.telefono,
+                        direccion: direccion,
+                    };
+        
+                    const response = await fetch('http://localhost:4000/send/send-email', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(EstructuraEmail),
+                    });
+        
+                    if (response.ok) {
+                        alert('Correo enviado correctamente');
+                    } else {
+                        const errorData = await response.json();
+                        console.error('Error al enviar el correo:', errorData);
+                        alert('Error al enviar el correo');
+                    }
+                } catch (error) {
+                    console.error('Error en la solicitud:', error);
+                    alert('Ocurrió un error al enviar el correo');
+                }
+            },
+            validationSchema: yup.object({
+                direccion_seleccionada: yup.string().required('Debe seleccionar una dirección'),
+            }),
+        });
+        
 
     const handleGoBack = () => {
         router.back();
@@ -130,6 +162,7 @@ function OrderSummary() {
 
                             <div className="absolute bottom-8 right-8">
                                 <button
+                                    type='submit'
                                     className="bg-buttonPurple text-white text-lg py-3 px-6 rounded-lg shadow-lg hover:bg-buttonhoverPurple transition-colors"
                                     onClick={formik.handleSubmit}
                                     disabled={formik.isSubmitting}
