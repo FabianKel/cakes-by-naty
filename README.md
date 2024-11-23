@@ -41,7 +41,7 @@ cakes-by-naty/
    PORT=4000
    ```
 4. 📂 Estructura de Docker Compose
-   Crear un archivo `docker-compose.yml.example`
+   Crear un archivo `docker-compose.yml`
 ```yaml
    services:
   app:
