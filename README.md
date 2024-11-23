@@ -107,11 +107,11 @@ volumes:
     * Base de datos PostgreSQL: En el puerto 5432
 7. Acceder a la aplicación
    Una vez que los servicios estén activos:
-  * Dirigirse a [http://localhost:4000/api-docs](http://localhost:3000/) para acceder a la página principal.
-  * Dirigirse a [http://localhost:4000/api-docs](http://localhost:4000/api-docs) para acceder a la documentación de la API
-  
-7. Apagar los contenedores
+     * Dirigirse a [http://localhost:4000/api-docs](http://localhost:3000/) para acceder a la página principal.
+     * Dirigirse a [http://localhost:4000/api-docs](http://localhost:4000/api-docs) para acceder a la documentación de la API
+     
+8. Apagar los contenedores
    ```bash
-   docker-compose down
+   docker-compose stop
    ```
 
